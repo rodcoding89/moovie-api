@@ -1,0 +1,20 @@
+@font-face {
+    font-family: "Satoshi regular";   /*Can be any text*/
+    src: local("Satoshi"),
+      url("./assets/fonts/Satoshi-Regular.woff") format("truetype");
+}
+@font-face {
+    font-family: "Satoshi Medium";   /*Can be any text*/
+    src: local("Satoshi"),
+    url("./assets/fonts/Satoshi-Medium.woff") format("truetype");
+}
+@font-face {
+    font-family: "Satoshi Light";   /*Can be any text*/
+    src: local("Satoshi"),
+    url("./assets/fonts/Satoshi-Light.woff") format("truetype");
+}
+@font-face {
+    font-family: "Satoshi Bold";   /*Can be any text*/
+    src: local("Satoshi"),
+    url("./assets/fonts/Satoshi-Bold.woff") format("truetype");
+}

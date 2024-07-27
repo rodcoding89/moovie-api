@@ -1,13 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+@import './font.css';
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: 'Satoshi Light',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: #fff;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.regular{
+  font-family: 'Satoshi regular',sans-serif;
+}
+.bold{
+  font-family: 'Satoshi Bold',sans-serif;
+}
+.medium{
+  font-family: 'Satoshi Medium',sans-serif;
+}
+.idown{
+  i{
+    transform: rotate(180deg);
+    transition: all 300ms 50ms;
+  }
+}
+.absoluteCenterLeft{
+  left: 50%;
+  transform: translateX(-50%);
+  &::before{
+    content: '';
+    display : inline-block;
+    height : 0;
+    width : 0;
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    top: 10px;
+    border-right : 13px solid transparent;
+    border-bottom : 10px solid #fff;
+    border-left : 13px solid transparent;
+  }
+}
+.bgheight{
+  height:calc(100vh - 80px);
+}
+.centerAbsoluteTop{
+  top: 50%;
+  transform: translateY(-50%);
+}
+img{
+  width: 100%;
+  height: 100%;
+}
+.movie:hover{
+  background-color: rgba(0,0,0,.4);
 }
