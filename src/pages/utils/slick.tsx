@@ -11,7 +11,7 @@ export default function MovieSlider(this: any, {settings,data,width,providerStyl
   };
   console.log('currentItem',currentItem,data.length);
   return (
-    <div className={width+' carousel relative'}>
+    <div className={width+' carousel relative mx-auto'}>
       {
         currentItem > 1 && (
           <span onClick={previous} className={providerStyle+left+' absolute z-10 top-[50%] translate-y-[-50%] flex items-center justify-center text-[2.2em] cursor-pointer'}>

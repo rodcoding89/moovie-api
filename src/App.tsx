@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './pages/home';
 import Categorie from './pages/categorie';
 import Explore from './pages/explore';
-import FilmDetail from './pages/film-detail';
+import FilmDetail from './pages/film/film-detail';
 function App() {
   return (
     <div className='content'>
