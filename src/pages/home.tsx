@@ -18,7 +18,7 @@ const listFilm:any[] = movie.map((l,index)=>{
   return <CardFilm key={index} cardData={l}/>
 })
 const providerStyle = 'text-black w-10 h-10 rounded-full hover:bg-slate-100';
-const movieStyle = "text-yellow w-[60px] h-full movie"
+const movieStyle = "text-yellow w-[60px] h-full movie";
 export default function Home(){
   const [providerActuelItem, setProviderActuelItem] = useState(0);
   const [movieActuelItem, setMovieActuelItem] = useState(0);

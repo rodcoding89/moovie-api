@@ -19,16 +19,18 @@ body {
 .medium{
   font-family: 'Satoshi Medium',sans-serif;
 }
-.idown{
-  i{
-    transform: rotate(180deg);
-    transition: all 300ms 50ms;
-  }
+.idown i{
+  transform: rotate(180deg);
+  transition: all 300ms 50ms;
+}
+.blur{
+  background-image: radial-gradient(circle farthest-side at top left, #141618, transparent 70%), radial-gradient(circle farthest-side at top right, #071b38, transparent 70%), radial-gradient(circle farthest-side at bottom right, #53521b, transparent 70%), radial-gradient(circle farthest-side at bottom left, #4f4d51, transparent 70%);
 }
 .absoluteCenterLeft{
   left: 50%;
   transform: translateX(-50%);
-  &::before{
+}
+.absoluteCenterLeft::before{
     content: '';
     display : inline-block;
     height : 0;
@@ -40,7 +42,6 @@ body {
     border-right : 13px solid transparent;
     border-bottom : 10px solid #fff;
     border-left : 13px solid transparent;
-  }
 }
 .bgheight{
   height:calc(100vh - 80px);
