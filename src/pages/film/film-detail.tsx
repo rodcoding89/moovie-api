@@ -3,6 +3,7 @@ import MovieSlider from "../utils/slick";
 import Cast from "./cast";
 import CardProvider from "../utils/card-provider";
 import MovieCard from "../utils/movie-card";
+import Poster from "../utils/poster";
 
 const cast:any[] = [{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"}];
 const provider = ['assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp'];
@@ -20,13 +21,24 @@ const castStyle = 'text-white w-10 h-10 rounded-full hover:bg-slate-100 hover:te
 const providerStyle = 'text-white w-10 h-10 rounded-full hover:bg-slate-100 hover:text-black';
 const movieStyle = "text-yellow w-[60px] h-full movie";
 export default function FilmDetail(){
-    const [display,setDisplay] = useState(true);
-    const [displayMore,setDisplayMore] = useState(false);
-    const [textMore,setTextMore] = useState(true);
     const [castActuelItem,setCastActuelItem] = useState(0);
     const [providerActuelItem, setProviderActuelItem] = useState(0);
     const [movieActuelItem, setMovieActuelItem] = useState(0);
     const [otherMovieActuelItem, setOtherMovieActuelItem] = useState(0);
+    const info = {
+      name : "Noé",
+      year : "2014 2h 18min TP",
+      director : "Directed by Darren Aronofsky",
+      genre : "Drame, Action et Adventure",
+      rate : 5.8,
+      country : "U.S.A",
+      shortDes : "Noé, un père de famille, reçoit un message de Dieu au cours d’un rêve : la Terre s’apprête à subir un déluge apocalyptique, car l’homme a corrompu le monde à force de violence et d’avidité. Il part alors avec sa femme et ses enfants sur le mont Ararat et entreprend la.",
+      description : "Noé, un père de famille, reçoit un message de Dieu au cours d’un rêve : la Terre s’apprête à subir un déluge apocalyptique, car l’homme a corrompu le monde à force de violence et d’avidité. Il part alors avec sa femme et ses enfants sur le mont Ararat et entreprend la construction d’une arche monumentale pour mettre à l’abri toutes les espèces existantes de l’humanité, sauver les innocents et préserver la vie sur Terre. Il accomplit ainsi son destin hors du commun. Mais il se heurte à un seigneur de la guerre qui cherche à régner sur ce monde dévasté, et qui lance une armée entière contre lui.",
+      unlike : "5%",
+      like : "95%",
+      classUnlike : "w-[5%]",
+      classLike : "w-[95%]",
+    }
     const castSettings = {
         dots: false,
         infinite: false,
@@ -267,27 +279,7 @@ export default function FilmDetail(){
   }
     return (
         <div className="bg-black">
-            <div className="blur fixed z-[0] duration-0 delay-0 ease-in-out inset-0 h-full w-full bg-black"></div>
-            <div className="flex justify-center items-center gap-x-9 relative px-[5vw]">
-                <div style={{maskImage:`url(${process.env.PUBLIC_URL}/assets/images/cover.svg)`,WebkitMaskImage:`url(${process.env.PUBLIC_URL}/assets/images/cover.svg)`,maskPosition:'left bottom',WebkitMaskPosition: 'left bottom',maskSize:'100%'}} className="absolute left-0 right-0 top-0 bottom-0 opacity-[.075] w-full h-[400px]"><img className="absolute top-0 left-0 object-cover h-full" src={process.env.PUBLIC_URL+'/assets/images/photo.avif'} alt="poster"/></div>
-                <div className="w-[290px] py-[5vw] z-10">
-                    <img src={process.env.PUBLIC_URL+'/assets/images/photo.avif'} alt="poster" />
-                </div>
-                <div className="w-[50%] py-[5vw] z-10">
-                    <h3 className="text-white text-[2em] mb-0 bold">Noé</h3>
-                    <span className="text-second-white text-[.75em] block mt-[-8px]">Directed by Darren Aronofsky</span>
-                    <p className="mt-3 mb-1 text-primaire-white text-[.85em]">2014 2h 18min TP</p>
-                    <span className="text-primaire-white text-[.85em]">Drame, Action et Adventure</span><br/>
-                    <span className="text-primaire-white text-[.85em]">5.8</span><br/>
-                    <span className="text-primaire-white text-[.85em]">U.S.A</span>
-                    <p className={display?'block text-white regular':'hidden text-white'}>Noé, un père de famille, reçoit un message de Dieu au cours d’un rêve : la Terre s’apprête à subir un déluge apocalyptique, car l’homme a corrompu le monde à force de violence et d’avidité. Il part alors avec sa femme et ses enfants sur le mont Ararat et entreprend la</p><p className={displayMore?'block text-white regular':'hidden text-white'}>Noé, un père de famille, reçoit un message de Dieu au cours d’un rêve : la Terre s’apprête à subir un déluge apocalyptique, car l’homme a corrompu le monde à force de violence et d’avidité. Il part alors avec sa femme et ses enfants sur le mont Ararat et entreprend la construction d’une arche monumentale pour mettre à l’abri toutes les espèces existantes de l’humanité, sauver les innocents et préserver la vie sur Terre. Il accomplit ainsi son destin hors du commun. Mais il se heurte à un seigneur de la guerre qui cherche à régner sur ce monde dévasté, et qui lance une armée entière contre lui</p><span className={displayMore?'idown text-yellow cursor-pointer':'text-yellow cursor-pointer'} onClick={()=>{setDisplayMore(!displayMore);setDisplay(!display);setTextMore(!textMore)}}>{textMore?'Lire plus':'Réduire'}<i className="fa fa-angle-up ml-2 text-yellow" aria-hidden="true"></i></span>
-                </div>
-                <div className="spectateur w-full z-10 flex-1">
-                  <span>Like</span>
-                  <div className="bloc flex items-center justify-center my-1"><div className={'left w-[95%] h-1 bg-green-500'}></div><div className={'right h-1 w-[5%] bg-red-500'}></div></div>
-                  <div className="number flex justify-between items-center"><span className="text-[.75em]">95%</span><span className="text-[.75em]">5%</span></div>
-                </div>
-            </div>
+          <Poster mask={process.env.PUBLIC_URL+'/assets/images/cover.svg'} poster={process.env.PUBLIC_URL+'/assets/images/photo.avif'} info={info}/>
             <div className="cast mx-auto my-5 w-[90vw] z-10 relative">
               <h3 className="mb-5 text-white text-[1.6em] bold">Casting de Noé</h3>
               <MovieSlider settings={castSettings} data={castList} width={'w-[100%]'} providerStyle={castStyle} left=' left-[-25px] ' right=' right-[-25px] ' currentItem={castActuelItem}/>

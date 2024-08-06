@@ -197,7 +197,7 @@ const movieStting = {
             <div className="bgheight relative">
                 <div className="bg-cover bg-no-repeat bg-center brightness-50 h-full" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/assets/images/home.png)`}}></div>
                 <div className="absolute w-1/3 centerAbsoluteTop left-[65px]">
-                    <h1 className="text-yellow bold text-[3em]">Filmes & TVs</h1>
+                    <h1 className="text-yellow bold text-[3em]">Filmes & Series</h1>
                     <p className="text-white regular text-2xl">Découvrez le cinéma sur toutes ses formes, visionnez des series TVs diffusées en ligne gratuitement.</p>
                 </div>
             </div>
@@ -207,7 +207,7 @@ const movieStting = {
             </div>
             <div className='bg-black'>
                 <div className='pl-[5vw] py-[5vh]'>
-                    <h1 className='bold text-yellow text-[3em] w-1/2 leading-[1.2em]'>Découvrez les films et chaines TVs les plus populaires, les nouveautés et les prochaines sorties</h1>
+                    <h1 className='bold text-yellow text-[3em] w-1/2 leading-[1.2em]'>Découvrez les films et series TVs les plus populaires, les nouveautés et les prochaines sorties</h1>
                     <div className='relative flex items-start justify-start gap-x-10 mt-14 mb-20'>
                         <div className='w-[20vw]'>
                             <h3 className='text-yellow text-[1.75em] mb-5'>Films populaires</h3>
@@ -217,8 +217,8 @@ const movieStting = {
                     </div>
                     <div className='relative flex items-start justify-start gap-x-10 mb-20'>
                         <div className='w-[20vw]'>
-                            <h3 className='text-yellow text-[1.75em] mb-5'>Chaine TVs populaire</h3>
-                            <p className='text-second-white'>Découvrez les chaines TVs populaire en ce moment sur la plateforme.</p>
+                            <h3 className='text-yellow text-[1.75em] mb-5'>Series TVs populaire</h3>
+                            <p className='text-second-white'>Découvrez les series TVs populaire en ce moment sur la plateforme.</p>
                         </div>
                         <div className='flex-1 block w-[65vw]'><MovieSlider settings={serieStting} data={listMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={serieActuelItem}/></div>
                     </div>
