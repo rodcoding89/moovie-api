@@ -1,4 +1,14 @@
 import Poster from "../utils/poster"
+import Cast from "../utils/cast";
+import CardProvider from "../utils/card-provider";
+import MovieCard from "../utils/movie-card";
+import { Link } from "react-router-dom";
+import OtherMovie from "../utils/other-movie";
+import { cast } from "../film/film-detail";
+import CastComponent from "../utils/cast-component";
+import { movieSlider, provider } from "../home";
+import ProviderComponent from "../utils/provider-component";
+import MovieComponent from "../utils/movie-component";
 
 const info = {
     name : "Le monde qui nous sépare",
@@ -13,14 +23,62 @@ const info = {
     classLike : "w-[80%]",
     unlike : "20%",
     like : "80%"
-  }
+}
+
+const castList = cast.map((c,index)=>{
+    return <Cast key={index} castData={c}/>
+})
+const listProvider:any[] = provider.map((p:any,index:number)=>{
+  return <CardProvider key={index} cardData={p} />
+})
+const listMovie:any[] = movieSlider.map((m,index)=>{
+  return <MovieCard key={index} cardData={m}/>
+})
+
 export default function SerieDetail(){
+  const saison = 2;
+  const listSaison = [];
+  for (let i = 0; i < saison; i++) {
+    listSaison.push(<div className="py-3 px-5 bg-black text-yellow rounded-xl cursor-pointer"><Link to={'season/'+(i+1)}>Saison {i+1}</Link></div>)
+  }
     return (
-        <div>
+        <div className="bg-black">
             <section>
                 <div>
                     <Poster mask={process.env.PUBLIC_URL+'/assets/images/cover.svg'} poster={process.env.PUBLIC_URL+'/assets/images/photo.avif'} info={info}/>
+                    <div className="flex justify-center items-center gap-x-5 relative z-10 mt-3 mb-16">{listSaison}</div>
                 </div>
+            </section>
+            <section>
+                <div className="cast mx-auto my-5 w-[90vw] z-10 relative">
+                    <h3 className="mb-5 text-white text-[1.6em] bold">Casting Le monde qui nous sépare</h3>
+                    <CastComponent castList={castList}/>
+                </div>
+                <div className="trailler mx-auto my-5 w-[90vw] z-10 relative">
+                    <h3 className="mb-5 text-white text-[1.6em] bold">Regarder un extrait de la serie</h3>
+                    <div className="poster cursor-pointer">
+                        <img className="w-[200px]" src={process.env.PUBLIC_URL+'/assets/images/the-acolyte.jpeg'} alt="poster" />
+                        <h5 className=" text-yellow text-[1.2em] bold my-2">Noé</h5>
+                        <p className="text-second-white">Trailler</p>
+                    </div>
+                </div>
+                <div className="my-5 mx-auto w-[90vw] z-10 relative mb-5">
+                    <h3 className="text-white text-[1.75em] medium mb-5">Service de streaming pour cette serie</h3>
+                    <ProviderComponent listProvider={listProvider}/>
+                </div>
+                <div className="relative mx-auto z-10 w-[100%] mt-[50px] mb-10 flex gap-x-5 items-start">
+                    <div className="w-[30%]">
+                        <h3 className="text-yellow text-[1.75em] ml-[5vw] medium mb-5">Series qui pourraient aussi vous intéresser</h3>
+                        <p className="text-white medium ml-[5vw]">Parcourez les series qui pouraient correspondre à vos critères.</p>
+                    </div>
+                    <div className="w-[70%]"><MovieComponent listMovie={listMovie}/></div>
+                </div>
+                <div className="relative my-5 z-10">
+                    <h3 className="text-white text-[1.75em] ml-[5vw] mb-8">Autre serie avec Daphne Ferraro</h3>
+                    <div className="ml-[5vw]">
+                        <OtherMovie listMovie={listMovie}/>
+                    </div>
+                </div>  
             </section>
         </div>
     )

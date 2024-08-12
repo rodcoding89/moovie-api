@@ -1,13 +1,15 @@
-import { useState } from "react"
-import MovieSlider from "../utils/slick";
-import Cast from "./cast";
+import Cast from "../utils/cast";
 import CardProvider from "../utils/card-provider";
 import MovieCard from "../utils/movie-card";
 import Poster from "../utils/poster";
+import CastComponent from "../utils/cast-component";
+import OtherMovie from "../utils/other-movie";
+import ProviderComponent from "../utils/provider-component";
+import { movieSlider, provider } from "../home";
+import MovieComponent from "../utils/movie-component";
 
-const cast:any[] = [{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"}];
-const provider = ['assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp'];
-const movieSlider = ['assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp'];
+export const cast:any[] = [{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"}];
+
 const castList = cast.map((c,index)=>{
     return <Cast key={index} castData={c}/>
 })
@@ -17,14 +19,8 @@ const listProvider:any[] = provider.map((p:any,index:number)=>{
 const listMovie:any[] = movieSlider.map((m,index)=>{
   return <MovieCard key={index} cardData={m}/>
 })
-const castStyle = 'text-white w-10 h-10 rounded-full hover:bg-slate-100 hover:text-black';
-const providerStyle = 'text-white w-10 h-10 rounded-full hover:bg-slate-100 hover:text-black';
-const movieStyle = "text-yellow w-[60px] h-full movie";
+
 export default function FilmDetail(){
-    const [castActuelItem,setCastActuelItem] = useState(0);
-    const [providerActuelItem, setProviderActuelItem] = useState(0);
-    const [movieActuelItem, setMovieActuelItem] = useState(0);
-    const [otherMovieActuelItem, setOtherMovieActuelItem] = useState(0);
     const info = {
       name : "Noé",
       year : "2014 2h 18min TP",
@@ -38,251 +34,14 @@ export default function FilmDetail(){
       like : "95%",
       classUnlike : "w-[5%]",
       classLike : "w-[95%]",
-    }
-    const castSettings = {
-        dots: false,
-        infinite: false,
-        arrows: false,
-        speed: 500,
-        slidesToShow: 11,
-        slidesToScroll: 1,
-        beforeChange: (current:any, next:number) => setCastActuelItem(next),
-        responsive: [
-            {
-              breakpoint: 2500,
-              settings: {
-                slidesToShow: 10,
-              }
-            },
-            {
-                breakpoint: 1820,
-                settings: {
-                  slidesToShow: 9,
-                }
-              },
-            {
-                breakpoint: 1638,
-                settings: {
-                  slidesToShow: 8,
-                }
-              },
-            {
-              breakpoint: 1456,
-              settings: {
-                slidesToShow: 7,
-              }
-            },
-            {
-              breakpoint: 1274,
-              settings: {
-                slidesToShow: 6,
-              }
-            },
-            {
-                breakpoint: 1092,
-                settings: {
-                  slidesToShow: 5,
-                }
-            },
-            {
-                breakpoint: 910,
-                settings: {
-                  slidesToShow: 4,
-                }
-            },
-            {
-                breakpoint: 728,
-                settings: {
-                  slidesToShow: 3,
-                }
-            },
-            {
-                breakpoint: 546,
-                settings: {
-                  slidesToShow: 2,
-                }
-            },
-            {
-                breakpoint: 364,
-                settings: {
-                  slidesToShow: 1,
-                }
-            }
-        ]
-    };
-    const providerSettings = {
-      dots: false,
-      infinite: false,
-      arrows: false,
-      speed: 500,
-      slidesToShow: 9,
-      slidesToScroll: 1,
-      beforeChange: (current:any, next:number) => setProviderActuelItem(next),
-      responsive: [
-          {
-            breakpoint: 2500,
-            settings: {
-              slidesToShow: 11,
-            }
-          },
-          {
-              breakpoint: 1500,
-              settings: {
-                slidesToShow: 7,
-              }
-            },
-          {
-              breakpoint: 1100,
-              settings: {
-                slidesToShow: 6,
-              }
-            },
-          {
-            breakpoint: 1100,
-            settings: {
-              slidesToShow: 5,
-            }
-          },
-          {
-            breakpoint: 700,
-            settings: {
-              slidesToShow: 4,
-            }
-          },
-          {
-              breakpoint: 500,
-              settings: {
-                slidesToShow: 3,
-              }
-          },
-          {
-              breakpoint: 300,
-              settings: {
-                slidesToShow: 2,
-              }
-          }
-      ]
-  };
-  const movieStting = {
-    dots: false,
-    infinite: true,
-    arrows: false,
-    centerMode: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    beforeChange: (current:any, next:number) => setMovieActuelItem(next),
-    responsive: [
-      {
-        breakpoint: 2000,
-        settings: {
-          slidesToShow: 5,
-        }
-      },
-      {
-          breakpoint: 1773,
-          settings: {
-            slidesToShow: 4,
-          }
-      },
-      {
-        breakpoint: 1275,
-        settings: {
-          slidesToShow: 3,
-        }
-      },
-      {
-          breakpoint: 986,
-          settings: {
-            slidesToShow: 2,
-          }
-      },
-      {
-          breakpoint: 774,
-          settings: {
-            slidesToShow: 4,
-          }
-      },
-      {
-        breakpoint: 543,
-        settings: {
-          slidesToShow: 3,
-        }
-    },
-    {
-        breakpoint: 362,
-        settings: {
-          slidesToShow: 2,
-        }
-    },
-    {
-        breakpoint: 181,
-        settings: {
-          slidesToShow: 1,
-        }
-    }
-  ]
   }
-  const otherMovieStting = {
-    dots: false,
-    infinite: true,
-    arrows: false,
-    centerMode: true,
-    speed: 500,
-    slidesToShow: 8,
-    slidesToScroll: 1,
-    beforeChange: (current:any, next:number) => setOtherMovieActuelItem(next),
-    responsive: [
-      {
-        breakpoint: 2000,
-        settings: {
-          slidesToShow: 7,
-        }
-      },
-      {
-          breakpoint: 1520,
-          settings: {
-            slidesToShow: 6,
-          }
-      },
-      {
-        breakpoint: 1100,
-        settings: {
-          slidesToShow: 5,
-        }
-      },
-      {
-          breakpoint: 933,
-          settings: {
-            slidesToShow: 4,
-          }
-      },
-      {
-          breakpoint: 737,
-          settings: {
-            slidesToShow: 3,
-          }
-      },
-      {
-        breakpoint: 537,
-        settings: {
-          slidesToShow: 2,
-        }
-    },
-    {
-        breakpoint: 360,
-        settings: {
-          slidesToShow: 1,
-        }
-    }
-  ]
-  }
+  
     return (
         <div className="bg-black">
           <Poster mask={process.env.PUBLIC_URL+'/assets/images/cover.svg'} poster={process.env.PUBLIC_URL+'/assets/images/photo.avif'} info={info}/>
             <div className="cast mx-auto my-5 w-[90vw] z-10 relative">
               <h3 className="mb-5 text-white text-[1.6em] bold">Casting de Noé</h3>
-              <MovieSlider settings={castSettings} data={castList} width={'w-[100%]'} providerStyle={castStyle} left=' left-[-25px] ' right=' right-[-25px] ' currentItem={castActuelItem}/>
+              <CastComponent castList={castList}/>
             </div>
             <div className="trailler mx-auto my-5 w-[90vw] z-10 relative">
               <h3 className="mb-5 text-white text-[1.6em] bold">Regarder un extrait de la vidéo</h3>
@@ -294,19 +53,19 @@ export default function FilmDetail(){
             </div>
             <div className="my-5 mx-auto w-[90vw] z-10 relative mb-5">
                 <h3 className="text-white text-[1.75em] medium mb-5">Service de streaming pour cette vidéo</h3>
-                <MovieSlider settings={providerSettings} data={listProvider} width={'w-[100%]'} providerStyle={providerStyle} left=' left-[-25px] ' right=' right-[-25px] ' currentItem={providerActuelItem}/>
+                <ProviderComponent listProvider={listProvider}/>
             </div>
             <div className="relative mx-auto z-10 w-[100%] mt-[50px] mb-10 flex gap-x-5 items-start">
-              <div className="w-[30vw]">
-                <h3 className="text-yellow text-[1.75em] ml-[5vw] medium mb-5 w-[100%]">Filmes qui pourraient aussi vous intéresser</h3>
+              <div className="w-[30%]">
+                <h3 className="text-yellow text-[1.75em] ml-[5vw] medium mb-5">Filmes qui pourraient aussi vous intéresser</h3>
                 <p className="text-white medium ml-[5vw]">Parcourez les filmes qui pouraient correspondre à vos critères.</p>
               </div>
-              <MovieSlider settings={movieStting} data={listMovie} width={'w-[65vw]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={movieActuelItem}/>
+              <div className="w-[70%]"><MovieComponent listMovie={listMovie}/></div>
             </div>
             <div className="relative my-5 z-10">
               <h3 className="text-white text-[1.75em] ml-[5vw] mb-8">Autre filmes avec Darren Aronofsky</h3>
               <div className="ml-[5vw]">
-                <MovieSlider settings={otherMovieStting} data={listMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={otherMovieActuelItem}/>
+                <OtherMovie listMovie={listMovie}/>
               </div>
             </div>
         </div>
