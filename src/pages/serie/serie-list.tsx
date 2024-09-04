@@ -23,8 +23,8 @@ export default function SerieList(){
                     {
                         testListSerie.map((t:any,index:number)=>{
                             return (
-                                <Link to={'../serie/1'} className="width">
-                                    <div key={index} className="">
+                                <Link key={index} to={'../serie/1'} className="width">
+                                    <div className="">
                                         <div className="overflow-hidden">
                                             <img className="anime" src={process.env.PUBLIC_URL+'/'+t.url} alt={t.name} />
                                         </div>

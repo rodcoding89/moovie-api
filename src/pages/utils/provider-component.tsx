@@ -1,7 +1,7 @@
 import { useState } from "react";
 import MovieSlider from "./slick";
-const providerStyle = 'text-black w-10 h-10 rounded-full hover:bg-slate-100';
-export default function ProviderComponent({listProvider}:{listProvider:any[]}){
+
+export default function ProviderComponent({listProvider,providerStyle,left,right}:{listProvider:any[],providerStyle:string,left:string,right:string}){
     const [providerActuelItem, setProviderActuelItem] = useState(0);
     const providerSettings = {
         dots: false,
@@ -57,6 +57,6 @@ export default function ProviderComponent({listProvider}:{listProvider:any[]}){
         ]
     };
     return (
-        <MovieSlider settings={providerSettings} data={listProvider} width={'w-[100%]'} providerStyle={providerStyle} left=' left-[-65px] ' right=' right-[-65px] ' currentItem={providerActuelItem}/>
+        <MovieSlider settings={providerSettings} data={listProvider} width={'w-[100%]'} providerStyle={providerStyle} left={left} right={right} currentItem={providerActuelItem}/>
     )
 }

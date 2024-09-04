@@ -19,6 +19,7 @@ const listMovie:any[] = movieSlider.map((m,index)=>{
 const listFilm:any[] = movie.map((l,index)=>{
   return <CardFilm key={index} cardData={l}/>
 })
+const providerStyle = 'text-black w-10 h-10 rounded-full hover:bg-yellow hover:text-black';
 const movieStyle = "text-yellow w-[60px] h-full movie";
 export default function Home(){
   const [serieActuelItem, setSerieActuelItem] = useState(0);
@@ -138,7 +139,7 @@ export default function Home(){
             </div>
             <div className="mt-5 flex flex-col items-center justify-center">
                 <h3 className="text-yellow text-[1.75em] medium mb-5">Service de streaming sur Movie API</h3>
-                <div className='mb-10 w-[80vw]'><ProviderComponent listProvider={listProvider}/></div>
+                <div className='mb-10 w-[80vw]'><ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=' left-[-65px] ' right=' right-[-65px] '/></div>
             </div>
             <div className='bg-black'>
                 <div className='pl-[5vw] py-[5vh]'>

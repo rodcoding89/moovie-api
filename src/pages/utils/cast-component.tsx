@@ -1,6 +1,6 @@
 import { useState } from "react";
 import MovieSlider from "./slick";
-const castStyle = 'text-white w-10 h-10 rounded-full hover:bg-slate-100 hover:text-black';
+const castStyle = 'text-white w-10 h-10 rounded-full hover:bg-yellow hover:text-black';
 export default function CastComponent({castList}:{castList:any[]}){
     const [castActuelItem,setCastActuelItem] = useState(0);
     const castSettings = {

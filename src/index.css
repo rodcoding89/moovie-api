@@ -30,6 +30,9 @@ body {
 .ep-active{
   border-bottom: 1px solid #fbc500;
 }
+.active-season img{
+ filter: brightness(.5);
+}
 .width{
   width: calc(100% / 5 - 28px);
 }

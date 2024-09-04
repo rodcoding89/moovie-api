@@ -9,7 +9,7 @@ import { movieSlider, provider } from "../home";
 import MovieComponent from "../utils/movie-component";
 
 export const cast:any[] = [{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"}];
-
+const providerStyle = 'text-white w-10 h-10 rounded-full hover:bg-yellow hover:text-black';
 const castList = cast.map((c,index)=>{
     return <Cast key={index} castData={c}/>
 })
@@ -53,7 +53,7 @@ export default function FilmDetail(){
             </div>
             <div className="my-5 mx-auto w-[90vw] z-10 relative mb-5">
                 <h3 className="text-white text-[1.75em] medium mb-5">Service de streaming pour cette vidéo</h3>
-                <ProviderComponent listProvider={listProvider}/>
+                <ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=" left-0 " right=" right-0 "/>
             </div>
             <div className="relative mx-auto z-10 w-[100%] mt-[50px] mb-10 flex gap-x-5 items-start">
               <div className="w-[30%]">

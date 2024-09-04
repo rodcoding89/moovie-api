@@ -10,6 +10,7 @@ import { movieSlider, provider } from "../home";
 import ProviderComponent from "../utils/provider-component";
 import MovieComponent from "../utils/movie-component";
 
+const providerStyle = 'text-white w-10 h-10 rounded-full hover:bg-yellow hover:text-black';
 const info = {
     name : "Le monde qui nous sépare",
     year : "2024 42min",
@@ -39,14 +40,17 @@ export default function SerieDetail(){
   const saison = 2;
   const listSaison = [];
   for (let i = 0; i < saison; i++) {
-    listSaison.push(<div className="py-3 px-5 bg-black text-yellow rounded-xl cursor-pointer"><Link to={'season/'+(i+1)}>Saison {i+1}</Link></div>)
+    listSaison.push(<div className="cursor-pointer"><Link className="w-[165px]" to={'season/'+(i+1)}><img className="mb-2" src={process.env.PUBLIC_URL+'/assets/images/twister.webp'} alt="saison"/>Saison {i+1}</Link></div>)
   }
     return (
         <div className="bg-black">
             <section>
                 <div>
                     <Poster mask={process.env.PUBLIC_URL+'/assets/images/cover.svg'} poster={process.env.PUBLIC_URL+'/assets/images/photo.avif'} info={info}/>
-                    <div className="flex justify-center items-center gap-x-5 relative z-10 mt-3 mb-16">{listSaison}</div>
+                    <div className="flex justify-center items-center gap-x-10 relative z-10 mt-3 mb-16 flex-col">
+                        <h4 className="bold mb-5 text-yellow">Toutes les saisons de "Le monde qui nous sépare" en streaming</h4>
+                        <div className="flex justify-center items-center gap-x-10 relative z-10">{listSaison}</div>
+                    </div>
                 </div>
             </section>
             <section>
@@ -64,7 +68,7 @@ export default function SerieDetail(){
                 </div>
                 <div className="my-5 mx-auto w-[90vw] z-10 relative mb-5">
                     <h3 className="text-white text-[1.75em] medium mb-5">Service de streaming pour cette serie</h3>
-                    <ProviderComponent listProvider={listProvider}/>
+                    <div className="w-[90vw] mx-auto"><ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=" left-0 " right=" right-0 "/></div>
                 </div>
                 <div className="relative mx-auto z-10 w-[100%] mt-[50px] mb-10 flex gap-x-5 items-start">
                     <div className="w-[30%]">
