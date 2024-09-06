@@ -13,7 +13,7 @@ export default function Header() {
     const [isHeaderIconFilm,setIsHeaderIconFilm] = useState(false);
     const [isHeaderIconTv,setIsHeaderIconTv] = useState(false);
     return (
-        <header className="flex items-center justify-between sticky bg-black px-5 py-5 w-full top-[0px] z-20">
+        <header className="flex items-center justify-between sticky bg-black px-5 py-5 w-full z-20">
             <span><Link to='/'>LOGO</Link></span>
             <div className="navi flex justify-between gap-7">
                 <nav className="flex items-center gap-5">

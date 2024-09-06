@@ -59,24 +59,17 @@ export default function MovieComponent({listMovie}:{listMovie:any[]}){
             {
                 breakpoint: 700,
                 settings: {
-                  slidesToShow: 4,
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
                   slidesToShow: 3,
                 }
             },
             {
-                breakpoint: 400,
+                breakpoint: 622,
                 settings: {
                   slidesToShow: 2,
-                  slidesToScroll: 1
                 }
             },
             {
-                breakpoint: 400,
+                breakpoint: 454,
                 settings: {
                   slidesToShow: 1,
                   slidesToScroll: 1

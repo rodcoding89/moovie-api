@@ -40,8 +40,7 @@ body {
   background-image: radial-gradient(circle farthest-side at top left, #141618, transparent 70%), radial-gradient(circle farthest-side at top right, #071b38, transparent 70%), radial-gradient(circle farthest-side at bottom right, #53521b, transparent 70%), radial-gradient(circle farthest-side at bottom left, #4f4d51, transparent 70%);
 }
 .absoluteCenterLeft{
-  left: 50%;
-  transform: translateX(-50%);
+  right: -81px;
 }
 .absoluteCenterLeft::before{
     content: '';
@@ -49,8 +48,7 @@ body {
     height : 0;
     width : 0;
     position: absolute;
-    transform: translateX(-50%);
-    left: 50%;
+    right: 101px;
     top: 10px;
     border-right : 13px solid transparent;
     border-bottom : 10px solid #fff;
@@ -69,4 +67,59 @@ img{
 }
 .movie:hover{
   background-color: rgba(0,0,0,.4);
+}
+
+/**********************************SEARCH*********************************/
+.searchBtn{
+  
+}
+.hideInput{
+  height: 0;
+  animation: hide 1s;
+}
+.showInput{
+  width: 50vw;
+  height: 40px;
+  transition: width 1s;
+}
+@keyframes hide {
+  from {
+    width: 50vw;
+    height: 40px;
+  }
+
+  to {
+    width: 0;
+  }
+}
+@media (max-width:638px){
+  
+}
+/********************************************************HOME**************************************************/
+@media (max-width:707px){
+  .film-popular{
+    padding: 0 !important;
+  }
+  .film-popular h1{
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    margin: 0;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+  .film-popular .film-popular-content,.film-popular .serie-popular-content{
+    flex-direction: column;
+  }
+  .film-popular .film-popular-content .content-left,.film-popular .serie-popular-content .content-left{
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  .film-popular .film-popular-content .content-left,.film-popular .film-popular-content .content-right,.film-popular .serie-popular-content .content-left,.film-popular .serie-popular-content .content-right{
+    text-align: center;
+    width: 100%;
+  }
+  .film-popular .film-popular-content div:first-child,.film-popular .serie-popular-content div:first-child{
+    margin-bottom: 20px;
+  }
 }

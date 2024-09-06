@@ -71,24 +71,17 @@ export default function Home(){
     {
         breakpoint: 700,
         settings: {
-          slidesToShow: 4,
-        }
-    },
-    {
-        breakpoint: 600,
-        settings: {
           slidesToShow: 3,
         }
     },
     {
-        breakpoint: 400,
+        breakpoint: 590,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 1
         }
     },
     {
-        breakpoint: 400,
+        breakpoint: 430,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1
@@ -139,41 +132,41 @@ export default function Home(){
             </div>
             <div className="mt-5 flex flex-col items-center justify-center">
                 <h3 className="text-yellow text-[1.75em] medium mb-5">Service de streaming sur Movie API</h3>
-                <div className='mb-10 w-[80vw]'><ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=' left-[-65px] ' right=' right-[-65px] '/></div>
+                <div className='mb-10 w-[80vw]'><ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=' left-[-65px] max-[707px]:left-[-20px] max-[430px]:left-0 ' right=' right-[-65px] max-[707px]:right-[-20px] max-[430px]:right-0 '/></div>
             </div>
             <div className='bg-black'>
-                <div className='pl-[5vw] py-[5vh]'>
+                <div className='pl-[5vw] py-[5vh] film-popular'>
                     <h1 className='bold text-yellow text-[3em] w-1/2 leading-[1.2em]'>Découvrez les films et series TVs les plus populaires, les nouveautés et les prochaines sorties</h1>
-                    <div className='relative flex items-start justify-start gap-x-10 mt-14 mb-20'>
-                        <div className='w-[20vw]'>
+                    <div className='relative flex items-start justify-start gap-x-10 mt-14 mb-20 film-popular-content'>
+                        <div className='w-[20%] content-left'>
                             <h3 className='text-yellow text-[1.75em] mb-5'>Films populaires</h3>
                             <p className='text-second-white'>Découvrez les films les plus populaires en ce moment et où les regarder.</p>
                         </div>
-                        <div className='flex-1 block w-[65vw]'><MovieComponent listMovie={listMovie}/></div>
+                        <div className='flex-1 block w-[70%] content-right'><MovieComponent listMovie={listMovie}/></div>
                     </div>
-                    <div className='relative flex items-start justify-start gap-x-10 mb-20'>
-                        <div className='w-[20vw]'>
+                    <div className='relative flex items-start justify-start gap-x-10 mb-20 serie-popular-content'>
+                        <div className='w-[20%] content-left'>
                             <h3 className='text-yellow text-[1.75em] mb-5'>Series TVs populaire</h3>
                             <p className='text-second-white'>Découvrez les series TVs populaire en ce moment sur la plateforme.</p>
                         </div>
-                        <div className='flex-1 block w-[65vw]'><MovieSlider settings={serieStting} data={listMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={serieActuelItem}/></div>
+                        <div className='flex-1 block w-[70%] content-right'><MovieSlider settings={serieStting} data={listMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={serieActuelItem}/></div>
                     </div>
-                    <div className='relative flex items-start justify-start gap-x-10 mb-20'>
-                        <div className='w-[20vw]'>
+                    <div className='relative flex items-start justify-start gap-x-10 mb-20 film-popular-content'>
+                        <div className='w-[20%] content-left'>
                             <h3 className='text-yellow text-[1.75em] mb-5'>Les 10 filmes les mieux notés</h3>
                             <p className='text-second-white'>Découvrez les 10 filmes les mieux notés en ce moment sur la plateforme.</p>
                         </div>
-                        <div className='flex-1 block w-[65vw]'><MovieSlider settings={newMovieStting} data={listMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={newMovieItem}/></div>
+                        <div className='flex-1 block w-[70%] content-right'><MovieSlider settings={newMovieStting} data={listMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={newMovieItem}/></div>
                     </div>
-                    <div className='mr-[5vw] mb-20'>
+                    <div className='mr-[5vw] mb-20 max-[707px]:mr-0'>
                       <div className='w-[100%]'><MovieSlider settings={filmStting} data={listFilm} width={'w-[100%]'} providerStyle={' hidden '} left=' left-0 ' right=' right-0 ' currentItem={0}/></div>
                     </div>
-                    <div className='relative flex items-start justify-start gap-x-10 mb-20'>
-                        <div className='w-[20vw]'>
+                    <div className='relative flex items-start justify-start gap-x-10 max-[707px]:flex-col max-[707px]:text-center'>
+                        <div className='w-[20%] max-[707px]:w-full max-[707px]:mb-5 max-[707px]:px-5 box-border'>
                             <h3 className='text-yellow text-[1.75em] mb-5'>Les filmes actuellement en salle</h3>
                             <p className='text-second-white'>Découvrez les filmes actuellement en salle.</p>
                         </div>
-                        <div className='flex-1 block w-[65vw]'><MovieSlider settings={salleMovieStting} data={listMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={salleMovieItem}/></div>
+                        <div className='flex-1 block w-[70%] max-[707px]:w-full'><MovieSlider settings={salleMovieStting} data={listMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={salleMovieItem}/></div>
                     </div>
                 </div>
             </div>

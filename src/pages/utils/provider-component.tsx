@@ -49,7 +49,7 @@ export default function ProviderComponent({listProvider,providerStyle,left,right
                 }
             },
             {
-                breakpoint: 300,
+                breakpoint: 400,
                 settings: {
                   slidesToShow: 2,
                 }
