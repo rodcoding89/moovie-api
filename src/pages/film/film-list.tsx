@@ -23,8 +23,8 @@ export default function FilmList(){
                     {
                         testListFilm.map((t:any,index:number)=>{
                             return (
-                                <Link to={'../film/1'} className="width">
-                                    <div key={index} className="">
+                                <Link key={index} to={'../film/1'} className="width">
+                                    <div className="">
                                         <div className="overflow-hidden">
                                             <img className="anime" src={process.env.PUBLIC_URL+'/'+t.url} alt={t.name} />
                                         </div>

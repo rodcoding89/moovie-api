@@ -11,6 +11,11 @@ module.exports = {
         'black': '#000',
       }
     },
+    screens: {
+      'max-430':{'max': '430px'},
+      'max-600':{'max': '600px'},
+      'max-730':{'max':'730px'}
+    }
   },
   plugins: [],
 }
