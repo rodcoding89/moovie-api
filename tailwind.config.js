@@ -14,7 +14,11 @@ module.exports = {
     screens: {
       'max-430':{'max': '430px'},
       'max-600':{'max': '600px'},
-      'max-730':{'max':'730px'}
+      'max-730':{'max':'730px'},
+      'max-700':{'max':'700px'},
+      'min-730':{'min':'730px'},
+      'max-550':{'max':'550px'},
+      'max-370':{'max':'370px'}
     }
   },
   plugins: [],

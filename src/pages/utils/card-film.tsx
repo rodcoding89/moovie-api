@@ -20,7 +20,7 @@ export default function CardFilm({cardData}:{cardData:any}){
                 <div className="z-10 max-730:w-full max-730:flex max-730:items-center max-730:justify-center max-730:mx-5 max-730:flex-col">
                     <h3 className="text-[1.5em] text-white text-left bold mb-3">{cardData.name}</h3>
                     <span className="text-left mb-3 block">{cardData.rate}</span>
-                    <p className="text-left regular text-second-white text-[1em] mb-5 max-730:mx-5">{cardData.description}</p>
+                    <p className="text-left regular text-second-white text-[1em] mb-5 max-730:mx-5 max-730:text-center">{cardData.description}</p>
                     <Link to="" className="px-4 py-2 regular text-center text-black w-[165px] bg-yellow flex items-center justify-center gap-x-2"><i className="fa fa-info-circle text-black text-[1em]" aria-hidden="true"></i>Plus d'info</Link>
                 </div>
             </div>

@@ -125,13 +125,13 @@ export default function Home(){
         <div className="relative">
             <div className="bgheight relative">
                 <div className="bg-cover bg-no-repeat bg-center brightness-50 h-full" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/assets/images/home.png)`}}></div>
-                <div className="absolute w-1/3 centerAbsoluteTop left-[65px]">
-                    <h1 className="text-yellow bold text-[3em]">Filmes & Series</h1>
-                    <p className="text-white regular text-2xl">Découvrez le cinéma sur toutes ses formes, visionnez des series TVs diffusées en ligne gratuitement.</p>
+                <div className="absolute w-1/3 centerAbsoluteTop left-[65px] max-550:w-1/2 max-550:left-7">
+                    <h1 className="text-yellow bold text-[3em] max-370:text-[2em]">Filmes & Series</h1>
+                    <p className="text-white regular text-2xl max-370:text-[1em]">Découvrez le cinéma sur toutes ses formes, visionnez des series TVs diffusées en ligne gratuitement.</p>
                 </div>
             </div>
             <div className="mt-5 flex flex-col items-center justify-center">
-                <h3 className="text-yellow text-[1.75em] medium mb-5">Service de streaming sur Movie API</h3>
+                <h3 className="text-yellow text-[1.75em] medium mb-5 mx-5">Service de streaming sur Movie API</h3>
                 <div className='mb-10 w-[80vw]'><ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=' left-[-65px] max-730:left-[-20px] max-430:left-0 ' right=' right-[-65px] max-730:right-[-35px] max-430:!right-[-10px] '/></div>
             </div>
             <div className='bg-black'>
@@ -158,10 +158,10 @@ export default function Home(){
                         </div>
                         <div className='flex-1 block w-[70%] content-right'><MovieSlider settings={newMovieStting} data={listMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={newMovieItem}/></div>
                     </div>
-                    <div className='mr-[5vw] mb-20 max-730:mr-0'>
+                    <div className='mr-[5vw] mb-20 max-730:mr-0 max-730:mb-10'>
                       <div className='w-[100%]'><MovieSlider settings={filmStting} data={listFilm} width={'w-[100%]'} providerStyle={' hidden '} left=' left-0 ' right=' right-0 ' currentItem={0}/></div>
                     </div>
-                    <div className='relative flex items-start justify-start gap-x-10 max-730:flex-col max-730:text-center'>
+                    <div className='relative flex items-start justify-start gap-x-10 pb-5 max-730:flex-col max-730:text-center'>
                         <div className='w-[20%] max-730:w-full max-730:mb-5 max-730:px-5 box-border'>
                             <h3 className='text-yellow text-[1.75em] mb-5'>Les filmes actuellement en salle</h3>
                             <p className='text-second-white'>Découvrez les filmes actuellement en salle.</p>

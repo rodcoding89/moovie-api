@@ -69,34 +69,14 @@ img{
   background-color: rgba(0,0,0,.4);
 }
 
+
 /**********************************SEARCH*********************************/
 .searchBtn{
   
 }
-.hideInput{
-  height: 0;
-  animation: hide 1s;
-}
-.showInput{
-  width: 50vw;
-  height: 40px;
-  transition: width 1s;
-}
-@keyframes hide {
-  from {
-    width: 50vw;
-    height: 40px;
-  }
 
-  to {
-    width: 0;
-  }
-}
-@media (max-width:638px){
-  
-}
 /********************************************************HOME**************************************************/
-@media (max-width:707px){
+@media (max-width:730px){
   .film-popular{
     padding: 0 !important;
   }
@@ -110,6 +90,7 @@ img{
   }
   .film-popular .film-popular-content,.film-popular .serie-popular-content{
     flex-direction: column;
+    margin-bottom: 20px !important;
   }
   .film-popular .film-popular-content .content-left,.film-popular .serie-popular-content .content-left{
     padding: 0 10px;
@@ -121,6 +102,24 @@ img{
   }
   .film-popular .film-popular-content div:first-child,.film-popular .serie-popular-content div:first-child{
     margin-bottom: 20px;
+  }
+  .max-mask{
+    mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, .5) 10%, #000 20%, transparent);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, .5) 10%, #000 20%, transparent);
+    mask-position:left bottom;
+    -webkit-mask-position: left bottom;
+    -webkit-mask-size: 100%;
+    mask-size:100%;
+  }
+}
+@media (min-width:730px){
+  .min-mask{
+    mask-image: var(--bg-mask-url);
+    -webkit-mask-image: var(--bg-mask-url);
+    mask-position:left bottom;
+    -webkit-mask-position: left bottom;
+    -webkit-mask-size: 100%;
+    mask-size:100%;
   }
 }
 /**************************************************SUBHEAD******************************************************/

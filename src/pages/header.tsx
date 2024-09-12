@@ -22,9 +22,9 @@ export default function Header() {
         }
     }
     return (
-        <header className="flex items-center justify-between sticky bg-black px-5 py-5 w-full z-20">
+        <header className="flex items-center justify-between sticky bg-black px-5 py-5 w-full z-20 gap-x-10">
             <span><Link to='/'>LOGO</Link></span>
-            <div className="navi flex justify-between gap-7">
+            <div className="navi flex justify-end gap-7 flex-1">
                 <div onClick={()=> setShowNav(!showNav)} className="hamburger-lines h-[26px] w-[32px] absolute top-[27px] right-[80px] flex-col justify-between hidden max-430:flex">
                     <span className={`line line1 h-1 origin-top-left transform transition duration-500 ease-in-out w-full rounded-[10px] bg-white ${showNav?'rotate-[45deg]' : ''}`}></span>
                     <span className={`line line2 h-1 transition duration-500 ease-in-out w-full rounded-[10px] bg-white ${showNav?'scale-y-0':''}`}></span>
