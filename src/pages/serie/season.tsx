@@ -54,15 +54,83 @@ export default function Season(){
         </Link>
          seasonList.push(htmlEl)
     }
+    const responsive = [
+        {
+          breakpoint: 2500,
+          settings: {
+            slidesToShow: 10,
+          }
+        },
+        {
+            breakpoint: 1820,
+            settings: {
+              slidesToShow: 9,
+            }
+          },
+        {
+            breakpoint: 1638,
+            settings: {
+              slidesToShow: 8,
+            }
+          },
+        {
+          breakpoint: 1456,
+          settings: {
+            slidesToShow: 7,
+          }
+        },
+        {
+          breakpoint: 1274,
+          settings: {
+            slidesToShow: 6,
+          }
+        },
+        {
+            breakpoint: 1092,
+            settings: {
+              slidesToShow: 5,
+            }
+        },
+        {
+            breakpoint: 910,
+            settings: {
+              slidesToShow: 4,
+            }
+        },
+        {
+            breakpoint: 885,
+            settings: {
+              slidesToShow: 5,
+            }
+        },
+        {
+            breakpoint: 750,
+            settings: {
+              slidesToShow: 4,
+            }
+        },
+        {
+            breakpoint: 610,
+            settings: {
+              slidesToShow: 3,
+            }
+        },
+        {
+            breakpoint: 450,
+            settings: {
+              slidesToShow: 2,
+            }
+        }
+    ]
     return (
-        <div className="w-[100%] mx-auto flex">
-            <div className="w-[20%] bg-black">
+        <div className="w-[100%] mx-auto flex max-885:flex-col">
+            <div className="w-[20%] bg-black max-885:w-full">
                 <h4 className="text-yellow text-center mt-5 mb-10">DERNIERS ÉPISODES AJOUTÉS</h4>
-                <div className="flex gap-y-5 flex-col mx-5">
+                <div className="flex gap-y-5 flex-col mx-5 max-885:flex-row max-885:flex-wrap max-885:gap-x-5 max-885:mx-5 max-885:justify-center max-885:mb-10">
                     {
                         lastAddedSerie.map((l,i)=>{
                             return(
-                                <div key={i} className="flex justify-center items-start gap-x-5">
+                                <div key={i} className="flex justify-center items-start gap-5 max-885:flex-col">
                                     <img className="w-[80px] h-[80px]" src={process.env.PUBLIC_URL+'/assets/images/'+l.link} alt={l.title} />
                                     <div>
                                         <h6 className="text-yellow text-[.9em] bold">{l.title}</h6>
@@ -75,22 +143,22 @@ export default function Season(){
                     }
                 </div>
             </div>
-            <div className="flex-1 bg-[#1a1a1a]">
+            <div className="flex-1 bg-[#1a1a1a] max-885:w-full">
                 <div>
                     <PostSerie backImg={process.env.PUBLIC_URL+'/assets/images/photo.avif'} seriePostUrl={process.env.PUBLIC_URL+'/assets/images/twister.webp'} serieInfo={serieInfo}/>
                 </div>
                 <div className="cast my-10 z-10 relative mx-10">
-                    <h3 className=" text-yellow text-[1.6em] bold mb-10">Casting de Quantico</h3>
-                    <div className="w-[70vw]"><CastComponent castList={castList}/></div>
+                    <h3 className=" text-yellow text-[1.6em] bold mb-10 max-480:text-center">Casting de Quantico</h3>
+                    <div className="w-[70vw] max-885:w-full"><CastComponent castList={castList} responsive={responsive}/></div>
                 </div>
                 <div className="m-10">
-                    <h3 className="text-yellow text-[1.6em] mb-10 bold">Voir tous les épisodes disponibles de Quantico saison {season_id}</h3>
+                    <h3 className="text-yellow text-[1.6em] mb-10 bold max-480:text-center">Voir tous les épisodes disponibles de Quantico saison {season_id}</h3>
                     <div className="flex items-center justify-center flex-wrap gap-3">{epList}</div>
                 </div>
                 <div className="mx-10 mb-20">
-                    <h3 className="text-yellow text-[1.6em] mb-5 bold">Autres Saisons en Streaming Gratuit</h3>
+                    <h3 className="text-yellow text-[1.6em] mb-5 bold max-480:text-center">Autres Saisons en Streaming Gratuit</h3>
                     <hr className="border-b-white mb-3"/>
-                    <div className="flex gap-x-10 items-center justify-center mt-5">
+                    <div className="flex gap-10 items-center justify-center mt-5 flex-wrap">
                         {
                             seasonList
                         }

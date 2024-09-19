@@ -40,7 +40,8 @@ body {
   background-image: radial-gradient(circle farthest-side at top left, #141618, transparent 70%), radial-gradient(circle farthest-side at top right, #071b38, transparent 70%), radial-gradient(circle farthest-side at bottom right, #53521b, transparent 70%), radial-gradient(circle farthest-side at bottom left, #4f4d51, transparent 70%);
 }
 .absoluteCenterLeft{
-  right: -81px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .absoluteCenterLeft::before{
     content: '';
@@ -48,7 +49,8 @@ body {
     height : 0;
     width : 0;
     position: absolute;
-    right: 101px;
+    left: 50%;
+    transform: translateX(-50%);
     top: 10px;
     border-right : 13px solid transparent;
     border-bottom : 10px solid #fff;
@@ -68,7 +70,18 @@ img{
 .movie:hover{
   background-color: rgba(0,0,0,.4);
 }
-
+@media (max-width:700px){
+  .absoluteCenterLeft{
+    left: unset;
+    transform: unset;
+    right: -70px;
+  }
+  .absoluteCenterLeft::before{
+    left: unset;
+    transform: unset;
+    right: 93px;
+  }
+}
 
 /**********************************SEARCH*********************************/
 .searchBtn{

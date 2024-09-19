@@ -14,7 +14,10 @@ const listProvider:any[] = provider.map((p:any,index:number)=>{
     return <CardProvider key={index} cardData={p} />
 })
 const listMovie:any[] = movieSlider.map((m,index)=>{
-    return <MovieCard key={index} cardData={m}/>
+    return <MovieCard key={index} cardData={m} link={`film/${index+1}`}/>
+})
+const listSerie:any[] = movieSlider.map((m,index)=>{
+  return <MovieCard key={index} cardData={m} link={`serie/${index+1}`}/>
 })
 const listFilm:any[] = movie.map((l,index)=>{
   return <CardFilm key={index} cardData={l}/>
@@ -149,7 +152,7 @@ export default function Home(){
                             <h3 className='text-yellow text-[1.75em] mb-5'>Series TVs populaire</h3>
                             <p className='text-second-white'>Découvrez les series TVs populaire en ce moment sur la plateforme.</p>
                         </div>
-                        <div className='flex-1 block w-[70%] content-right'><MovieSlider settings={serieStting} data={listMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={serieActuelItem}/></div>
+                        <div className='flex-1 block w-[70%] content-right'><MovieSlider settings={serieStting} data={listSerie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={serieActuelItem}/></div>
                     </div>
                     <div className='relative flex items-start justify-start gap-x-10 mb-20 film-popular-content'>
                         <div className='w-[20%] content-left'>

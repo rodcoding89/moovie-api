@@ -13,7 +13,7 @@ export default function Subheader({type,categorie,explore,display,shareData}:{ty
         shareData(mydata);
     }
     return (
-        <div className={display + ' absolute w-[50vw] z-10 absoluteCenterLeft max-600:w-[70vw] max-430:!w-[86vw] max-430:!relative max-430:!right-0'}>
+        <div className={display + ' absolute w-[50vw] z-10 absoluteCenterLeft max-700:w-[70vw] max-430:!w-[86vw] max-430:!relative max-430:!right-0'}>
             <div className="bg-white mt-5 flex justify-between items-baseline max-600:flex-col">
                 <div className="w-1/3 bg-gray-200 p-4 self-stretch max-600:w-full max-600:self-auto">
                     <h5 className="text-yellow bold mb-3 pl-2">Explorer</h5>

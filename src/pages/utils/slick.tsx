@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import Slider from "react-slick";
 
-export default function MovieSlider(this: any, {settings,data,width,providerStyle,left,right,currentItem}:{settings:any,data:any[],width:string,providerStyle:string,left:string,right:string,currentItem:number}) {
+export default function MovieSlider({settings,data,width,providerStyle,left,right,currentItem}:{settings:any,data:any[],width:string,providerStyle:string,left:string,right:string,currentItem:number}) {
   let sliderRef:any = useRef(null);
   const next = () => {
     sliderRef.slickNext();
@@ -14,7 +14,7 @@ export default function MovieSlider(this: any, {settings,data,width,providerStyl
     <div className={width+' carousel relative mx-auto'}>
       {
         currentItem > 1 && (
-          <span onClick={previous} className={providerStyle+left+' absolute z-10 top-[50%] translate-y-[-50%] flex items-center justify-center text-[2.2em] cursor-pointer'}>
+          <span onClick={previous} className={providerStyle+left+' prev absolute z-10 top-[50%] translate-y-[-50%] flex items-center justify-center text-[2.2em] cursor-pointer'}>
             <i className="fa fa-angle-left" aria-hidden="true"></i>
           </span>
         )
@@ -30,7 +30,7 @@ export default function MovieSlider(this: any, {settings,data,width,providerStyl
       </Slider>
       {
         currentItem < data.length && (
-          <span onClick={next} className={providerStyle+right+' absolute z-10 top-[50%] translate-y-[-50%] flex items-center justify-center text-[2.2em] cursor-pointer'}>
+          <span onClick={next} className={providerStyle+right+' next absolute z-10 top-[50%] translate-y-[-50%] flex items-center justify-center text-[2.2em] cursor-pointer'}>
             <i className="fa fa-angle-right" aria-hidden="true"></i>
           </span>
         )

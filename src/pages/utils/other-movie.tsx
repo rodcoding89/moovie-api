@@ -38,19 +38,19 @@ export default function OtherMovie({listMovie}:{listMovie:any[]}){
               }
           },
           {
-              breakpoint: 737,
+              breakpoint: 830,
               settings: {
                 slidesToShow: 3,
               }
           },
           {
-            breakpoint: 537,
+            breakpoint: 650,
             settings: {
               slidesToShow: 2,
             }
         },
         {
-            breakpoint: 360,
+            breakpoint: 475,
             settings: {
               slidesToShow: 1,
             }

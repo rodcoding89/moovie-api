@@ -33,53 +33,115 @@ const listProvider:any[] = provider.map((p:any,index:number)=>{
   return <CardProvider key={index} cardData={p} />
 })
 const listMovie:any[] = movieSlider.map((m,index)=>{
-  return <MovieCard key={index} cardData={m}/>
+  return <MovieCard key={index} cardData={m} link={`../serie/${index+1}`}/>
 })
 
 export default function SerieDetail(){
   const saison = 2;
   const listSaison = [];
   for (let i = 0; i < saison; i++) {
-    listSaison.push(<div className="cursor-pointer"><Link className="w-[165px]" to={'season/'+(i+1)}><img className="mb-2" src={process.env.PUBLIC_URL+'/assets/images/twister.webp'} alt="saison"/>Saison {i+1}</Link></div>)
+    listSaison.push(<div key={i} className="cursor-pointer"><Link className="w-[165px]" to={'season/'+(i+1)}><img className="mb-2" src={process.env.PUBLIC_URL+'/assets/images/twister.webp'} alt="saison"/>Saison {i+1}</Link></div>)
   }
+  const responsive = [
+    {
+      breakpoint: 2500,
+      settings: {
+        slidesToShow: 10,
+      }
+    },
+    {
+        breakpoint: 1820,
+        settings: {
+          slidesToShow: 9,
+        }
+      },
+    {
+        breakpoint: 1638,
+        settings: {
+          slidesToShow: 8,
+        }
+      },
+    {
+      breakpoint: 1456,
+      settings: {
+        slidesToShow: 7,
+      }
+    },
+    {
+      breakpoint: 1274,
+      settings: {
+        slidesToShow: 6,
+      }
+    },
+    {
+        breakpoint: 1092,
+        settings: {
+          slidesToShow: 5,
+        }
+    },
+    {
+        breakpoint: 910,
+        settings: {
+          slidesToShow: 4,
+        }
+    },
+    {
+        breakpoint: 728,
+        settings: {
+          slidesToShow: 3,
+        }
+    },
+    {
+        breakpoint: 546,
+        settings: {
+          slidesToShow: 2,
+        }
+    },
+    {
+        breakpoint: 364,
+        settings: {
+          slidesToShow: 1,
+        }
+    }
+]
     return (
         <div className="bg-black">
             <section>
                 <div>
                     <Poster mask={process.env.PUBLIC_URL+'/assets/images/cover.svg'} poster={process.env.PUBLIC_URL+'/assets/images/photo.avif'} info={info}/>
                     <div className="flex justify-center items-center gap-x-10 relative z-10 mt-3 mb-16 flex-col">
-                        <h4 className="bold mb-5 text-yellow">Toutes les saisons de "Le monde qui nous sépare" en streaming</h4>
-                        <div className="flex justify-center items-center gap-x-10 relative z-10">{listSaison}</div>
+                        <h4 className="bold mb-5 text-yellow mx-5">Toutes les saisons de "Le monde qui nous sépare" en streaming</h4>
+                        <div className="flex justify-center items-center gap-10 relative z-10 flex-wrap">{listSaison}</div>
                     </div>
                 </div>
             </section>
             <section>
                 <div className="cast mx-auto my-5 w-[90vw] z-10 relative">
-                    <h3 className="mb-5 text-white text-[1.6em] bold">Casting Le monde qui nous sépare</h3>
-                    <CastComponent castList={castList}/>
+                    <h3 className="mb-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Casting Le monde qui nous sépare</h3>
+                    <CastComponent castList={castList} responsive={responsive}/>
                 </div>
-                <div className="trailler mx-auto my-5 w-[90vw] z-10 relative">
-                    <h3 className="mb-5 text-white text-[1.6em] bold">Regarder un extrait de la serie</h3>
+                <div className="trailler mx-auto my-5 w-[90vw] z-10 relative flex flex-col items-center justify-center">
+                    <h3 className="mb-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de la serie</h3>
                     <div className="poster cursor-pointer">
-                        <img className="w-[200px]" src={process.env.PUBLIC_URL+'/assets/images/the-acolyte.jpeg'} alt="poster" />
+                        <img className="w-[50vw] max-700:w-[75vw]" src={process.env.PUBLIC_URL+'/assets/images/the-acolyte.jpeg'} alt="poster" />
                         <h5 className=" text-yellow text-[1.2em] bold my-2">Noé</h5>
                         <p className="text-second-white">Trailler</p>
                     </div>
                 </div>
                 <div className="my-5 mx-auto w-[90vw] z-10 relative mb-5">
-                    <h3 className="text-white text-[1.75em] medium mb-5">Service de streaming pour cette serie</h3>
+                    <h3 className="text-white text-[1.75em] medium mb-5 max-730:text-center">Service de streaming pour cette serie</h3>
                     <div className="w-[90vw] mx-auto"><ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=" left-0 " right=" right-0 "/></div>
                 </div>
-                <div className="relative mx-auto z-10 w-[100%] mt-[50px] mb-10 flex gap-x-5 items-start">
-                    <div className="w-[30%]">
-                        <h3 className="text-yellow text-[1.75em] ml-[5vw] medium mb-5">Series qui pourraient aussi vous intéresser</h3>
-                        <p className="text-white medium ml-[5vw]">Parcourez les series qui pouraient correspondre à vos critères.</p>
+                <div className="relative mx-auto z-10 w-[100%] mt-[50px] mb-10 flex gap-x-5 items-start max-730:flex-col">
+                    <div className="w-[30%] max-730:w-full max-730:mb-10">
+                        <h3 className="text-yellow text-[1.75em] ml-[5vw] medium mb-5 max-730:text-center max-730:mx-5">Series qui pourraient aussi vous intéresser</h3>
+                        <p className="text-white medium ml-[5vw] max-730:text-center max-730:mx-5">Parcourez les series qui pouraient correspondre à vos critères.</p>
                     </div>
-                    <div className="w-[70%]"><MovieComponent listMovie={listMovie}/></div>
+                    <div className="w-[70%] max-730:w-full"><MovieComponent listMovie={listMovie}/></div>
                 </div>
                 <div className="relative my-5 z-10">
-                    <h3 className="text-white text-[1.75em] ml-[5vw] mb-8">Autre serie avec Daphne Ferraro</h3>
-                    <div className="ml-[5vw]">
+                    <h3 className="text-white text-[1.75em] ml-[5vw] mb-8 max-730:text-center max-730:mx-5">Autre serie avec Daphne Ferraro</h3>
+                    <div className="ml-[5vw] max-730:ml-0">
                         <OtherMovie listMovie={listMovie}/>
                     </div>
                 </div>  

@@ -22,10 +22,10 @@ export default function Episode(){
     const [isActiveNav, setIsActiveNav] = useState(false);
     const shouldNavigate = useRef('false');
     for (let i = 0; i < epNum; i++) {
-        epList.push(<div onClick={()=>{setIsActiveNav(false);setCurrentEpisodeNumber(i+1)}} key={`episode-${i+1}`} className={`p-2 text-center box-border hover:border-b-[1px] hover:border-b-yellow ${i % 2 !== 0 ? 'bg-[#2b2c2d]' : ''} ${(i+1) === myid ? 'ep-active' : ''}`}><Link className="text-yellow" to={`../serie/${id}/season/${season_id}/episode/${i+1}`}>Quantico Saison {season_id} épisode {i+1}</Link></div>)
+        epList.push(<div onClick={()=>{setIsActiveNav(false);setCurrentEpisodeNumber(i+1)}} key={`episode-${i+1}`} className={`max-885:mx-3 max-885:my-2 p-2 text-center box-border hover:border-b-[1px] hover:border-b-yellow ${i % 2 !== 0 ? 'bg-[#2b2c2d]' : ''} ${(i+1) === myid ? 'ep-active' : ''}`}><Link className="text-yellow" to={`../serie/${id}/season/${season_id}/episode/${i+1}`}>Quantico Saison {season_id} épisode {i+1}</Link></div>)
     }
     for (let i = 0; i < seasonNumber; i++) {
-        seasonList.push(<option key={`season-${i+1}`} selected={currentSeasonNumber === i + 1} value={i+1}>Saison {i+1}</option>)
+        seasonList.push(<option key={`season-${i+1}`} value={i+1}>Saison {i+1}</option>)
     }
     function optionNavigate(seasonId:string){
         setCurrentSeasonNumber(parseInt(seasonId));
@@ -47,10 +47,10 @@ export default function Episode(){
     
     console.log('current episode',currentEpisodeNumber);
     return (
-        <div className="w-[100%] mx-auto flex">
-            <div className="w-[25%] bg-black">
+        <div className="w-[100%] mx-auto flex max-885:flex-col">
+            <div className="w-[25%] bg-black max-885:w-full max-885:pb-10">
                 <h4 className="text-white text-center py-5">Quantico Saison {currentSeasonNumber}</h4>
-                <div className="flex flex-col">
+                <div className="flex flex-col max-885:flex-row max-885:justify-center max-885:flex-wrap max-885:mx-5">
                     {
                         epList
                     }
@@ -61,18 +61,18 @@ export default function Episode(){
                     <PostSerie backImg={process.env.PUBLIC_URL+'/assets/images/photo.avif'} seriePostUrl={process.env.PUBLIC_URL+'/assets/images/twister.webp'} serieInfo={serieInfo}/>
                 </div>
                 <div className="mx-10">
-                    <div className="px-5 py-2 bg-yellow text-black float-left">Actuel provider {currentProviderName}</div>
-                    <div className="px-5 py-2 bg-yellow text-black float-right">Vous regardez l'episode {ep_id} et la saison {season_id} de {seriname}</div>
+                    <div className="px-5 py-2 bg-yellow text-black float-left max-600:float-none max-600:mb-4">Actuel provider {currentProviderName}</div>
+                    <div className="px-5 py-2 bg-yellow text-black float-right max-600:float-none">Vous regardez l'episode {ep_id} et la saison {season_id} de {seriname}</div>
                     {
-                        currentProviderUrl ? <iframe className="w-full h-[350px]" src={currentProviderUrl} title={currentProviderName} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe> : <div className="w-full h-[450px] flex items-center justify-center text-white bg-black text-[2.5em]">Aucune video disponible pour ce provider</div>
+                        currentProviderUrl ? <iframe className="w-full h-[350px]" src={currentProviderUrl} title={currentProviderName} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe> : <div className="w-full h-[350px] flex items-center justify-center text-center text-white bg-black text-[2.5em]max-600:text-[1.7em] max-600:h-[250px]">Aucune video disponible pour ce provider</div>
                     }
-                    <div className="mt-3 flex justify-between items-center">
+                    <div className="mt-3 flex justify-between items-center max-430:flex-col gap-4">
                         {
-                            currentEpisodeNumber > 1 ? <div className="px-5 py-2 bg-yellow text-black cursor-pointer" onClick={()=>{navigateSlide('prev')}}>Précedent</div> : <div className="w-[120px]"></div>
+                            currentEpisodeNumber > 1 ? <div className="max-430:w-full px-5 py-2 bg-yellow text-black cursor-pointer" onClick={()=>{navigateSlide('prev')}}>Précedent</div> : <div className="w-[120px]"></div>
                         }
-                        <select className="px-5 py-2 bg-yellow text-black" name="" id="" onChange={(e)=>{optionNavigate(e.target.value)}}>{seasonList}</select>
+                        <select defaultValue={currentSeasonNumber} className="max-430:w-full px-5 py-2 bg-yellow text-black" name="" id="" onChange={(e)=>{optionNavigate(e.target.value)}}>{seasonList}</select>
                         {
-                            currentEpisodeNumber < epNum ? <div className="px-5 py-2 bg-yellow text-black cursor-pointer" onClick={()=>{navigateSlide('next')}}>Suivant</div> : <div className="w-[120px]"></div>
+                            currentEpisodeNumber < epNum ? <div className="max-430:w-full px-5 py-2 bg-yellow text-black cursor-pointer" onClick={()=>{navigateSlide('next')}}>Suivant</div> : <div className="w-[120px]"></div>
                         }
                     </div>
                 </div>
@@ -83,7 +83,7 @@ export default function Episode(){
                         {
                             profiderList.map((p:any,index:number)=>{
                                 return (
-                                    <li onClick={()=>{setCurrentProviderUrl(p.url);setCurrentProviderName(p.name);setActiveProvider(index)}} className="flex justify-between items-center mb-3 cursor-pointer bg-[#2b2c2d] p-3" key={`provider-${index+1}`}><span>Lien : {index+1}</span> <div className="flex justify-start items-center gap-x-2"><img className="w-[35px]" src={process.env.PUBLIC_URL+'/'+p.link} alt="provider" /> <span>{p.name}</span></div> <div className="flex flex-col items-center justify-center"><span>Qualité {p.quality}</span>{activeProvider === index && <em className="bg-green-600 px-[5px] py-[2px] text-[.65em] text-white rounded-xl not-italic">active provider</em>}</div> <span>Ajouté le {p.date}</span></li>
+                                    <li onClick={()=>{setCurrentProviderUrl(p.url);setCurrentProviderName(p.name);setActiveProvider(index)}} className="flex justify-between items-center mb-3 cursor-pointer bg-[#2b2c2d] p-3 flex-wrap gap-3" key={`provider-${index+1}`}><span>Lien : {index+1}</span> <div className="flex justify-start items-center gap-x-2"><img className="w-[35px]" src={process.env.PUBLIC_URL+'/'+p.link} alt="provider" /> <span>{p.name}</span></div> <div className="flex flex-col items-center justify-center"><span>Qualité {p.quality}</span>{activeProvider === index && <em className="bg-green-600 px-[5px] py-[2px] text-[.65em] text-white rounded-xl not-italic">active provider</em>}</div> <span>Ajouté le {p.date}</span></li>
                                 )
                             })
                         }
