@@ -45,7 +45,6 @@ export default function Episode(){
     const url = shouldNavigate.current === 'epi' ? `serie/${id}/season/${currentSeasonNumber}/episode/${currentEpisodeNumber}` : `serie/${id}/season/${currentSeasonNumber}/episode/1`;
     UseNavigateTo(url,isActiveNav);
     
-    console.log('current episode',currentEpisodeNumber);
     return (
         <div className="w-[100%] mx-auto flex max-885:flex-col">
             <div className="w-[25%] bg-black max-885:w-full max-885:pb-10">

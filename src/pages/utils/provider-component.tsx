@@ -1,11 +1,11 @@
 import { useState } from "react";
 import MovieSlider from "./slick";
 
-export default function ProviderComponent({listProvider,providerStyle,left,right}:{listProvider:any[],providerStyle:string,left:string,right:string}){
+export default function ProviderComponent({listProvider,providerStyle,left,right,movieType}:{listProvider:any[],providerStyle:string,left:string,right:string,movieType:string}){
     const [providerActuelItem, setProviderActuelItem] = useState(0);
     const providerSettings = {
         dots: false,
-        infinite: false,
+        infinite: true,
         arrows: false,
         speed: 500,
         slidesToShow: 9,
@@ -56,6 +56,11 @@ export default function ProviderComponent({listProvider,providerStyle,left,right
             }
         ]
     };
+    if (listProvider.length === 0) {
+      return (
+        <p>Aucun provider pour {movieType === 'film' ? 'ce film':'cette serie'}</p>
+      )
+    }
     return (
         <MovieSlider settings={providerSettings} data={listProvider} width={'w-[100%]'} providerStyle={providerStyle} left={left} right={right} currentItem={providerActuelItem}/>
     )

@@ -3,10 +3,14 @@ import Search from "./search";
 import { Link } from "react-router-dom";
 import Subheader from "./subheader";
 
-const categorieFilmTestValue:string[] = ["Action","Animation","Comédie","Crime","Documentaire","Drame","Horreur","Music","Romance","Sci-Fi","Thriller","Western"];
-const categorieTvTestValue:string[] = ["Hit TV","Drama TV","True Crime","Reality","News","Sports","Game Shows","History & Science","Comedy","Daytime TV","Movies","Sci-Fi & Action","Chills & Thrills","Classic TV","Food & Home","Black Entertainment","Kids & Family","Lifestyle","Music","Nature & Travel","Anime & Gaming","International"];
+import { options } from "src/constante/data";
+import { UseGetTmDbDataCatCombined } from "src/hooks/pages-hook";
+
 const exploreFilm:any[] = [{name:"Films à venir",id:"upcoming"},{name:"Films populaires",id:"popular"},{name:"Films actuellement en salle",id:"now_playing"},{name:"Film mieux noté",id:"top_rated"}];
 const exploreTv:any[] = [{name:"Series mieux notés",id:"top_rated"},{name:"Series populaires",id:"popular"},{name:"Series diffuséés aujourd'hui",id:"airing_today"}];
+let urlFilm = 'https://api.themoviedb.org/3/genre/movie/list?language=fr';
+let urlSerie = 'https://api.themoviedb.org/3/genre/tv/list?language=fr';
+let headers = options;
 export default function Header() {
     const [displayFIlm,setDisplayFilm] = useState('hidden');
     const [displayTv,setDisplayTv] = useState('hidden');
@@ -15,12 +19,10 @@ export default function Header() {
     const [showNav,setShowNav] = useState(false);
     function shareData(data:any){
         console.log('mydata ',data)
-        if (data.type === 'filme') {
-            setShowNav(data.state);
-        }else{
-            setShowNav(data.state);
-        }
+        setShowNav(data.state);
     }
+
+    const {data,loading,error} = UseGetTmDbDataCatCombined(urlFilm,urlSerie,headers);
     return (
         <header className="flex items-center justify-between sticky bg-black px-5 py-5 w-full z-20 gap-x-10">
             <span><Link to='/'>LOGO</Link></span>
@@ -32,8 +34,8 @@ export default function Header() {
                 </div>  
                 <nav className={`flex items-center gap-5 max-430:transition max-430:duration-500 max-430:py-3 max-430:absolute max-430:flex-col max-430:bg-white max-430:w-full max-430:top-[80px] left-0 max-430:translate-x-[-900px] ${showNav ? ' max-430:translate-x-[0px] ' : ''} max-430:justify-start max-430:!items-start max-430:pl-5`}>
                     <Link onClick={()=>setShowNav(!showNav)} to='/' className="max-430:text-black">Accueil</Link>
-                    <div onClick={()=>{setDisplayFilm(displayFIlm === 'block' ? 'hidden':'block');setIsHeaderIconFilm(!isHeaderIconFilm)}} className={isHeaderIconFilm?'idown relative max-430:text-black':'relative max-430:text-black'} onMouseOver={(e)=>{setDisplayFilm('block');setIsHeaderIconFilm(true)}} onMouseLeave={(e)=>{setDisplayFilm('hidden');setIsHeaderIconFilm(false)}}>Filmes<i className="fa fa-angle-up ml-2 text-lg" aria-hidden="true"></i><Subheader type='filme' categorie={categorieFilmTestValue} explore={exploreFilm} display={displayFIlm} shareData={shareData}/></div>
-                    <div onClick={()=>{setDisplayTv(displayTv === 'block'?'hidden':'block');setIsHeaderIconTv(!isHeaderIconTv)}} className={isHeaderIconTv?'idown relative max-430:text-black':'relative max-430:text-black'} onMouseOver={(e)=>{setDisplayTv('block');setIsHeaderIconTv(true)}} onMouseLeave={(e)=>{setDisplayTv('hidden');setIsHeaderIconTv(false)}}>Series<i className="fa fa-angle-up ml-2 text-lg" aria-hidden="true"></i><Subheader type='serie' categorie={categorieTvTestValue} explore={exploreTv} display={displayTv} shareData={shareData}/></div>
+                    <div onClick={()=>{setDisplayFilm(displayFIlm === 'block' ? 'hidden':'block');setIsHeaderIconFilm(!isHeaderIconFilm)}} className={isHeaderIconFilm?'div1 idown relative max-430:text-black':'div1 relative max-430:text-black'} onMouseOver={(e)=>{setDisplayFilm('block');setIsHeaderIconFilm(true)}} onMouseLeave={(e)=>{setDisplayFilm('hidden');setIsHeaderIconFilm(false)}}>Filmes<i className="fa fa-angle-up ml-2 text-lg" aria-hidden="true"></i><Subheader type='filme' categorie={data?.filmCatData.genres} explore={exploreFilm} display={displayFIlm} shareData={shareData}/></div>
+                    <div onClick={()=>{setDisplayTv(displayTv === 'block'?'hidden':'block');setIsHeaderIconTv(!isHeaderIconTv)}} className={isHeaderIconTv?'div2 idown relative max-430:text-black':'div2 relative max-430:text-black'} onMouseOver={(e)=>{setDisplayTv('block');setIsHeaderIconTv(true)}} onMouseLeave={(e)=>{setDisplayTv('hidden');setIsHeaderIconTv(false)}}>Series<i className="fa fa-angle-up ml-2 text-lg" aria-hidden="true"></i><Subheader type='serie' categorie={data?.serieCatData?.genres} explore={exploreTv} display={displayTv} shareData={shareData}/></div>
                 </nav>
                 <Search/>
             </div>

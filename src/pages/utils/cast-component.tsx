@@ -1,14 +1,14 @@
 import { useState } from "react";
 import MovieSlider from "./slick";
 const castStyle = ' text-white w-10 h-10 rounded-full hover:bg-yellow hover:text-black ';
-export default function CastComponent({castList,responsive}:{castList:any[],responsive:any[]}){
+export default function CastComponent({castList=[],responsive}:{castList:any[],responsive:any[]}){
     const [castActuelItem,setCastActuelItem] = useState(0);
     const castSettings = {
         dots: false,
-        infinite: false,
+        infinite: true,
         arrows: false,
         speed: 500,
-        slidesToShow: 11,
+        slidesToShow: 5,
         slidesToScroll: 1,
         beforeChange: (current:any, next:number) => setCastActuelItem(next),
         responsive: responsive

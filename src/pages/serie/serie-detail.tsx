@@ -2,45 +2,142 @@ import Poster from "../utils/poster"
 import Cast from "../utils/cast";
 import CardProvider from "../utils/card-provider";
 import MovieCard from "../utils/movie-card";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import OtherMovie from "../utils/other-movie";
-import { cast } from "../film/film-detail";
+import FilmDetail, { cast } from "../film/film-detail";
 import CastComponent from "../utils/cast-component";
 import { movieSlider, provider } from "../home";
 import ProviderComponent from "../utils/provider-component";
 import MovieComponent from "../utils/movie-component";
+import { options,image_base_url } from "src/constante/data";
+import { UseGetTmDbDataCombined } from "src/hooks/pages-hook";
 
 const providerStyle = 'text-white w-10 h-10 rounded-full hover:bg-yellow hover:text-black';
-const info = {
-    name : "Le monde qui nous sépare",
-    year : "2024 42min",
-    director : "Réalisé par Daphne Ferraro",
-    genre : "Drame, Adventure",
-    rate : 5.8,
-    country : "Allemagne",
-    shortDes : "Lorsque Ruby est involontairement témoin d'un secret explosif à l'école privée Maxton Hall, l'arrogant héritier millionnaire James Beaufort doit faire face à la vivacité d'esprit de l'étudiante pour le meilleur et pour le pire",
-    description : "Lorsque Ruby est involontairement témoin d'un secret explosif à l'école privée Maxton Hall, l'arrogant héritier millionnaire James Beaufort doit faire face à la vivacité d'esprit de l'étudiante pour le meilleur et pour le pire : il est déterminé à faire taire Ruby. Leur échange passionné de mots déclenche inopinément une étincelle.",
-    classUnlike : "w-[20%]",
-    classLike : "w-[80%]",
-    unlike : "20%",
-    like : "80%"
-}
 
-const castList = cast.map((c,index)=>{
-    return <Cast key={index} castData={c}/>
-})
-const listProvider:any[] = provider.map((p:any,index:number)=>{
-  return <CardProvider key={index} cardData={p} />
-})
 const listMovie:any[] = movieSlider.map((m,index)=>{
   return <MovieCard key={index} cardData={m} link={`../serie/${index+1}`}/>
 })
 
 export default function SerieDetail(){
-  const saison = 2;
+  const {id} = useParams();
   const listSaison = [];
+  const url = `https://api.themoviedb.org/3/tv/${id}?language=fr-FR&append_to_response=credits,videos,images`;
+  const headers = options;
+  const urlFilmProvider = `https://api.themoviedb.org/3/movie/${id}/watch/providers`;
+  
+  const {data,error,loading} = UseGetTmDbDataCombined(url,urlFilmProvider,headers);
+  console.log('data',data);
+  const saison = data?.filmDetail.number_of_seasons;
+  const cast = data?.filmDetail?.credits.cast;
+  const crew = data?.filmDetail?.credits.crew;
+  const catId = data?.filmDetail?.genres[0].id;
+  let authorName = '';
+  
+  let traillerLink = '';
+  let traillerName = '';
+  data?.filmDetail?.videos.results.forEach((v:any)=>{
+    if (v.site === "YouTube") {
+      traillerLink = "https://www.youtube.com/embed/"+v.key;
+      traillerName = v.name;
+    }
+  })
+  const info = {
+    name : data?.filmDetail?.name,
+    year : data?.filmDetail?.last_air_date.split('-')[0]+' - '+getTime(data?.filmDetail?.episode_run_time[0]),
+    director : "Directed by "+getDirector(crew).join(', '),
+    genre : formatGenre(data?.filmDetail?.genres).join(', '),
+    rate : data?.filmDetail?.vote_average,
+    country : data?.filmDetail?.origin_country.join(','),
+    shortDes : data?.filmDetail?.overview.split(' ',52).join(' '),
+    description : data?.filmDetail?.overview,
+    unlike : "5%",
+    like : "95%",
+    classUnlike : "w-[5%]",
+    classLike : "w-[95%]",
+  }
   for (let i = 0; i < saison; i++) {
-    listSaison.push(<div key={i} className="cursor-pointer"><Link className="w-[165px]" to={'season/'+(i+1)}><img className="mb-2" src={process.env.PUBLIC_URL+'/assets/images/twister.webp'} alt="saison"/>Saison {i+1}</Link></div>)
+    listSaison.push(<div key={i} className="cursor-pointer"><Link className="w-[165px]" to={'season/'+data?.filmDetail.id}><img className="mb-2" src={image_base_url+data?.filmDetail?.poster_path} alt="saison"/>Saison {i+1}</Link></div>)
+  }
+  const castList = cast?.map((c:any,index:number)=>{
+    return <Cast key={c.name+'_'+index} castData={c}/>
+  })
+  const provider:any = mapToTable(data?.filmProvider.results);
+  console.log('provider',data?.filmDetail?.episode_run_time[0])
+  const listProvider:any[] = provider.map((p:any,index:number)=>{
+    return <CardProvider key={index} cardData={p} />
+  })
+  function mapToTable(data: any) {
+    let table: any[] = [];
+    if (data) {
+        if (Object.keys(data).length > 0) {
+            //console.log('test1');
+            Object.keys(data).forEach(key => {
+                if (data[key] !== 'link') {
+                    Object.keys(data[key]).forEach(k => {
+                        //console.log('table', table, 'key', data[key][k]);
+
+                        // Si data[key][k] est un tableau, utilise le spread
+                        if (Array.isArray(data[key][k])) {
+                            table.push(...data[key][k]); // Ajoute les éléments du tableau
+                        } else {
+                            //table.push(data[key][k]); // Ajoute directement la valeur si ce n'est pas un tableau
+                        }
+
+                        // Si tu veux concaténer, utilise concat correctement :
+                        // table = table.concat(data[key][k]); // concat retourne un nouveau tableau
+                    });
+                }else{
+                 
+                  //console.log('traller link',trallerLink);
+                }
+            });
+            const newtable = table.filter(
+              (value, index, self) => 
+                index === self.findIndex((obj) => obj.provider_name === value.provider_name)
+            );
+            return newtable;
+        }
+    }
+    return table;
+}
+  function getTime(minutes:number){
+    if (!minutes) {
+      return ''
+    }
+    if (minutes < 60) {
+      // Si moins de 60 minutes, juste retourner en format "x minute(s)"
+      return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+    }
+  
+    // Calcul des heures et des minutes restantes
+    const hours = Math.floor(minutes / 60);
+    //console.log('hours',hours);
+    const remainingMinutes = minutes % 60;
+    //console.log('remainingMinutes',remainingMinutes);
+    // Si aucune minute restante, juste afficher les heures
+    if (remainingMinutes === 0) {
+      return `${hours} heure${hours !== 1 ? 's' : ''}`;
+    }
+  
+    // Afficher en format "heures:minutes"
+    return `${hours} : ${remainingMinutes < 10 ? '0' : ''}${remainingMinutes} minute${hours !== 1 ? 's' : ''}`;
+  }
+  function getDirector(crew:any[]=[]){
+    const data = crew ? crew.filter((c:any)=>c.job === 'Director'): [];
+    return data.map((d)=>d.name);
+  }
+  function formatGenre(genre:any[]=[]){
+    return genre ? genre.map((g)=>g.name) :[];
+  }
+  function getIdFromAuthor(personData:any[]=[]):number[]{
+    let id:number[] = [];
+    personData.forEach(p=>{
+      //console.log('test',p)
+      if(p.name === authorName){
+        id.push(p.id);
+      }
+    })
+    return id;
   }
   const responsive = [
     {
@@ -108,9 +205,9 @@ export default function SerieDetail(){
         <div className="bg-black">
             <section>
                 <div>
-                    <Poster mask={process.env.PUBLIC_URL+'/assets/images/cover.svg'} poster={process.env.PUBLIC_URL+'/assets/images/photo.avif'} info={info}/>
+                    <Poster mask={image_base_url+data?.filmDetail?.poster_path} poster={image_base_url+data?.filmDetail?.poster_path} info={info}/>
                     <div className="flex justify-center items-center gap-x-10 relative z-10 mt-3 mb-16 flex-col">
-                        <h4 className="bold mb-5 text-yellow mx-5">Toutes les saisons de "Le monde qui nous sépare" en streaming</h4>
+                        <h4 className="bold mb-5 text-yellow mx-5">Toutes les saisons de "{data?.filmDetail.name}" en streaming</h4>
                         <div className="flex justify-center items-center gap-10 relative z-10 flex-wrap">{listSaison}</div>
                     </div>
                 </div>
@@ -120,17 +217,20 @@ export default function SerieDetail(){
                     <h3 className="mb-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Casting Le monde qui nous sépare</h3>
                     <CastComponent castList={castList} responsive={responsive}/>
                 </div>
-                <div className="trailler mx-auto my-5 w-[90vw] z-10 relative flex flex-col items-center justify-center">
-                    <h3 className="mb-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de la serie</h3>
+                {
+                  traillerLink ? <div className="z-10 relative w-full flex items-center justify-center flex-col"><div><h3 className="mb-5 mt-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de cette serie</h3><iframe className="w-[50vw] h-[350px]" src={traillerLink} title={traillerName} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe><h5 className=" text-yellow text-[1.2em] bold my-2">{data?.filmDetail?.name}</h5>
+                      <p className="text-second-white mb-5">Trailler</p></div></div> : <div className="trailler mx-auto my-5 w-[90vw] z-10 relative flex flex-col items-center justify-center">
+                    <h3 className="mb-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de cette serie</h3>
                     <div className="poster cursor-pointer">
-                        <img className="w-[50vw] max-700:w-[75vw]" src={process.env.PUBLIC_URL+'/assets/images/the-acolyte.jpeg'} alt="poster" />
-                        <h5 className=" text-yellow text-[1.2em] bold my-2">Noé</h5>
-                        <p className="text-second-white">Trailler</p>
+                      <img className="w-auto max-700:w-[75vw]" src={image_base_url+data?.filmDetail?.backdrop_path} alt="poster" />
+                      <h5 className=" text-yellow text-[1.2em] bold my-2">{data?.filmDetail?.name}</h5>
+                      <p className="text-second-white">Trailler</p>
                     </div>
-                </div>
+                  </div>
+                }
                 <div className="my-5 mx-auto w-[90vw] z-10 relative mb-5">
                     <h3 className="text-white text-[1.75em] medium mb-5 max-730:text-center">Service de streaming pour cette serie</h3>
-                    <div className="w-[90vw] mx-auto"><ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=" left-0 " right=" right-0 "/></div>
+                    <div className="w-[90vw] mx-auto"><ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=" left-0 " right=" right-0 " movieType="serie"/></div>
                 </div>
                 <div className="relative mx-auto z-10 w-[100%] mt-[50px] mb-10 flex gap-x-5 items-start max-730:flex-col">
                     <div className="w-[30%] max-730:w-full max-730:mb-10">

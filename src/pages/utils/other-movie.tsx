@@ -7,7 +7,7 @@ export default function OtherMovie({listMovie}:{listMovie:any[]}){
         dots: false,
         infinite: true,
         arrows: false,
-        centerMode: true,
+        centerMode: false,
         speed: 500,
         slidesToShow: 8,
         slidesToScroll: 1,

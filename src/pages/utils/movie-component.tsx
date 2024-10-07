@@ -2,7 +2,7 @@ import { useState } from "react";
 import MovieSlider from "./slick";
 
 const movieStyle = "text-yellow w-[60px] h-full movie";
-export default function MovieComponent({listMovie}:{listMovie:any[]}){
+export default function MovieComponent({listMovie=[]}:{listMovie:any[]}){
     const [movieActuelItem, setMovieActuelItem] = useState(0);
     const movieStting = {
         dots: false,

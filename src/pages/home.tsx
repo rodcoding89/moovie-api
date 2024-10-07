@@ -135,7 +135,7 @@ export default function Home(){
             </div>
             <div className="mt-5 flex flex-col items-center justify-center">
                 <h3 className="text-yellow text-[1.75em] medium mb-5 mx-5">Service de streaming sur Movie API</h3>
-                <div className='mb-10 w-[80vw]'><ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=' left-[-65px] max-730:left-[-20px] max-430:left-0 ' right=' right-[-65px] max-730:right-[-35px] max-430:!right-[-10px] '/></div>
+                <div className='mb-10 w-[80vw]'><ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=' left-[-65px] max-730:left-[-20px] max-430:left-0 ' right=' right-[-65px] max-730:right-[-35px] max-430:!right-[-10px] ' movieType='filme'/></div>
             </div>
             <div className='bg-black'>
                 <div className='pl-[5vw] py-[5vh] film-popular'>
