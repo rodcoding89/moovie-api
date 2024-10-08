@@ -158,7 +158,7 @@ export function UseGetTmDbData(url:string,headers:DataType){
   return {data,error,loading}
 }
 
-export function UseGetAuthorMovie(url:string[],headers:DataType){
+export function UseGetMovie(url:string[],headers:DataType){
   const [data,setData] = useState<DataType | null>(null);
   const [error, setError] = useState <unknown | null>(null);
   const [loading, setLoading] = useState(true);

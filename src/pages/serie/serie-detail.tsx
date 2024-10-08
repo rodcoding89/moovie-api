@@ -4,19 +4,15 @@ import CardProvider from "../utils/card-provider";
 import MovieCard from "../utils/movie-card";
 import { Link, useParams } from "react-router-dom";
 import OtherMovie from "../utils/other-movie";
-import FilmDetail, { cast } from "../film/film-detail";
+
 import CastComponent from "../utils/cast-component";
-import { movieSlider, provider } from "../home";
+
 import ProviderComponent from "../utils/provider-component";
 import MovieComponent from "../utils/movie-component";
 import { options,image_base_url } from "src/constante/data";
-import { UseGetTmDbDataCombined } from "src/hooks/pages-hook";
+import { UseGetTmDbDataCombined, UseGetTmDbPersonAndMovieGenre } from "src/hooks/pages-hook";
 
 const providerStyle = 'text-white w-10 h-10 rounded-full hover:bg-yellow hover:text-black';
-
-const listMovie:any[] = movieSlider.map((m,index)=>{
-  return <MovieCard key={index} cardData={m} link={`../serie/${index+1}`}/>
-})
 
 export default function SerieDetail(){
   const {id} = useParams();
@@ -32,7 +28,9 @@ export default function SerieDetail(){
   const crew = data?.filmDetail?.credits.crew;
   const catId = data?.filmDetail?.genres[0].id;
   let authorName = '';
-  
+  console.log('cast',cast);
+  let actName = cast ? cast[0].name : ''
+  let actId = cast ? cast[0].id : 0;
   let traillerLink = '';
   let traillerName = '';
   data?.filmDetail?.videos.results.forEach((v:any)=>{
@@ -41,6 +39,7 @@ export default function SerieDetail(){
       traillerName = v.name;
     }
   })
+  let authorId = 0;
   const info = {
     name : data?.filmDetail?.name,
     year : data?.filmDetail?.last_air_date.split('-')[0]+' - '+getTime(data?.filmDetail?.episode_run_time[0]),
@@ -61,11 +60,36 @@ export default function SerieDetail(){
   const castList = cast?.map((c:any,index:number)=>{
     return <Cast key={c.name+'_'+index} castData={c}/>
   })
+  const urlFilmGenre = catId ? `https://api.themoviedb.org/3/discover/tv?with_genres=${catId}&language=fr`:'';
+  
+  const authorUrl:string = authorId ? `https://api.themoviedb.org/3/person/${authorId}/movie_credits?language=fr`: actId ? `https://api.themoviedb.org/3/person/${actId}/movie_credits?language=fr`:`https://api.themoviedb.org/3/person/182001/movie_credits?language=fr`;
+  const {data:movieData,error:movieGenreError,loading:movieGenreLoading} = UseGetTmDbPersonAndMovieGenre(urlFilmGenre,authorUrl,headers);
+  console.log('filmGenre',movieData,actId,actName);
+  const listMovie:any[] = movieData?.filmGenre.results.map((m:any,index:number)=>{
+    return <MovieCard key={index} cardData={m} link={`../film/${m.id}`}/>
+  })
+  
+  const listAuthorMovie:any = mapOtherMovieInOnTable(movieData?.otherFilm).map((movie:any,index:number)=> {
+    return <MovieCard key={index} cardData={movie} link={`../film/${movie.id}`}/>
+  })
   const provider:any = mapToTable(data?.filmProvider.results);
   console.log('provider',data?.filmDetail?.episode_run_time[0])
   const listProvider:any[] = provider.map((p:any,index:number)=>{
     return <CardProvider key={index} cardData={p} />
   })
+  function mapOtherMovieInOnTable(data:any){
+    let table:any[] = [];
+    if (data) {
+      if (Object.keys(data).length > 0) {
+        Object.keys(data).forEach(key =>{
+          if (Array.isArray(data[key])) {
+            table.push(...data[key])
+          }
+        })
+      }
+    }
+    return table;
+  }
   function mapToTable(data: any) {
     let table: any[] = [];
     if (data) {
@@ -124,6 +148,8 @@ export default function SerieDetail(){
   }
   function getDirector(crew:any[]=[]){
     const data = crew ? crew.filter((c:any)=>c.job === 'Director'): [];
+    authorId = data[0]?.id;
+    authorName = data[0]?.name;
     return data.map((d)=>d.name);
   }
   function formatGenre(genre:any[]=[]){
@@ -240,9 +266,9 @@ export default function SerieDetail(){
                     <div className="w-[70%] max-730:w-full"><MovieComponent listMovie={listMovie}/></div>
                 </div>
                 <div className="relative my-5 z-10">
-                    <h3 className="text-white text-[1.75em] ml-[5vw] mb-8 max-730:text-center max-730:mx-5">Autre serie avec Daphne Ferraro</h3>
+                    <h3 className="text-white text-[1.75em] ml-[5vw] mb-8 max-730:text-center max-730:mx-5">Autre serie avec {authorName ? authorName : actName}</h3>
                     <div className="ml-[5vw] max-730:ml-0">
-                        <OtherMovie listMovie={listMovie}/>
+                        <OtherMovie listMovie={listAuthorMovie}/>
                     </div>
                 </div>  
             </section>

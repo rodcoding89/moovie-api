@@ -6,19 +6,16 @@ import CardFilm from './utils/card-film';
 import { filmStting } from './utils/card-film';
 import ProviderComponent from './utils/provider-component';
 import MovieComponent from './utils/movie-component';
+import { options,image_base_url } from "src/constante/data";
+import { UseGetMovie } from 'src/hooks/pages-hook';
 
 export const provider = ['assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp'];
-export const movieSlider = ['assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp','assets/images/twister.webp'];
+
 const movie = [{linkImg:'assets/images/the-acolyte.jpeg',linkImg1:"assets/images/the-acolyte.webp",name:"Star Wars : The Acolyte",rate:"3.9  (105k)",description:" Cent ans avant la naissance de l'Empire, l'Ordre Jedi et la République Galactique prospéraient depuis des siècles, sans la moindre guerre. Lors d'une enquête concernant un crime odieux, un Maître Jedi va devoir affronter un dangereux guerrier surgissant de son passé."},{linkImg:'assets/images/the-acolyte.jpeg',linkImg1:"assets/images/the-acolyte.webp",name:"Star Wars : The Acolyte",rate:"3.9  (105k)",description:" Cent ans avant la naissance de l'Empire, l'Ordre Jedi et la République Galactique prospéraient depuis des siècles, sans la moindre guerre. Lors d'une enquête concernant un crime odieux, un Maître Jedi va devoir affronter un dangereux guerrier surgissant de son passé."},{linkImg:'assets/images/the-acolyte.jpeg',linkImg1:"assets/images/the-acolyte.webp",name:"Star Wars : The Acolyte",rate:"3.9  (105k)",description:" Cent ans avant la naissance de l'Empire, l'Ordre Jedi et la République Galactique prospéraient depuis des siècles, sans la moindre guerre. Lors d'une enquête concernant un crime odieux, un Maître Jedi va devoir affronter un dangereux guerrier surgissant de son passé."},{linkImg:'assets/images/the-acolyte.jpeg',linkImg1:"assets/images/the-acolyte.webp",name:"Star Wars : The Acolyte",rate:"3.9  (105k)",description:" Cent ans avant la naissance de l'Empire, l'Ordre Jedi et la République Galactique prospéraient depuis des siècles, sans la moindre guerre. Lors d'une enquête concernant un crime odieux, un Maître Jedi va devoir affronter un dangereux guerrier surgissant de son passé."}]
 const listProvider:any[] = provider.map((p:any,index:number)=>{
     return <CardProvider key={index} cardData={p} />
 })
-const listMovie:any[] = movieSlider.map((m,index)=>{
-    return <MovieCard key={index} cardData={m} link={`film/${index+1}`}/>
-})
-const listSerie:any[] = movieSlider.map((m,index)=>{
-  return <MovieCard key={index} cardData={m} link={`serie/${index+1}`}/>
-})
+
 const listFilm:any[] = movie.map((l,index)=>{
   return <CardFilm key={index} cardData={l}/>
 })
@@ -28,6 +25,26 @@ export default function Home(){
   const [serieActuelItem, setSerieActuelItem] = useState(0);
   const [newMovieItem, setNewMovieItem] = useState(0);
   const [salleMovieItem, setSalleMovieItem] = useState(0);
+  const headers = options;
+  const urlPopularMovie = "https://api.themoviedb.org/3/movie/popular?language=fr-FR";
+  const urlPopularSerie = "https://api.themoviedb.org/3/tv/popular?language=fr-FR";
+  const urlTopRatedMovie = "https://api.themoviedb.org/3/movie/top_rated?language=fr-FR";
+  const urlNowPlayingMovie = "https://api.themoviedb.org/3/movie/now_playing?language=fr-FR";
+  const {data,error,loading} = UseGetMovie([urlPopularMovie,urlPopularSerie,urlTopRatedMovie,urlNowPlayingMovie],headers);
+  const listMovie:any[] = data ? data[0].results.map((m:any,index:number)=>{
+    return <MovieCard key={index} cardData={m} link={`film/${m.id}`}/>
+  }) : [];
+  const listSerie:any[] = data ? data[1].results.map((m:any,index:number)=>{
+    return <MovieCard key={index} cardData={m} link={`serie/${m.id}`}/>
+  }):[];
+  const listMovieTopRated = data ? data[2].results.map((m:any,index:number)=>{
+    return <MovieCard key={index} cardData={m} link={`film/${m.id}`}/>
+  }):[];
+  
+  const listSalleMovie:any[] = data ? data[3].results.map((m:any,index:number)=>{
+    return <MovieCard key={index} cardData={m} link={`film/${m.id}`}/>
+  }):[];
+  console.log('data home',data)
   const responsive = [
     {
       breakpoint: 2500,
@@ -159,7 +176,7 @@ export default function Home(){
                             <h3 className='text-yellow text-[1.75em] mb-5'>Les 10 filmes les mieux notés</h3>
                             <p className='text-second-white'>Découvrez les 10 filmes les mieux notés en ce moment sur la plateforme.</p>
                         </div>
-                        <div className='flex-1 block w-[70%] content-right'><MovieSlider settings={newMovieStting} data={listMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={newMovieItem}/></div>
+                        <div className='flex-1 block w-[70%] content-right'><MovieSlider settings={newMovieStting} data={listMovieTopRated} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={newMovieItem}/></div>
                     </div>
                     <div className='mr-[5vw] mb-20 max-730:mr-0 max-730:mb-10'>
                       <div className='w-[100%]'><MovieSlider settings={filmStting} data={listFilm} width={'w-[100%]'} providerStyle={' hidden '} left=' left-0 ' right=' right-0 ' currentItem={0}/></div>
@@ -169,7 +186,7 @@ export default function Home(){
                             <h3 className='text-yellow text-[1.75em] mb-5'>Les filmes actuellement en salle</h3>
                             <p className='text-second-white'>Découvrez les filmes actuellement en salle.</p>
                         </div>
-                        <div className='flex-1 block w-[70%] max-730:w-full'><MovieSlider settings={salleMovieStting} data={listMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={salleMovieItem}/></div>
+                        <div className='flex-1 block w-[70%] max-730:w-full'><MovieSlider settings={salleMovieStting} data={listSalleMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={salleMovieItem}/></div>
                     </div>
                 </div>
             </div>

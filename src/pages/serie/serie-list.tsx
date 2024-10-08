@@ -8,7 +8,7 @@ export default function SerieList(){
     let cat = name?.replaceAll('-',' ');
     const headers = options;
     cat = id === 'airing_today'? 'Series diffuséés aujourd\'hui' : id === 'top_rated' ? 'Series mieux notés' : id === 'popular' ? 'Series populaires' : 'Toutes nos Séries '+cat+' en Streaming ';
-    const url = id === 'airing_today' || id === 'top_rated' || id === 'popular' ? `https://api.themoviedb.org/3/tv/${id}`:` https://api.themoviedb.org/3/discover/tv?with_genres=${id}&language=fr`;
+    const url = id === 'airing_today' || id === 'top_rated' || id === 'popular' ? `https://api.themoviedb.org/3/tv/${id}?language=fr-FR`:`https://api.themoviedb.org/3/discover/tv?with_genres=${id}&language=fr`;
     const {data,error,loading} = UseGetTmDbData(url,headers);
     return (
         <div className="content">

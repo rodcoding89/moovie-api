@@ -7,7 +7,7 @@ import OtherMovie from "../utils/other-movie";
 import ProviderComponent from "../utils/provider-component";
 import MovieComponent from "../utils/movie-component";
 import { options,image_base_url } from "src/constante/data";
-import { UseGetAuthorMovie, UseGetTmDbData, UseGetTmDbDataCombined, UseGetTmDbPersonAndMovieGenre } from "src/hooks/pages-hook";
+import { UseGetTmDbData, UseGetTmDbDataCombined, UseGetTmDbPersonAndMovieGenre } from "src/hooks/pages-hook";
 import { useParams } from "react-router-dom";
 
 
@@ -28,7 +28,7 @@ export default function FilmDetail(){
   let authorName = '';
   console.log('cast',cast);
   let actName = cast ? cast[0].name : ''
-  let actId = cast ? cast[0] : 0;
+  let actId = cast ? cast[0].id : 0;
   let traillerLink = '';
   let traillerName = '';
   data?.filmDetail?.videos.results.forEach((v:any)=>{
@@ -70,11 +70,23 @@ export default function FilmDetail(){
     return <MovieCard key={index} cardData={m} link={`../film/${m.id}`}/>
   })
   
-  const listAuthorMovie:any = movieData?.otherFilm.crew.map((movie:any,index:number)=> {
+  const listAuthorMovie:any = mapOtherMovieInOnTable(movieData?.otherFilm).map((movie:any,index:number)=> {
     return <MovieCard key={index} cardData={movie} link={`../film/${movie.id}`}/>
   })
   console.log('authorId',movieData)
-  //console.log('crew',mapToTable(data?.filmProvider.results))
+  function mapOtherMovieInOnTable(data:any){
+    let table:any[] = [];
+    if (data) {
+      if (Object.keys(data).length > 0) {
+        Object.keys(data).forEach(key =>{
+          if (Array.isArray(data[key])) {
+            table.push(...data[key])
+          }
+        })
+      }
+    }
+    return table;
+  }
   function mapToTable(data: any) {
     let table: any[] = [];
     if (data) {
