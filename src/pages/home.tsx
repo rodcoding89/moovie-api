@@ -6,19 +6,9 @@ import CardFilm from './utils/card-film';
 import { filmStting } from './utils/card-film';
 import ProviderComponent from './utils/provider-component';
 import MovieComponent from './utils/movie-component';
-import { options,image_base_url } from "src/constante/data";
+import { options } from "src/constante/data";
 import { UseGetMovie } from 'src/hooks/pages-hook';
 
-export const provider = ['assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp','assets/images/provider.webp'];
-
-const movie = [{linkImg:'assets/images/the-acolyte.jpeg',linkImg1:"assets/images/the-acolyte.webp",name:"Star Wars : The Acolyte",rate:"3.9  (105k)",description:" Cent ans avant la naissance de l'Empire, l'Ordre Jedi et la République Galactique prospéraient depuis des siècles, sans la moindre guerre. Lors d'une enquête concernant un crime odieux, un Maître Jedi va devoir affronter un dangereux guerrier surgissant de son passé."},{linkImg:'assets/images/the-acolyte.jpeg',linkImg1:"assets/images/the-acolyte.webp",name:"Star Wars : The Acolyte",rate:"3.9  (105k)",description:" Cent ans avant la naissance de l'Empire, l'Ordre Jedi et la République Galactique prospéraient depuis des siècles, sans la moindre guerre. Lors d'une enquête concernant un crime odieux, un Maître Jedi va devoir affronter un dangereux guerrier surgissant de son passé."},{linkImg:'assets/images/the-acolyte.jpeg',linkImg1:"assets/images/the-acolyte.webp",name:"Star Wars : The Acolyte",rate:"3.9  (105k)",description:" Cent ans avant la naissance de l'Empire, l'Ordre Jedi et la République Galactique prospéraient depuis des siècles, sans la moindre guerre. Lors d'une enquête concernant un crime odieux, un Maître Jedi va devoir affronter un dangereux guerrier surgissant de son passé."},{linkImg:'assets/images/the-acolyte.jpeg',linkImg1:"assets/images/the-acolyte.webp",name:"Star Wars : The Acolyte",rate:"3.9  (105k)",description:" Cent ans avant la naissance de l'Empire, l'Ordre Jedi et la République Galactique prospéraient depuis des siècles, sans la moindre guerre. Lors d'une enquête concernant un crime odieux, un Maître Jedi va devoir affronter un dangereux guerrier surgissant de son passé."}]
-const listProvider:any[] = provider.map((p:any,index:number)=>{
-    return <CardProvider key={index} cardData={p} />
-})
-
-const listFilm:any[] = movie.map((l,index)=>{
-  return <CardFilm key={index} cardData={l}/>
-})
 const providerStyle = 'text-black w-10 h-10 rounded-full hover:bg-yellow hover:text-black';
 const movieStyle = "text-yellow w-[60px] h-full movie";
 export default function Home(){
@@ -30,7 +20,10 @@ export default function Home(){
   const urlPopularSerie = "https://api.themoviedb.org/3/tv/popular?language=fr-FR";
   const urlTopRatedMovie = "https://api.themoviedb.org/3/movie/top_rated?language=fr-FR";
   const urlNowPlayingMovie = "https://api.themoviedb.org/3/movie/now_playing?language=fr-FR";
-  const {data,error,loading} = UseGetMovie([urlPopularMovie,urlPopularSerie,urlTopRatedMovie,urlNowPlayingMovie],headers);
+  const urlTopRatedSerie = "https://api.themoviedb.org/3/tv/top_rated?language=fr-FR";
+  const urlMovieProvider = "https://api.themoviedb.org/3/watch/providers/movie";
+  const urlTvProvider = "https://api.themoviedb.org/3/watch/providers/tv";
+  const {data,error,loading} = UseGetMovie([urlPopularMovie,urlPopularSerie,urlTopRatedMovie,urlNowPlayingMovie,urlTopRatedSerie,urlMovieProvider,urlTvProvider],headers);
   const listMovie:any[] = data ? data[0].results.map((m:any,index:number)=>{
     return <MovieCard key={index} cardData={m} link={`film/${m.id}`}/>
   }) : [];
@@ -44,7 +37,17 @@ export default function Home(){
   const listSalleMovie:any[] = data ? data[3].results.map((m:any,index:number)=>{
     return <MovieCard key={index} cardData={m} link={`film/${m.id}`}/>
   }):[];
-  console.log('data home',data)
+  const listFilm:any[] = data ? data[4].results.map((m:any,index:number)=>{
+    return <CardFilm key={index} cardData={m} link={`serie/${m.id}`}/>
+  }):[];
+  console.log('data',data && data[4])
+  const concatMutiTableToOne = (table1:any[] = [],table2:any[] = [])=>{
+    return table1.concat(table2);
+  }
+  const provider = concatMutiTableToOne(data ? data[5].results : [],data ? data[6].results : []);
+  const listProvider:any[] = provider.map((p:any,index:number)=>{
+    return <CardProvider key={index} cardData={p} />
+})
   const responsive = [
     {
       breakpoint: 2500,

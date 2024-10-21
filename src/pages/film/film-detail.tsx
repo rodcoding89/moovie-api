@@ -9,6 +9,7 @@ import MovieComponent from "../utils/movie-component";
 import { options,image_base_url } from "src/constante/data";
 import { UseGetTmDbData, UseGetTmDbDataCombined, UseGetTmDbPersonAndMovieGenre } from "src/hooks/pages-hook";
 import { useParams } from "react-router-dom";
+import { formatGenre, getTime, mapOtherMovieInOnTable, mapToTable } from "src/util-function/fontions";
 
 
 export const cast:any[] = [{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"}];
@@ -74,84 +75,14 @@ export default function FilmDetail(){
     return <MovieCard key={index} cardData={movie} link={`../film/${movie.id}`}/>
   })
   console.log('authorId',movieData)
-  function mapOtherMovieInOnTable(data:any){
-    let table:any[] = [];
-    if (data) {
-      if (Object.keys(data).length > 0) {
-        Object.keys(data).forEach(key =>{
-          if (Array.isArray(data[key])) {
-            table.push(...data[key])
-          }
-        })
-      }
-    }
-    return table;
-  }
-  function mapToTable(data: any) {
-    let table: any[] = [];
-    if (data) {
-        if (Object.keys(data).length > 0) {
-            //console.log('test1');
-            Object.keys(data).forEach(key => {
-                if (data[key] !== 'link') {
-                    Object.keys(data[key]).forEach(k => {
-                        //console.log('table', table, 'key', data[key][k]);
-
-                        // Si data[key][k] est un tableau, utilise le spread
-                        if (Array.isArray(data[key][k])) {
-                            table.push(...data[key][k]); // Ajoute les éléments du tableau
-                        } else {
-                            //table.push(data[key][k]); // Ajoute directement la valeur si ce n'est pas un tableau
-                        }
-
-                        // Si tu veux concaténer, utilise concat correctement :
-                        // table = table.concat(data[key][k]); // concat retourne un nouveau tableau
-                    });
-                }else{
-                  trallerLink = data[key];
-                  //console.log('traller link',trallerLink);
-                }
-            });
-            const newtable = table.filter(
-              (value, index, self) => 
-                index === self.findIndex((obj) => obj.provider_name === value.provider_name)
-            );
-            return newtable;
-        }
-    }
-    return table;
-}
-  function getTime(minutes:number){
-    if (!minutes) {
-      return '';
-    }
-    if (minutes < 60) {
-      // Si moins de 60 minutes, juste retourner en format "x minute(s)"
-      return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
-    }
   
-    // Calcul des heures et des minutes restantes
-    const hours = Math.floor(minutes / 60);
-    //console.log('hours',hours);
-    const remainingMinutes = minutes % 60;
-    //console.log('remainingMinutes',remainingMinutes);
-    // Si aucune minute restante, juste afficher les heures
-    if (remainingMinutes === 0) {
-      return `${hours} heure${hours !== 1 ? 's' : ''}`;
-    }
-  
-    // Afficher en format "heures:minutes"
-    return `${hours} : ${remainingMinutes < 10 ? '0' : ''}${remainingMinutes} minute${hours !== 1 ? 's' : ''}`;
-  }
   function getDirector(crew:any[]=[]){
     const data = crew ? crew.filter((c:any)=>c.job === 'Director'): [];
     authorId = data[0]?.id;
     authorName = data[0]?.name;
     return data.map((d)=>d.name);
   }
-  function formatGenre(genre:any[]=[]){
-    return genre ? genre.map((g)=>g.name) :[];
-  }
+  
   
   const responsive = [
     {

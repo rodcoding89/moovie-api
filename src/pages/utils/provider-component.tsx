@@ -5,7 +5,7 @@ export default function ProviderComponent({listProvider,providerStyle,left,right
     const [providerActuelItem, setProviderActuelItem] = useState(0);
     const providerSettings = {
         dots: false,
-        infinite: true,
+        infinite: false,
         arrows: false,
         speed: 500,
         slidesToShow: 9,

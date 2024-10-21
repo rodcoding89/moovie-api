@@ -9,11 +9,11 @@ export default function PostSerie({backImg,seriePostUrl,serieInfo}:{backImg:stri
                     <div className="flex-1 flex items-center justify-between gap-x-10 max-655:flex-col max-655:gap-y-5 max-480:w-full">
                         <div className="w-[50%] max-655:w-full">
                             <h2 className="bold mb-5">{serieInfo.title}</h2>
-                            <div className="div3 text-primaire-white p-[7px] bg-black mb-1 flex justify-between items-center text-[.85em]">Année: <span className="text-white text-[.85em]">{serieInfo.year}</span> </div>
-                            <div className="div4 text-primaire-white p-[7px] mb-1 flex justify-between items-center text-[.85em]">Genre: <span className="text-white text-[.85em]">{serieInfo.genre}</span></div>
-                            <div className="div5 text-primaire-white p-[7px] bg-black mb-1 flex justify-between items-center text-[.85em]">Pays: <span className="text-white text-[.85em]">{serieInfo.country}</span></div>
-                            <div className="div6 text-primaire-white p-[7px] mb-1 flex justify-between items-center text-[.85em]">Temps: <span className="text-white text-[.85em]">{serieInfo.time}</span></div>
-                            <div className="div7 text-primaire-white p-[7px] bg-black flex justify-between items-center text-[.85em]">Réalisateur: <span className="text-white text-[.85em]">{serieInfo.director}</span></div>
+                            <div className="div3 text-primaire-white gap-4 p-[7px] bg-black mb-1 flex justify-between items-center text-[.85em]">Année: <span className="text-white text-[.85em]">{serieInfo.year}</span> </div>
+                            <div className="div4 text-primaire-white gap-4 p-[7px] mb-1 flex justify-between items-center text-[.85em]">Genre: <span className="text-white text-[.85em]">{serieInfo.genre}</span></div>
+                            <div className="div5 text-primaire-white gap-4 p-[7px] bg-black mb-1 flex justify-between items-center text-[.85em]">Pays: <span className="text-white text-[.85em]">{serieInfo.country}</span></div>
+                            <div className="div6 text-primaire-white gap-4 p-[7px] mb-1 flex justify-between items-center text-[.85em]">Temps: <span className="text-white text-[.85em]">{serieInfo.time}</span></div>
+                            <div className="div7 text-primaire-white gap-4 p-[7px] bg-black flex justify-between items-center text-[.85em]">Réalisateur: <span className="text-white text-[.85em]">{serieInfo.director}</span></div>
                         </div>
                         <div className="spectateur z-10 flex-1 max-655:w-full">
                             <span>Like</span>

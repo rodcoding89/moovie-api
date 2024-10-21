@@ -82,7 +82,11 @@ img{
     right: 93px;
   }
 }
-
+.slick-track{
+  display: flex;
+  align-items: start;
+  justify-content: center;
+}
 /**********************************SEARCH*********************************/
 .searchBtn{
   

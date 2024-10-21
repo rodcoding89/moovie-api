@@ -52,6 +52,7 @@ export function UseGetTmDbDataCatCombined(url1:string,url2:string,headers:DataTy
 }
 
 export function UseGetTmDbDataCombined(url1:string, url2:string, headers:DataType) {
+  console.log('url',url1,url2);
     const [data, setData] = useState<DataType | null>(null);
     const [error, setError] = useState <unknown | null>(null);
     const [loading, setLoading] = useState(true);
@@ -89,6 +90,7 @@ export function UseGetTmDbDataCombined(url1:string, url2:string, headers:DataTyp
   
     return { data, error, loading };
 }
+
 export function UseGetTmDbPersonAndMovieGenre(url1:string, url2:string, headers:DataType) {
   const [data, setData] = useState<DataType | null>(null);
   const [error, setError] = useState <unknown | null>(null);
@@ -189,5 +191,42 @@ export function UseGetMovie(url:string[],headers:DataType){
     return ()=> {isMounted = false};
   },[memoizedUrls,memoizedHeaders]);
 
+  return {data ,error, loading}
+}
+export function UseTVShowsWithCurrentSeason(url:string,headers:DataType) {
+  const [data,setData] = useState<DataType | null>(null);
+  const [error, setError] = useState <unknown | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAllShowsWithEpisodes = async () => {
+      try {
+        // Étape 1: Obtenir les séries en cours de diffusion
+        const response = await axios.get(url,{headers});
+        const shows = response.data;
+
+        // Étape 2: Pour chaque série, obtenir les détails (saisons et épisodes)
+        const detailedShows = await Promise.all(
+          shows.results.map(async (show: any) => {
+            const detailsResponse = await axios.get(`https://api.themoviedb.org/3/tv/${show.id}?language=en-US`,{headers});
+            const details = detailsResponse.data;
+
+            return {
+              details
+            };
+          })
+        );
+
+        setData(detailedShows);
+        setLoading(false)
+      } catch (error) {
+        console.error('Error fetching shows with episodes:', error);
+        setError(error)
+        setLoading(false)
+      }
+    };
+
+    fetchAllShowsWithEpisodes();
+  }, []);
   return {data ,error, loading}
 }

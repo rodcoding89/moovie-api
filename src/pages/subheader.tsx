@@ -27,7 +27,7 @@ export default function Subheader({type,categorie=[],explore,display,shareData}:
                     </div>
                 </div>
                 <div className="flex-1 p-4 max-600:w-full">
-                    <h5 className="text-yellow bold mb-3 pl-3">Catégorie {type === 'serie'?'Serie':'Filme'}</h5>
+                    <h5 className="text-yellow bold mb-3 pl-3">Catégorie {type === 'serie'?'Serie':'Film'}</h5>
                     <div className="flex justify-start items-center gap-x-4 flex-wrap">
                         {
                             categorie.map((c,index)=>{ return (
