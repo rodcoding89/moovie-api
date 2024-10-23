@@ -26,47 +26,39 @@ export default function Search(){
     //console.log('search data',searchData[2].results)
     return (
         <div className="flex items-center relative bg-white w-[45%] max-700:w-10">
-            <input onChange={(e)=>{handleSearch(e.target.value);setSearchTerm(e.target.value)}} className={` text-black pl-3 transition-[width] duration-1000 box-border w-[calc(100%-40px)] max-700:absolute max-700:top-[110px] max-700:left-[50%] max-700:translate-x-[-50%] ${showSearch ? 'max-730:w-[50vw] max-700:h-10 max-430:!w-[75vw]':'max-700:w-0 max-700:h-0'} focus:outline-none`} placeholder="Rechercher un film, une chaine"/>
+            <input value={searchTerm} onChange={(e)=>{handleSearch(e.target.value);setSearchTerm(e.target.value)}} className={` text-black pl-3 transition-[width] duration-1000 box-border w-[calc(100%-40px)] max-700:absolute max-700:top-[110px] max-700:left-[50%] max-700:translate-x-[-50%] ${showSearch ? 'max-730:w-[50vw] max-700:h-10 max-430:!w-[75vw]':'max-700:w-0 max-700:h-0'} focus:outline-none`} placeholder="Rechercher un film, une chaine"/>
             <span onClick={()=>setShowSearch(!showSearch)} className="h-10 w-10 bg-yellow flex items-center justify-center p-3 box-border searchBtn">
                 <i className="fa fa-search text-lg" aria-hidden="true"></i>
             </span>
             {
                 searchData !== null && <div className="h-[400px] w-full bg-black overflow-y-auto absolute top-[40px]">
                     {
-                        searchData[0] && <div>
-                            <span className="p-3 block">Films trouvés</span>
-                            <hr className="pb-5" />
-                            <div>
+                        searchData[0] && 
+                            <div className="p-3">
                             {
                                 searchData[0].results.map((s:any,index:number)=>{
                                     return (
-                                        <Link onClick={()=>handleClick()} to={`../film/${s.id}`} key={index} className="relative px-2 bg-white flex gap-3 items-center justify-start m-1"><img className="h-[35px] w-[35px] object-cover my-1" src={image_base_url+s.poster_path} alt={s.title} /><span className="text-black flex-1 my-2">{s.title}<em className="bg-yellow text-black p-1 text-[.8em] ml-2 rounded-lg">Film</em></span></Link>
+                                        <Link onClick={()=>handleClick()} to={`../film/${s.id}`} key={index} className="relative px-2 bg-white flex gap-3 items-center justify-start m-1"><img className="h-[35px] w-[35px] object-cover my-1" src={image_base_url+s.poster_path} alt={s.title} /><span className="text-black flex-1 my-2">{s.title}<em className="bg-yellow text-black p-1 text-[.8em] ml-2 rounded-lg">Film {s.release_date.split('-')[0]}</em></span></Link>
                                     )
                                 })
                             }
                             </div>
-                        </div>
                     }
                     {
-                        searchData[1] && <div>
-                        <span className="p-3 block">Series trouvés</span>
-                        <hr className="pb-5" />
-                        <div>
+                        searchData[1] && 
+                        <div className="p-3">
                         {
                             searchData[1].results.map((s:any,index:number)=>{
                                 return (
-                                    <Link onClick={()=>handleClick()} to={`../serie/${s.id}`} key={index} className="relative px-2 bg-white flex gap-3 items-center justify-start m-1"><img className="h-[35px] w-[35px] object-cover my-1" src={image_base_url+s.poster_path} alt={s.original_name?s.original_name:s.name} /><span className="text-black flex-1 my-2">{s.original_name?s.original_name:s.name}<em className="bg-yellow text-black p-1 text-[.8em] ml-2 rounded-lg">Serie</em></span></Link>
+                                    <Link onClick={()=>handleClick()} to={`../serie/${s.id}`} key={index} className="relative px-2 bg-white flex gap-3 items-center justify-start m-1"><img className="h-[35px] w-[35px] object-cover my-1" src={image_base_url+s.poster_path} alt={s.original_name?s.original_name:s.name} /><span className="text-black flex-1 my-2">{s.original_name?s.original_name:s.name}<em className="bg-yellow text-black p-1 text-[.8em] ml-2 rounded-lg">Serie {s.first_air_date.split("-")[0]}</em></span></Link>
                                 )
                             })
                         }
-                            </div>
                         </div>
                     }
                     {
-                        searchData[2] && <div>
-                        <span className="p-3 block">Personnes trouvés</span>
-                        <hr className="pb-5" />
-                        <div>
+                        searchData[2] &&
+                        <div className="p-3">
                         {
                             searchData[2].results.map((s:any,index:number)=>{
                                 return (
@@ -74,7 +66,6 @@ export default function Search(){
                                 )
                             })
                         }
-                            </div>
                         </div>
                     }
 

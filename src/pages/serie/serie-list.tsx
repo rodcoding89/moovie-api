@@ -40,28 +40,35 @@ export default function SerieList(){
             console.log('new data data',data)
         }
     },[data])
+    if (error) {
+        return (
+            <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)]"><h4 className="text-black bold text-[2em]">Problème avec le serveur TMDB</h4><p className="text-black">Veuillez nous excuser, car nous rencontrons un problème avec TMDB. Nous vous prions de patienter quelques minutes et de réessayer.</p></div>
+        )
+    }
     return (
         <div className="content">
             <section className="relative bg-black">
                 <Teaser teaserImg={process.env.PUBLIC_URL+'/assets/images/genre-film.avif'} description="Bienvenue au bord de votre siège, car il est temps de plonger dans l'action. Des westerns classiques et films de guerre aux aventures de héros d'action modernes." cat={cat}/>
             </section>
             <section>
-                <div className="flex justify-center items-center gap-7 flex-wrap mx-[5vw] my-10">
-                <InfiniteScroll
-                    dataLength={movieList.length} //This is important field to render the next data
-                    next={fetchData}
-                    hasMore={true}
-                    loader={<h4>Loading...</h4>}
-                    className="flex justify-center items-center gap-7 flex-wrap"
-                    endMessage={
-                        <p style={{ textAlign: 'center' }}>
-                        <b>Yay! You have seen it all</b>
-                        </p>
-                    }
-                    >
-                    {movieList}
-                </InfiniteScroll>
-                </div>
+                {
+                    !loading ? <div className="flex justify-center items-center gap-7 flex-wrap mx-[5vw] my-10">
+                    <InfiniteScroll
+                        dataLength={movieList.length} //This is important field to render the next data
+                        next={fetchData}
+                        hasMore={true}
+                        loader={<h4>Loading...</h4>}
+                        className="flex justify-center items-center gap-7 flex-wrap"
+                        endMessage={
+                            <p style={{ textAlign: 'center' }}>
+                            <b>Yay! You have seen it all</b>
+                            </p>
+                        }
+                        >
+                        {movieList}
+                    </InfiniteScroll>
+                    </div> : <div className="w-full my-5 flex items-center justify-center"><div className='loader'></div></div>
+                }
             </section>
         </div>
     )

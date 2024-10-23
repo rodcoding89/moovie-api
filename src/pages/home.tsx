@@ -155,7 +155,7 @@ export default function Home(){
             </div>
             <div className="mt-5 flex flex-col items-center justify-center">
                 <h3 className="text-yellow text-[1.75em] medium mb-5 mx-5">Service de streaming sur Movie API</h3>
-                <div className='mb-10 w-[80vw]'><ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=' left-[-65px] max-730:left-[-20px] max-430:left-0 ' right=' right-[-65px] max-730:right-[-35px] max-430:!right-[-10px] ' movieType='filme'/></div>
+                <div className='mb-10 w-[80vw]'>{!loading ? <ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=' left-[-65px] max-730:left-[-20px] max-430:left-0 ' right=' right-[-65px] max-730:right-[-35px] max-430:!right-[-10px] ' movieType='filme'/> : <div className="w-full flex items-center justify-center"><div className='loader'></div></div>}</div>
             </div>
             <div className='bg-black'>
                 <div className='pl-[5vw] py-[5vh] film-popular'>
@@ -165,31 +165,31 @@ export default function Home(){
                             <h3 className='text-yellow text-[1.75em] mb-5'>Films populaires</h3>
                             <p className='text-second-white'>Découvrez les films les plus populaires en ce moment et où les regarder.</p>
                         </div>
-                        <div className='flex-1 block w-[70%] content-right'><MovieComponent listMovie={listMovie}/></div>
+                        <div className='flex-1 block w-[70%] content-right'>{!loading ? <MovieComponent listMovie={listMovie}/> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>}</div>
                     </div>
                     <div className='relative flex items-start justify-start gap-x-10 mb-20 serie-popular-content'>
                         <div className='w-[20%] content-left'>
                             <h3 className='text-yellow text-[1.75em] mb-5'>Series TVs populaire</h3>
                             <p className='text-second-white'>Découvrez les series TVs populaire en ce moment sur la plateforme.</p>
                         </div>
-                        <div className='flex-1 block w-[70%] content-right'><MovieSlider settings={serieStting} data={listSerie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={serieActuelItem}/></div>
+                        <div className='flex-1 block w-[70%] content-right'>{!loading ? <MovieSlider settings={serieStting} data={listSerie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={serieActuelItem}/> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>}</div>
                     </div>
                     <div className='relative flex items-start justify-start gap-x-10 mb-20 film-popular-content'>
                         <div className='w-[20%] content-left'>
                             <h3 className='text-yellow text-[1.75em] mb-5'>Les 10 filmes les mieux notés</h3>
                             <p className='text-second-white'>Découvrez les 10 filmes les mieux notés en ce moment sur la plateforme.</p>
                         </div>
-                        <div className='flex-1 block w-[70%] content-right'><MovieSlider settings={newMovieStting} data={listMovieTopRated} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={newMovieItem}/></div>
+                        <div className='flex-1 block w-[70%] content-right'>{!loading ? <MovieSlider settings={newMovieStting} data={listMovieTopRated} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={newMovieItem}/> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>}</div>
                     </div>
                     <div className='mr-[5vw] mb-20 max-730:mr-0 max-730:mb-10'>
-                      <div className='w-[100%]'><MovieSlider settings={filmStting} data={listFilm} width={'w-[100%]'} providerStyle={' hidden '} left=' left-0 ' right=' right-0 ' currentItem={0}/></div>
+                      <div className='w-[100%]'>{!loading ? <MovieSlider settings={filmStting} data={listFilm} width={'w-[100%]'} providerStyle={' hidden '} left=' left-0 ' right=' right-0 ' currentItem={0}/> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>}</div>
                     </div>
                     <div className='relative flex items-start justify-start gap-x-10 pb-5 max-730:flex-col max-730:text-center'>
                         <div className='w-[20%] max-730:w-full max-730:mb-5 max-730:px-5 box-border'>
                             <h3 className='text-yellow text-[1.75em] mb-5'>Les filmes actuellement en salle</h3>
                             <p className='text-second-white'>Découvrez les filmes actuellement en salle.</p>
                         </div>
-                        <div className='flex-1 block w-[70%] max-730:w-full'><MovieSlider settings={salleMovieStting} data={listSalleMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={salleMovieItem}/></div>
+                        <div className='flex-1 block w-[70%] max-730:w-full'>{!loading ? <MovieSlider settings={salleMovieStting} data={listSalleMovie} width={'w-[100%]'} providerStyle={movieStyle} left=' left-0 ' right=' right-0 ' currentItem={salleMovieItem}/> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>}</div>
                     </div>
                 </div>
             </div>

@@ -148,37 +148,49 @@ export default function FilmDetail(){
 ]
     return (
         <div className="bg-black">
-          <Poster mask={process.env.PUBLIC_URL+'/assets/images/cover.svg'} poster={image_base_url+data?.filmDetail?.poster_path} info={info}/>
+          {
+            !loading ? !error ? <Poster mask={process.env.PUBLIC_URL+'/assets/images/cover.svg'} poster={image_base_url+data?.filmDetail?.poster_path} info={info}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+          }
+          
             <div className="cast mx-auto my-5 w-[90vw] z-10 relative">
               <h3 className="mb-10 text-white text-[1.6em] bold text-center max-730:mx-5">Casting de {data?.filmDetail?.original_title}</h3>
-              <CastComponent castList={castList} responsive={responsive}/>
+              {
+                !loading ? !error ? <CastComponent castList={castList} responsive={responsive}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+              }
+              
             </div>
             {
-                traillerLink ? <div className="z-10 relative w-full flex items-center justify-center flex-col"><div><h3 className="mb-5 mt-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de ce film</h3><iframe className="w-[50vw] h-[350px]" src={traillerLink} title={traillerName} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe><h5 className=" text-yellow text-[1.2em] bold my-2">{data?.filmDetail?.original_title}</h5>
-                  <p className="text-second-white mb-5">Trailler</p></div></div> : <div className="trailler mx-auto my-5 w-[90vw] z-10 relative flex flex-col items-center justify-center">
+                !loading ? !error ? traillerLink ? <div className="z-10 relative w-full flex items-center justify-center flex-col"><div><h3 className="mb-5 mt-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de ce film</h3><iframe className="w-[50vw] h-[350px]" src={traillerLink} title={traillerName} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe><h5 className=" text-yellow text-[1.2em] bold my-2">{data?.filmDetail?.original_title}</h5>
+                <p className="text-second-white mb-5">Trailler</p></div></div> : <div className="trailler mx-auto my-5 w-[90vw] z-10 relative flex flex-col items-center justify-center">
                 <h3 className="mb-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de ce film</h3>
                 <div className="poster cursor-pointer">
                   <img className="w-auto max-700:w-[75vw]" src={image_base_url+data?.filmDetail?.backdrop_path} alt="poster" />
                   <h5 className=" text-yellow text-[1.2em] bold my-2">{data?.filmDetail?.original_title}</h5>
                   <p className="text-second-white">Trailler</p>
                 </div>
-              </div>
+              </div> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader z-10 after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
             }
             <div className="my-5 mx-auto w-[90vw] z-10 relative mb-5">
                 <h3 className="text-white text-[1.75em] medium mb-9 text-center">Service de streaming pour ce film</h3>
-                <ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=" left-0 " right=" right-0 " movieType="film"/>
+                {
+                  !loading ? !error ? <ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=" left-0 " right=" right-0 " movieType="film"/> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                }
             </div>
             <div className="relative mx-auto z-10 w-[100%] mt-[50px] mb-10 flex gap-x-5 items-start max-730:flex-col">
               <div className="w-[30%] max-730:w-full max-730:mb-10">
                 <h3 className="text-yellow text-[1.75em] ml-[5vw] medium mb-5 max-730:text-center max-730:mx-5">Filmes qui pourraient aussi vous intéresser</h3>
                 <p className="text-white medium ml-[5vw] max-730:text-center max-730:mx-5">Parcourez les filmes qui pouraient correspondre à vos critères.</p>
               </div>
-              <div className="w-[70%] max-730:w-full"><MovieComponent listMovie={listMovie}/></div>
+              <div className="w-[70%] max-730:w-full">{
+                !movieGenreLoading ? !movieGenreError ? <MovieComponent listMovie={listMovie}/> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+              }</div>
             </div>
             <div className="relative my-5 z-10">
               <h3 className="text-white text-[1.75em] ml-[5vw] mb-8 max-730:text-center max-730:ml-0">Autre filmes avec {authorName?authorName:actName}</h3>
               <div className="ml-[5vw] max-730:mx-5">
-                <OtherMovie listMovie={listAuthorMovie}/>
+                {
+                  !movieGenreLoading ? !movieGenreError ? <OtherMovie listMovie={listAuthorMovie}/> : <div className="w-full"><p className="text-left">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                }
               </div>
             </div>
         </div>
