@@ -147,7 +147,7 @@ export default function Home(){
     return (
         <div className="relative">
             <div className="bgheight relative">
-                <div className="bg-cover bg-no-repeat bg-center brightness-50 h-full" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/assets/images/home.png)`}}></div>
+                <div className="bg-cover bg-no-repeat bg-center brightness-50 h-full" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/assets/images/home.jpg)`}}></div>
                 <div className="absolute w-1/3 centerAbsoluteTop left-[65px] max-550:w-1/2 max-550:left-7">
                     <h1 className="text-yellow bold text-[3em] max-370:text-[2em]">Filmes & Series</h1>
                     <p className="text-white regular text-2xl max-370:text-[1em]">Découvrez le cinéma sur toutes ses formes, visionnez des series TVs diffusées en ligne gratuitement.</p>

@@ -7,11 +7,13 @@ import PostSerie from "../utils/post-serie";
 import { UseGetTmDbData, UseGetTmDbDataCombined,UseTVShowsWithCurrentSeason } from "src/hooks/pages-hook";
 import { options,image_base_url } from "src/constante/data";
 import { getDirector, formatGenre, getTime } from "src/util-function/fontions";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Season(){
-    const epList = [];
     const {id,season_id} = useParams();
     console.log('season_id',season_id)
+    const [epList,setEpiList] = useState<any[]>([]);
+    const [seasonList,setSeasonList] = useState<any[]>([])
     const actuelSeason = season_id ? parseInt(season_id):0;
     const urlSerie = `https://api.themoviedb.org/3/tv/${id}?language=fr-FR&append_to_response=credits,videos,images`;
     const headers = options;
@@ -43,31 +45,46 @@ export default function Season(){
     const castList = cast?.map((c:any,index:number)=>{
         return <Cast key={c.name+'_'+index} castData={c}/>
     })
-    const seasonList = [];
-    for (let i = 0; i < epNum; i++) {
-        epList.push(<div key={i} className={'bg-[#2b2c2d] p-2 text-center box-border rounded-xl hover:border-b-[1px] hover:border-b-yellow'}><Link className="text-yellow" to={'episode/'+(i+1)}>Episode {i+1}</Link></div>)
-    }
-    for (let i = 0; i < numSea; i++) {
-      let htmlEl = (i+1) === actuelSeason ? <div className='w-[185px]'>
-      <div className={(i+1) === actuelSeason ? 'active-season relative': 'relative'}>
-          <img className="w-full" src={image_base_url+data?.poster_path} alt={data?.original_title ? data?.original_title : data?.name} />
-          {
-              (i+1) === actuelSeason && <span className="absolute top-[50%] block text-center w-full text-[.8em] left-[50%] translate-x-[-50%] translate-y-[-50%]">Tu vois cette saison</span>
-          }
-      </div>
-      <span className="text-white medium text-center mt-3 block">Saison {i+1}</span>
-      </div> : <Link to={'../serie/'+id+'/season/'+(i+1)} className='w-[185px]'>
-          <div className={(i+1) === actuelSeason ? 'active-season relative': 'relative'}>
-              <img className="w-full" src={image_base_url+data?.poster_path} alt={data?.original_title ? data?.original_title : data?.name} />
-              {
-                  (i+1) === actuelSeason && <span className="absolute top-[50%] block text-center w-full text-[.8em] left-[50%] translate-x-[-50%] translate-y-[-50%]">Tu vois cette saison</span>
-              }
-          </div>
-          <span className="text-white medium text-center mt-3 block">Saison {i+1}</span>
-      </Link>
-      seasonList.push(htmlEl)
-    }
+   
+    const epData = useMemo(()=>{
+      let itemList = [];
+      for (let i = 0; i < epNum; i++) {
+        const item = <div key={i} className={'bg-[#2b2c2d] p-2 text-center box-border rounded-xl hover:border-b-[1px] hover:border-b-yellow'}><Link className="text-yellow" to={'episode/'+(i+1)}>Episode {i+1}</Link></div>;
+        itemList.push(item);
+      }
+      return itemList;
+    },[epNum])
     
+    const seasData = useMemo(()=>{
+      let itemList:any = [];
+      for (let i = 0; i < numSea; i++) {
+        let htmlEl = (i+1) === actuelSeason ? <div className='w-[185px]'>
+        <div className={(i+1) === actuelSeason ? 'active-season relative': 'relative'}>
+            <img className="w-full" src={image_base_url+data?.poster_path} alt={data?.original_title ? data?.original_title : data?.name} />
+            {
+                (i+1) === actuelSeason && <span className="absolute top-[50%] block text-center w-full text-[.8em] left-[50%] translate-x-[-50%] translate-y-[-50%]">Tu vois cette saison</span>
+            }
+        </div>
+        <span className="text-white medium text-center mt-3 block">Saison {i+1}</span>
+        </div> : <Link to={'../serie/'+id+'/season/'+(i+1)} className='w-[185px]'>
+            <div className={(i+1) === actuelSeason ? 'active-season relative': 'relative'}>
+                <img className="w-full" src={image_base_url+data?.poster_path} alt={data?.original_title ? data?.original_title : data?.name} />
+                {
+                    (i+1) === actuelSeason && <span className="absolute top-[50%] block text-center w-full text-[.8em] left-[50%] translate-x-[-50%] translate-y-[-50%]">Tu vois cette saison</span>
+                }
+            </div>
+            <span className="text-white medium text-center mt-3 block">Saison {i+1}</span>
+        </Link>
+        itemList.push(htmlEl)
+      }
+      return itemList;
+    },[numSea])
+
+    useEffect(()=>{
+      setEpiList(epData);
+      setSeasonList(seasData)
+    },[epData,seasData])
+    console.log('seasData',seasonList,seasData)
     const responsive = [
         {
           breakpoint: 2500,
@@ -148,7 +165,7 @@ export default function Season(){
                 <h4 className="text-yellow text-center mt-5 mb-10">DERNIERS ÉPISODES AJOUTÉS</h4>
                 <div className="flex gap-y-5 flex-col mx-5 max-885:flex-row max-885:flex-wrap max-885:gap-x-5 max-885:mx-5 max-885:justify-center max-885:mb-10">
                     {
-                        lastAddedSerie?.map((l:any,i:number)=>{
+                        !lastSerieLoading ? !lastSerieError ? lastAddedSerie?.map((l:any,i:number)=>{
                             return(
                                 <Link key={i+"_"+l.details.original_title ? l.details.original_title : l.details.name+"_"+i} to={'../serie/'+l.details.id}>
                                   <div className="flex justify-start items-start gap-5 max-885:flex-col">
@@ -161,28 +178,34 @@ export default function Season(){
                                   </div>
                                 </Link>
                             )
-                        })
+                        }): <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                     }
                 </div>
             </div>
             <div className="w-[80%] bg-[#1a1a1a] max-885:w-full">
                 <div className="relative">
-                    <PostSerie backImg={image_base_url+data?.poster_path} seriePostUrl={image_base_url+data?.poster_path} serieInfo={serieInfo}/>
+                  {
+                    !loading ? !error ? <PostSerie backImg={image_base_url+data?.poster_path} seriePostUrl={image_base_url+data?.poster_path} serieInfo={serieInfo}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                  }
                 </div>
                 <div className="cast my-10 z-10 relative mx-10">
                     <h3 className=" text-yellow text-[1.6em] bold mb-10 max-480:text-center">Casting de {data?.original_title ? data?.original_title : data?.name}</h3>
-                    <div className="w-[100%] max-885:w-full"><CastComponent castList={castList} responsive={responsive}/></div>
+                    <div className="w-[100%] max-885:w-full">
+                      {
+                        !loading ? !error ? <CastComponent castList={castList} responsive={responsive}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                      }
+                      </div>
                 </div>
                 <div className="m-10">
-                    <h3 className="text-yellow text-[1.6em] mb-10 bold max-480:text-center">Voir tous les épisodes disponibles de {data?.original_title ? data?.original_title : data?.name} saison {season_id}</h3>
-                    <div className="flex items-center justify-center flex-wrap gap-3">{epList}</div>
+                    <h3 className="text-yellow text-[1.6em] mb-10 bold max-480:text-center">Voir tous les épisodes disponibles de {data?.original_title ? data?.original_title : data?.name} saison {season_id }</h3>
+                    <div className="flex items-center justify-center flex-wrap gap-3">{epList.length > 0 ? !error ? epList : (<div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div>) : (<div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>) }</div>
                 </div>
                 <div className="mx-10 mb-20">
                     <h3 className="text-yellow text-[1.6em] mb-5 bold max-480:text-center">Autres Saisons en Streaming Gratuit</h3>
                     <hr className="border-b-white mb-3"/>
                     <div className="flex gap-10 items-center justify-center mt-5 flex-wrap">
                         {
-                            seasonList
+                          seasonList.length > 0 ? !error ? seasonList : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                         }
                     </div>
                 </div>

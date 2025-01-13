@@ -15,6 +15,7 @@ export default function FilmList(){
     const [totalPage,setTotalPage] = useState<number | null>(null)
     const [movieListData,setMovieListData] = useState<any[]>([])
     const headers = options;
+    const catUrl = cat;
     cat = id === 'upcoming'? 'Les films à venir' : id === 'top_rated' ? 'Les films mieux notés' : id === 'now_playing' ? 'Les film actuellement en salle' : id === 'popular' ? 'Les films populaires' : 'Catégorie '+cat;
     const url = id === 'upcoming' || id === 'top_rated' || id === 'now_playing' || id === 'popular' ? `https://api.themoviedb.org/3/movie/${id}?language=fr-FR`:`https://api.themoviedb.org/3/discover/movie?with_genres=${id}&language=fr`;
     let { data, loading, error } = UseGetTmDbData(url,headers);
@@ -50,7 +51,7 @@ export default function FilmList(){
     return (
         <div className="content">
             <section className="relative bg-black">
-                <Teaser teaserImg={process.env.PUBLIC_URL+'/assets/images/genre-film.avif'} description="Bienvenue au bord de votre siège, car il est temps de plonger dans l'action. Des westerns classiques et films de guerre aux aventures de héros d'action modernes." cat={cat}/>
+                <Teaser teaserImg={process.env.PUBLIC_URL+'/assets/images/'+catUrl+'.jpg'} description="Bienvenue au bord de votre siège, car il est temps de plonger dans l'action. Des westerns classiques et films de guerre aux aventures de héros d'action modernes." cat={cat}/>
             </section>
             <section>
                 {

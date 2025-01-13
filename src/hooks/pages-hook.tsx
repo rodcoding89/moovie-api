@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { isEqual } from 'lodash';
 
 type DataType = Record<string, any>;
 export function UseNavigateTo(url:string,shouldNavigate:boolean){
@@ -30,6 +31,7 @@ export function UseGetTmDbDataCatCombined(url1:string,url2:string,headers:DataTy
           console.log('from hook',res1.data)
           setData({ filmCatData: res1.data, serieCatData: res2.data });
           setLoading(false);
+          setError(null);
         }
       } catch (err) {
         if (isMounted) {
@@ -70,6 +72,7 @@ export function UseGetTmDbDataCombined(url1:string, url2:string, headers:DataTyp
             console.log('from hook',res1.data)
             setData({ filmDetail: res1.data, filmProvider: res2.data });
             setLoading(false);
+            setError(null);
           }
         } catch (err) {
           if (isMounted) {
@@ -109,6 +112,7 @@ export function UseGetTmDbPersonAndMovieGenre(url1:string, url2:string, headers:
           console.log('from hook',res1.data)
           setData({ filmGenre: res1.data, otherFilm: res2.data });
           setLoading(false);
+          setError(null);
         }
       } catch (err) {
         if (isMounted) {
@@ -143,6 +147,7 @@ export function UseGetTmDbData(url:string,headers:DataType){
           setData(res.data);
           console.log('from hook',res.data)
           setLoading(false);
+          setError(null);
         }
       }).catch(err=>{
         if (isMounted) {
@@ -164,11 +169,11 @@ export function UseGetMovie(url:string[],headers:DataType){
   const [data,setData] = useState<DataType | null>(null);
   const [error, setError] = useState <unknown | null>(null);
   const [loading, setLoading] = useState(true);
-  const memoizedUrls = useMemo(() => url, [JSON.stringify(url)]);
-  const memoizedHeaders = useMemo(() => headers, [JSON.stringify(headers)]);
+  //const memoizedUrls = useMemo(() => url, [JSON.stringify(url)]);
+  //const memoizedHeaders = useMemo(() => headers, [JSON.stringify(headers)]);
   useEffect(()=>{
     let isMounted = true;
-    const request = memoizedUrls.map(u=>axios.get(u,{headers:memoizedHeaders}));
+    const request = url.map(u=>axios.get(u,{headers:headers}));
     const fetchData = async ()=> {
       try {
         const response = await Promise.all(request);
@@ -176,6 +181,7 @@ export function UseGetMovie(url:string[],headers:DataType){
           const tmpData = response.map(r=>r.data);
           console.log('author movie',tmpData)
           setData(tmpData);
+          setError(null);
         }
       } catch (error) {
         if (isMounted) {
@@ -189,7 +195,7 @@ export function UseGetMovie(url:string[],headers:DataType){
     fetchData();
 
     return ()=> {isMounted = false};
-  },[memoizedUrls,memoizedHeaders]);
+  },[url,headers]);
 
   return {data ,error, loading}
 }
@@ -218,7 +224,8 @@ export function UseTVShowsWithCurrentSeason(url:string,headers:DataType) {
         );
 
         setData(detailedShows);
-        setLoading(false)
+        setLoading(false);
+        setError(null);
       } catch (error) {
         console.error('Error fetching shows with episodes:', error);
         setError(error)
@@ -227,6 +234,6 @@ export function UseTVShowsWithCurrentSeason(url:string,headers:DataType) {
     };
 
     fetchAllShowsWithEpisodes();
-  }, []);
+  }, [url,headers]);
   return {data ,error, loading}
 }
