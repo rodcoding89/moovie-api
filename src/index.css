@@ -28,7 +28,7 @@ body {
   transition: all 1s .500ms;
 }
 .ep-active{
-  border-bottom: 1px solid #fbc500;
+  border-bottom: 0.0625rem solid #fbc500;
 }
 .active-season img{
  filter: brightness(.5);

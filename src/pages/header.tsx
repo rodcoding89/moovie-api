@@ -25,9 +25,9 @@ export default function Header() {
     const {data,loading,error} = UseGetTmDbDataCatCombined(urlFilm,urlSerie,headers);
     return (
         <header className="flex items-center justify-between sticky bg-black px-5 py-5 w-full z-20 gap-x-10">
-            <span><Link to='/'>LOGO</Link></span>
+            <span><Link to='/'><img src={`${process.env.PUBLIC_URL}/assets/images/logo.png`} className="w-[100px] aspect-square rounded-full max-600:w-[80px]" alt="logo"/></Link></span>
             <div className="navi flex justify-end gap-7 flex-1">
-                <div onClick={()=> setShowNav(!showNav)} className="hamburger-lines h-[26px] w-[32px] absolute top-[27px] right-[80px] flex-col justify-between hidden max-430:flex">
+                <div onClick={()=> setShowNav(!showNav)} className="hamburger-lines h-[26px] w-[32px] absolute top-[50%] translate-y-[-50%] right-[80px] flex-col justify-between hidden max-430:flex">
                     <span className={`line line1 h-1 origin-top-left transform transition duration-500 ease-in-out w-full rounded-[10px] bg-white ${showNav?'rotate-[45deg]' : ''}`}></span>
                     <span className={`line line2 h-1 transition duration-500 ease-in-out w-full rounded-[10px] bg-white ${showNav?'scale-y-0':''}`}></span>
                     <span className={`line line1 h-1 origin-[0%_100%] transform transition duration-500 ease-in-out w-full rounded-[10px] bg-white ${showNav?'rotate-[-45deg]' : ''}`}></span>

@@ -26,12 +26,12 @@ export default function Search(){
     //console.log('search data',searchData[2].results)
     return (
         <div className="flex items-center relative bg-white w-[45%] max-700:w-10">
-            <input value={searchTerm} onChange={(e)=>{handleSearch(e.target.value);setSearchTerm(e.target.value)}} className={` text-black pl-3 transition-[width] duration-1000 box-border w-[calc(100%-40px)] max-700:absolute max-700:top-[110px] max-700:left-[50%] max-700:translate-x-[-50%] ${showSearch ? 'max-730:w-[50vw] max-700:h-10 max-430:!w-[75vw]':'max-700:w-0 max-700:h-0'} focus:outline-none`} placeholder="Rechercher un film, une chaine"/>
+            <input value={searchTerm} onChange={(e)=>{handleSearch(e.target.value);setSearchTerm(e.target.value)}} className={` text-black pl-3 transition-[width] duration-1000 box-border w-[calc(100%-40px)] max-700:absolute max-700:top-[110px] max-700:right-[40px] ${showSearch ? 'max-730:w-[50vw] max-700:h-10 max-430:!w-[75vw]':'max-700:w-0 max-700:h-0'} focus:outline-none`} placeholder="Rechercher un film, une chaine"/>
             <span onClick={()=>setShowSearch(!showSearch)} className="h-10 w-10 bg-yellow flex items-center justify-center p-3 box-border searchBtn">
                 <i className="fa fa-search text-lg" aria-hidden="true"></i>
             </span>
             {
-                searchData !== null && <div className="h-[400px] w-full bg-black overflow-y-auto absolute top-[40px]">
+                (searchData !== null && showSearch) && <div className="h-[400px] w-full max-w-[700px] max-730:w-[50vw] max-430:!w-[75vw] bg-black overflow-y-auto absolute top-[40px] max-700:top-[152px] right-[40px]">
                     {
                         searchData[0] && 
                             <div className="p-3">
