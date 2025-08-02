@@ -139,7 +139,7 @@ export default function SerieDetail(){
       setError1(error)
       setLoading1(loading)
       const filmGenre = data ? data[0] : null
-      const otherFilm = data ? data[1] : []
+      const otherFilm = data ? data[1] : null
       if (filmGenre && filmGenre.results) {
         setListMovie((prev)=>{
         return filmGenre?.results.map((m:any,index:number)=>{
@@ -147,8 +147,8 @@ export default function SerieDetail(){
           })
         })
       }
-      console.log("filmGenre",filmGenre,"otherFilm",otherFilm)
-      if (otherFilm.length > 0) {
+      //console.log("filmGenre",filmGenre,"otherFilm",otherFilm)
+      if (otherFilm) {
         setListAuthorMovie((prev)=>{
         return mapOtherMovieInOnTable(otherFilm).map((movie:any,index:number)=> {
             return <MovieCard key={index+"_"+movie.title} cardData={movie} link={`../serie/${movie.id}`}/>
