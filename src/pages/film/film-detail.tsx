@@ -124,8 +124,8 @@ export default function FilmDetail(){
       setLoading1(loading)
       setError1(error)
       console.log("genre",data)
-      const filmGenre = data ? data[0] : null
-      const otherFilm = data ? data[1] : null
+      const filmGenre = data ? data[0] : []
+      const otherFilm = data ? data[1] : []
       setListMovie((prev)=>{
         return filmGenre?.results.map((m:any,index:number)=>{
           return <MovieCard key={index} cardData={m} link={`../film/${m.id}`}/>

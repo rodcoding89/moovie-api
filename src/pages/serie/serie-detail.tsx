@@ -138,8 +138,8 @@ export default function SerieDetail(){
       const {data,error,loading} = await UseGetTmDbPersonAndMovieGenre(urlFilmGenre,authorUrl,headers);
       setError1(error)
       setLoading1(loading)
-      const filmGenre = data ? data[0] : null
-      const otherFilm = data ? data[1] : null
+      const filmGenre = data ? data[0] : []
+      const otherFilm = data ? data[1] : []
       setListMovie((prev)=>{
         return filmGenre?.results.map((m:any,index:number)=>{
           return <MovieCard key={index+"_"+m.title} cardData={m} link={`../serie/${m.id}`}/>
