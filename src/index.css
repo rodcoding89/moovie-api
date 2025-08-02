@@ -191,3 +191,39 @@ img{
     border: 0;
   }
 }
+
+/* Pour tous les éléments avec défilement */
+::-webkit-scrollbar {
+  width: 8px;  /* Largeur pour la scrollbar verticale */
+  height: 8px; /* Hauteur pour la scrollbar horizontale */
+}
+
+/* Fond de la barre de défilement */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px;
+}
+
+/* Firefox ne permet pas de cacher spécifiquement les flèches,
+   mais on peut rendre la scrollbar plus minimaliste */
+* {
+  scrollbar-width: thin; /* ou 'none' pour désactiver complètement */
+  scrollbar-color: transparent transparent; /* cache la scrollbar si besoin */
+}
+
+/* Barre de défilement elle-même */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 10px;
+}
+
+/* Au survol de la barre */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+/* Pour Firefox */
+* {
+  scrollbar-width: thin; /* "auto" | "thin" | "none" */
+  scrollbar-color: #888 #f1f1f1; /* thumb track */
+}

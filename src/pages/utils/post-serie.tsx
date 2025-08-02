@@ -16,9 +16,12 @@ export default function PostSerie({backImg,seriePostUrl,serieInfo}:{backImg:stri
                             <div className="div7 text-primaire-white gap-4 p-[7px] bg-black flex justify-between items-center text-[.85em]">Réalisateur: <span className="text-white text-[.85em]">{serieInfo.director}</span></div>
                         </div>
                         <div className="spectateur z-10 flex-1 max-655:w-full">
-                            <span>Like</span>
-                            <div className="bloc flex items-center justify-center my-1"><div className={'left h-1 bg-green-500 '+serieInfo.classLike}></div><div className={'right h-1 bg-red-500 '+serieInfo.classUnlike}></div></div>
+                            <div className="bloc flex items-center justify-center my-1">
+                                <div className='left h-1 bg-green-500 relative' style={{width:serieInfo.classLike+'%'}}><span className="absolute left-0 -top-7 text-[12px]">Like</span></div>
+                                <div className='right h-1 bg-red-500 relative' style={{width:serieInfo.classUnlike+'%'}}><span className="absolute left-0 -top-7 text-[12px]">Unlike</span></div>
+                            </div>
                             <div className="number flex justify-between items-center"><span className="like text-[.75em]">{serieInfo.like}</span><span className="unlike text-[.75em]">{serieInfo.unlike}</span></div>
+                            <span className="block my-3 text-[12px] text-right">({serieInfo.vote_count}) Votes</span>
                         </div>
                     </div>
                 </div>

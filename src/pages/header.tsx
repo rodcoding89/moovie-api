@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Search from "./search";
 import { Link } from "react-router-dom";
 import Subheader from "./subheader";
 
 import { options } from "src/constante/data";
-import { UseGetTmDbDataCatCombined } from "src/hooks/pages-hook";
+import { UseGetTmDbDataCatCombined } from "src/api/film";
 
 const exploreFilm:any[] = [{name:"Films à venir",id:"upcoming"},{name:"Films populaires",id:"popular"},{name:"Films actuellement en salle",id:"now_playing"},{name:"Film mieux noté",id:"top_rated"}];
 const exploreTv:any[] = [{name:"Series mieux notés",id:"top_rated"},{name:"Series populaires",id:"popular"},{name:"Series diffuséés aujourd'hui",id:"airing_today"}];
@@ -16,13 +16,26 @@ export default function Header() {
     const [displayTv,setDisplayTv] = useState('hidden');
     const [isHeaderIconFilm,setIsHeaderIconFilm] = useState(false);
     const [isHeaderIconTv,setIsHeaderIconTv] = useState(false);
+    const [data,setData] = useState<any[]>([])
     const [showNav,setShowNav] = useState(false);
     function shareData(data:any){
         console.log('mydata ',data)
         setShowNav(data.state);
     }
 
-    const {data,loading,error} = UseGetTmDbDataCatCombined(urlFilm,urlSerie,headers);
+    useEffect(()=>{
+        const loadCat = async()=>{
+            const {data,loading,error} = await UseGetTmDbDataCatCombined(urlFilm,urlSerie,headers);
+            console.log("data",data)
+            if (data) {
+                setData(data)
+            }
+        }
+        loadCat()
+    },[urlFilm,urlSerie])
+    if (!data.length) {
+        return <div>Probleme lors de la recuperation des données.</div>
+    }
     return (
         <header className="flex items-center justify-between sticky bg-black px-5 py-5 w-full z-20 gap-x-10">
             <span><Link to='/'><img src={`${process.env.PUBLIC_URL}/assets/images/logo.png`} className="w-[100px] aspect-square rounded-full max-600:w-[80px]" alt="logo"/></Link></span>
@@ -34,8 +47,8 @@ export default function Header() {
                 </div>  
                 <nav className={`flex items-center gap-5 max-430:transition max-430:duration-500 max-430:py-3 max-430:absolute max-430:flex-col max-430:bg-white max-430:w-full max-430:top-[80px] left-0 max-430:translate-x-[-900px] ${showNav ? ' max-430:translate-x-[0px] ' : ''} max-430:justify-start max-430:!items-start max-430:pl-5`}>
                     <Link onClick={()=>setShowNav(!showNav)} to='/' className="max-430:text-black">Accueil</Link>
-                    <div onClick={()=>{setDisplayFilm(displayFIlm === 'block' ? 'hidden':'block');setIsHeaderIconFilm(!isHeaderIconFilm)}} className={isHeaderIconFilm?'div1 cursor-pointer idown relative max-430:text-black':'div1 relative cursor-pointer max-430:text-black'} onMouseOver={(e)=>{setDisplayFilm('block');setIsHeaderIconFilm(true)}} onMouseLeave={(e)=>{setDisplayFilm('hidden');setIsHeaderIconFilm(false)}}>Films<i className="fa fa-angle-up ml-2 text-lg" aria-hidden="true"></i><Subheader type='film' categorie={data?.filmCatData.genres} explore={exploreFilm} display={displayFIlm} shareData={shareData}/></div>
-                    <div onClick={()=>{setDisplayTv(displayTv === 'block'?'hidden':'block');setIsHeaderIconTv(!isHeaderIconTv)}} className={isHeaderIconTv?'div2 cursor-pointer idown relative max-430:text-black':'div2 cursor-pointer relative max-430:text-black'} onMouseOver={(e)=>{setDisplayTv('block');setIsHeaderIconTv(true)}} onMouseLeave={(e)=>{setDisplayTv('hidden');setIsHeaderIconTv(false)}}>Series<i className="fa fa-angle-up ml-2 text-lg" aria-hidden="true"></i><Subheader type='serie' categorie={data?.serieCatData?.genres} explore={exploreTv} display={displayTv} shareData={shareData}/></div>
+                    <div onClick={()=>{setDisplayFilm(displayFIlm === 'block' ? 'hidden':'block');setIsHeaderIconFilm(!isHeaderIconFilm)}} className={isHeaderIconFilm?'div1 cursor-pointer idown relative max-430:text-black':'div1 relative cursor-pointer max-430:text-black'} onMouseOver={(e)=>{setDisplayFilm('block');setIsHeaderIconFilm(true)}} onMouseLeave={(e)=>{setDisplayFilm('hidden');setIsHeaderIconFilm(false)}}>Films<i className="fa fa-angle-up ml-2 text-lg" aria-hidden="true"></i><Subheader type='film' categorie={data?.[0]?.genres ?? null} explore={exploreFilm} display={displayFIlm} shareData={shareData}/></div>
+                    <div onClick={()=>{setDisplayTv(displayTv === 'block'?'hidden':'block');setIsHeaderIconTv(!isHeaderIconTv)}} className={isHeaderIconTv?'div2 cursor-pointer idown relative max-430:text-black':'div2 cursor-pointer relative max-430:text-black'} onMouseOver={(e)=>{setDisplayTv('block');setIsHeaderIconTv(true)}} onMouseLeave={(e)=>{setDisplayTv('hidden');setIsHeaderIconTv(false)}}>Series<i className="fa fa-angle-up ml-2 text-lg" aria-hidden="true"></i><Subheader type='serie' categorie={data?.[1]?.genres ?? null} explore={exploreTv} display={displayTv} shareData={shareData}/></div>
                 </nav>
                 <Search/>
             </div>

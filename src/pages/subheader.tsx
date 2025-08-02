@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 function replaceWhiteSpaceOnLabel(label:string){
     return label.replaceAll(' ','-');
 }
-export default function Subheader({type,categorie=[],explore,display,shareData}:{type:string,categorie:any[],explore:any[],display:string,shareData:any}){
+export default function Subheader({type,categorie=[],explore,display,shareData}:{type:string,categorie:any[]|null,explore:any[],display:string,shareData:any}){
     console.log('type',type);
     function handleClick(data:string) {
         let mydata = {
@@ -30,7 +30,7 @@ export default function Subheader({type,categorie=[],explore,display,shareData}:
                     <h5 className="text-yellow bold mb-3 pl-3">Catégorie {type === 'serie'?'Serie':'Film'}</h5>
                     <div className="flex justify-start items-center gap-x-4 flex-wrap">
                         {
-                            categorie.map((c,index)=>{ return (
+                            categorie?.map((c,index)=>{ return (
                                 <Link onClick={()=>{handleClick(type)}} to={type === 'serie'?'serie/'+replaceWhiteSpaceOnLabel(c.name.toLowerCase())+'/'+c.id:'film/'+replaceWhiteSpaceOnLabel(c.name.toLowerCase())+'/'+c.id} key={c.name+'_'+index} className="a2 text-black w-2/5 pl-3 pt-1 pb-1 hover:bg-gray-100 rounded-3xl">{c.name}</Link>
                             )})
                         }

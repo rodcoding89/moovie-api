@@ -4,29 +4,39 @@ import CastComponent from "../utils/cast-component";
 import Cast from "../utils/cast";
 
 import PostSerie from "../utils/post-serie";
-import { UseGetTmDbData, UseGetTmDbDataCombined,UseTVShowsWithCurrentSeason } from "src/hooks/pages-hook";
+
 import { options,image_base_url } from "src/constante/data";
 import { getDirector, formatGenre, getTime } from "src/util-function/fontions";
 import { useEffect, useMemo, useState } from "react";
+import { UseGetTmDbData, UseTVShowsWithCurrentSeason } from "src/api/film";
 
 export default function Season(){
     const {id,season_id} = useParams();
     console.log('season_id',season_id)
     const [epList,setEpiList] = useState<any[]>([]);
+    const [loading,setLoading] = useState(true);
+    const [error,setError] = useState<unknown>(null);
+    const [data,setData] = useState<any>(null)
     const [seasonList,setSeasonList] = useState<any[]>([])
+    const [lastAddedSerie,setLastAddedSerie] = useState<any[]>([])
+    const [loading1,setLoading1] = useState(true);
+    const [error1,setError1] = useState<unknown>(null);
     const actuelSeason = season_id ? parseInt(season_id):0;
     const urlSerie = `https://api.themoviedb.org/3/tv/${id}?language=fr-FR&append_to_response=credits,videos,images`;
     const headers = options;
-    const {data,error,loading} = UseGetTmDbData(urlSerie,headers);
+    
     
     const urlLastestSerieAdded = "https://api.themoviedb.org/3/tv/on_the_air?language=fr-FR&page=1";
-    const {data:lastSerie,error:lastSerieError,loading:lastSerieLoading} = UseTVShowsWithCurrentSeason(urlLastestSerieAdded,headers)
-    console.log('season data',lastSerie);
-    const lastAddedSerie = lastSerie;
+    
+    //console.log('season data',lastSerie);
+    
     const numSea = data?.number_of_seasons;
     const epNum = data?.number_of_episodes;
     const cast = data?.credits.cast;
     const crew = data?.credits.crew;
+    const percentFomTen = (value:number)=>{
+      return value * 100 / 10
+    }
     const serieInfo = {
         name : data?.name,
         year : data?.last_air_date.split('-')[0],
@@ -37,10 +47,11 @@ export default function Season(){
         shortDes : data?.overview.split(' ',52).join(' '),
         description : data?.overview,
         time : getTime(data?.episode_run_time[0]),
-        unlike : "5%",
-        like : "95%",
-        classUnlike : "w-[5%]",
-        classLike : "w-[95%]",
+        unlike : (100 - percentFomTen(data?.vote_average)).toFixed(2)+"%",
+        like : percentFomTen(data?.vote_average)+"%",
+        classUnlike : (100 - percentFomTen(data?.vote_average)).toFixed(2),
+        classLike : percentFomTen(data?.vote_average),
+        vote_count : data?.vote_count
     }
     const castList = cast?.map((c:any,index:number)=>{
         return <Cast key={c.name+'_'+index} castData={c}/>
@@ -84,6 +95,26 @@ export default function Season(){
       setEpiList(epData);
       setSeasonList(seasData)
     },[epData,seasData])
+    useEffect(()=>{
+      const loadSeason = async()=>{
+        const {data,error,loading} = await UseGetTmDbData(urlSerie,headers);
+        const detail = data ? data : null;
+        console.log("seaison",data)
+        setData(detail);
+        setError(error);
+        setLoading(loading);
+      }
+      const loadLastSerieData = async()=>{
+        const {data,error,loading} = await UseTVShowsWithCurrentSeason(urlLastestSerieAdded,headers)
+        if (data) {
+          setLastAddedSerie(data)
+        }
+        setError1(error)
+        setLoading1(loading)
+      }
+      loadSeason()
+      loadLastSerieData()
+    },[urlLastestSerieAdded,urlSerie])
     console.log('seasData',seasonList,seasData)
     const responsive = [
         {
@@ -162,10 +193,10 @@ export default function Season(){
     return (
         <div className="w-[100%] mx-auto flex max-885:flex-col">
             <div className="w-[20%] bg-black max-885:w-full">
-                <h4 className="text-yellow text-center mt-5 mb-10">DERNIERS ÉPISODES AJOUTÉS</h4>
+                <h4 className="text-yellow text-center mb-10 bg-[#0c0c0c] py-4 px-2">DERNIERS ÉPISODES AJOUTÉS</h4>
                 <div className="flex gap-y-5 flex-col mx-5 max-885:flex-row max-885:flex-wrap max-885:gap-x-5 max-885:mx-5 max-885:justify-center max-885:mb-10">
                     {
-                        !lastSerieLoading ? !lastSerieError ? lastAddedSerie?.map((l:any,i:number)=>{
+                        !loading1 ? !error1 ? lastAddedSerie?.map((l:any,i:number)=>{
                             return(
                                 <Link key={i+"_"+l.details.original_title ? l.details.original_title : l.details.name+"_"+i} to={'../serie/'+l.details.id}>
                                   <div className="flex justify-start items-start gap-5 max-885:flex-col">
@@ -198,7 +229,7 @@ export default function Season(){
                 </div>
                 <div className="m-10">
                     <h3 className="text-yellow text-[1.6em] mb-10 bold max-480:text-center">Voir tous les épisodes disponibles de {data?.original_title ? data?.original_title : data?.name} saison {season_id }</h3>
-                    <div className="flex items-center justify-center flex-wrap gap-3">{epList.length > 0 ? !error ? epList : (<div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div>) : (<div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>) }</div>
+                    <div className="flex items-center justify-center flex-wrap gap-3 max-h-[400px] overflow-y-auto">{epList.length > 0 ? !error ? epList : (<div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div>) : (<div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>) }</div>
                 </div>
                 <div className="mx-10 mb-20">
                     <h3 className="text-yellow text-[1.6em] mb-5 bold max-480:text-center">Autres Saisons en Streaming Gratuit</h3>

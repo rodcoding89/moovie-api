@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CardProvider from './utils/card-provider';
 import MovieCard from './utils/movie-card';
 import  MovieSlider  from './utils/slick';
@@ -6,8 +6,8 @@ import CardFilm from './utils/card-film';
 import { filmStting } from './utils/card-film';
 import ProviderComponent from './utils/provider-component';
 import MovieComponent from './utils/movie-component';
-import { options } from "src/constante/data";
-import { UseGetMovie } from 'src/hooks/pages-hook';
+
+import { HomeData } from 'src/api/home';
 
 const providerStyle = 'text-black w-10 h-10 rounded-full hover:bg-yellow hover:text-black';
 const movieStyle = "text-yellow w-[60px] h-full movie";
@@ -15,39 +15,65 @@ export default function Home(){
   const [serieActuelItem, setSerieActuelItem] = useState(0);
   const [newMovieItem, setNewMovieItem] = useState(0);
   const [salleMovieItem, setSalleMovieItem] = useState(0);
-  const headers = options;
-  const urlPopularMovie = "https://api.themoviedb.org/3/movie/popular?language=fr-FR";
-  const urlPopularSerie = "https://api.themoviedb.org/3/tv/popular?language=fr-FR";
-  const urlTopRatedMovie = "https://api.themoviedb.org/3/movie/top_rated?language=fr-FR";
-  const urlNowPlayingMovie = "https://api.themoviedb.org/3/movie/now_playing?language=fr-FR";
-  const urlTopRatedSerie = "https://api.themoviedb.org/3/tv/top_rated?language=fr-FR";
-  const urlMovieProvider = "https://api.themoviedb.org/3/watch/providers/movie";
-  const urlTvProvider = "https://api.themoviedb.org/3/watch/providers/tv";
-  const {data,error,loading} = UseGetMovie([urlPopularMovie,urlPopularSerie,urlTopRatedMovie,urlNowPlayingMovie,urlTopRatedSerie,urlMovieProvider,urlTvProvider],headers);
-  const listMovie:any[] = data ? data[0].results.map((m:any,index:number)=>{
-    return <MovieCard key={index} cardData={m} link={`film/${m.id}`}/>
-  }) : [];
-  const listSerie:any[] = data ? data[1].results.map((m:any,index:number)=>{
-    return <MovieCard key={index} cardData={m} link={`serie/${m.id}`}/>
-  }):[];
-  const listMovieTopRated = data ? data[2].results.map((m:any,index:number)=>{
-    return <MovieCard key={index} cardData={m} link={`film/${m.id}`}/>
-  }):[];
+  const [listMovie, setListMovie] = useState<any[]>([]);
+  const [listSerie, setListSerie] = useState<any[]>([]);
+  const [listSalleMovie, setListSalleMovie] = useState<any[]>([]);
+  const [listFilm, setListFilm] = useState<any[]>([]);
+  const [listProvider, setListProvider] = useState<any[]>([]);
+  const [listMovieTopRated, setListMovieTopRated] = useState<any[]>([]);
+  const [loading,setLoading] = useState(true);
+  const [error,setError] = useState<unknown>(null);
+
+  useEffect(()=>{
+    const loadHomeData = async()=>{
+      const {data,error,loading} = await HomeData();
+      setError(error);
+      setLoading(loading)
+      console.log('data',data && data[4])
+      const concatMutiTableToOne = (table1:any[] = [],table2:any[] = [])=>{
+        return table1.concat(table2);
+      }
+    
+      if (data) {
+        setListMovie((prev)=>{
+          return data[0].results.map((m:any,index:number)=>{
+            return <MovieCard key={index} cardData={m} link={`film/${m.id}`}/>
+          })
+        });
+        setListSerie((prev)=>{
+          return data[1].results.map((m:any,index:number)=>{
+            return <MovieCard key={index} cardData={m} link={`serie/${m.id}`}/>
+          })
+        });
+
+        setListMovieTopRated((prev)=>{
+          return data[2].results.map((m:any,index:number)=>{
+            return <MovieCard key={index} cardData={m} link={`film/${m.id}`}/>
+          })
+        })
+
+        setListSalleMovie((prev)=>{
+          return data[3].results.map((m:any,index:number)=>{
+            return <MovieCard key={index} cardData={m} link={`film/${m.id}`}/>
+          })
+        });
+
+        setListFilm((prev)=>{
+          return data[4].results.map((m:any,index:number)=>{
+            return <CardFilm key={index} cardData={m} link={`serie/${m.id}`}/>
+          })
+        });
+        const provider = concatMutiTableToOne(data ? data[5].results : [],data ? data[6].results : []);
+        setListProvider((prev)=>{
+          return provider.map((p:any,index:number)=>{
+            return <CardProvider key={index} cardData={p} />
+          })
+        })
+      }
+    }
+    loadHomeData();
+  },[])
   
-  const listSalleMovie:any[] = data ? data[3].results.map((m:any,index:number)=>{
-    return <MovieCard key={index} cardData={m} link={`film/${m.id}`}/>
-  }):[];
-  const listFilm:any[] = data ? data[4].results.map((m:any,index:number)=>{
-    return <CardFilm key={index} cardData={m} link={`serie/${m.id}`}/>
-  }):[];
-  console.log('data',data && data[4])
-  const concatMutiTableToOne = (table1:any[] = [],table2:any[] = [])=>{
-    return table1.concat(table2);
-  }
-  const provider = concatMutiTableToOne(data ? data[5].results : [],data ? data[6].results : []);
-  const listProvider:any[] = provider.map((p:any,index:number)=>{
-    return <CardProvider key={index} cardData={p} />
-})
   const responsive = [
     {
       breakpoint: 2500,

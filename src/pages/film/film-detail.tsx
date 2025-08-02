@@ -7,9 +7,11 @@ import OtherMovie from "../utils/other-movie";
 import ProviderComponent from "../utils/provider-component";
 import MovieComponent from "../utils/movie-component";
 import { options,image_base_url } from "src/constante/data";
-import { UseGetTmDbData, UseGetTmDbDataCombined, UseGetTmDbPersonAndMovieGenre } from "src/hooks/pages-hook";
-import { useParams } from "react-router-dom";
+
+import { Link, useParams } from "react-router-dom";
 import { formatGenre, getTime, mapOtherMovieInOnTable, mapToTable } from "src/util-function/fontions";
+import { useEffect, useState } from "react";
+import { UseGetTmDbDataCombined, UseGetTmDbPersonAndMovieGenre } from "src/api/film";
 
 
 export const cast:any[] = [{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"}];
@@ -21,68 +23,123 @@ export default function FilmDetail(){
   const headers = options;
   const urlFilmProvider = `https://api.themoviedb.org/3/movie/${id}/watch/providers`;
   
-  const {data,error,loading} = UseGetTmDbDataCombined(url,urlFilmProvider,headers);
-  console.log('data',data);
-  const cast = data?.filmDetail?.credits.cast;
-  const crew = data?.filmDetail?.credits.crew;
-  const catId = data?.filmDetail?.genres[0].id;
-  let authorName = '';
+
+  const [info,setInfo] = useState<any>(null)
+  const [cast,setCast] = useState<any>('')
+  const [crew,setCrew] = useState<any>('')
+  const [catId,setCatId] = useState<any>()
+  const [listProvider,setProvider] = useState<any[]>([])
+  const [listMovie,setListMovie] = useState<any[]>([])
+  const [listAuthorMovie,setListAuthorMovie] = useState<any[]>([])
+  const [loading,setLoading] = useState(true);
+  const [error,setError] = useState<unknown>(null);
+  const [loading1,setLoading1] = useState(true);
+  const [error1,setError1] = useState<unknown>(null);
+  const [data,setData] = useState<any>(null);
+  const [castList,setCastList] = useState<any[]>([]);
+  const [authorName,setAuthorName] = useState('')
+  const [authorId,setAuthorId] = useState(0)
+  
+  //console.log('data',data);
+  
+  
   console.log('cast',cast);
   let actName = cast ? cast[0].name : ''
   let actId = cast ? cast[0].id : 0;
   let traillerLink = '';
   let traillerName = '';
-  data?.filmDetail?.videos.results.forEach((v:any)=>{
-    if (v.site === "YouTube") {
-      traillerLink = "https://www.youtube.com/embed/"+v.key;
-      traillerName = v.name;
-    }
-  })
+  //console.log("actName",actName,"authorName",authorName)
   let trallerLink = '';
-  const castList = cast?.map((c:any,index:number)=>{
-    return <Cast key={c.name+'_'+index} castData={c}/>
-  })
-  const provider:any = mapToTable(data?.filmProvider.results);
-  const listProvider:any[] = provider.map((p:any,index:number)=>{
-    return <CardProvider key={index} cardData={p} />
-  })
-  console.log('traller link',data?.filmProvider.results);
-  let authorId = 0;
-  const info = {
-      name : data?.filmDetail?.original_title,
-      year : data?.filmDetail?.release_date.split('-')[0]+' - '+getTime(data?.filmDetail?.runtime),
-      director : "Directed by "+getDirector(crew).join(', '),
-      genre : formatGenre(data?.filmDetail?.genres).join(', '),
-      rate : data?.filmDetail?.vote_average,
-      country : data?.filmDetail?.origin_country.join(','),
-      shortDes : data?.filmDetail?.overview.split(' ',52).join(' '),
-      description : data?.filmDetail?.overview,
-      unlike : "5%",
-      like : "95%",
-      classUnlike : "w-[5%]",
-      classLike : "w-[95%]",
-  }
+  
+
   const urlFilmGenre = catId ? `https://api.themoviedb.org/3/discover/movie?with_genres=${catId}&language=fr`:'';
   
   const authorUrl:string = authorId ? `https://api.themoviedb.org/3/person/${authorId}/movie_credits?language=fr`: actId ? `https://api.themoviedb.org/3/person/${actId}/movie_credits?language=fr`:`https://api.themoviedb.org/3/person/182001/movie_credits?language=fr`;
-  const {data:movieData,error:movieGenreError,loading:movieGenreLoading} = UseGetTmDbPersonAndMovieGenre(urlFilmGenre,authorUrl,headers);
-  console.log('filmGenre',movieData,catId,authorName)
-  const listMovie:any[] = movieData?.filmGenre.results.map((m:any,index:number)=>{
-    return <MovieCard key={index} cardData={m} link={`../film/${m.id}`}/>
-  })
-  
-  const listAuthorMovie:any = mapOtherMovieInOnTable(movieData?.otherFilm).map((movie:any,index:number)=> {
-    return <MovieCard key={index} cardData={movie} link={`../film/${movie.id}`}/>
-  })
-  console.log('authorId',movieData)
   
   function getDirector(crew:any[]=[]){
-    const data = crew ? crew.filter((c:any)=>c.job === 'Director'): [];
-    authorId = data[0]?.id;
-    authorName = data[0]?.name;
+    const data = crew ? crew.filter((c:any)=>c.job === 'Director' || c.job.toLowerCase().includes('Director'.toLowerCase()) || c.job.toLowerCase().includes('Assistant Director'.toLowerCase())): [];
+    setAuthorName(data[0]?.original_name || data[0]?.name)
+    setAuthorId(data[0]?.id)
     return data.map((d)=>d.name);
   }
+
+  const percentFomTen = (value:number)=>{
+    return value * 100 / 10
+  }
   
+  useEffect(()=>{
+    const loadMovieDetail = async()=>{
+      const {data,error,loading} = await UseGetTmDbDataCombined(url,urlFilmProvider,headers);
+      console.log("filmdata",data)
+      setError(error)
+      setLoading(loading)
+      console.log("")
+      const filmDetail = data ? data[0] : null
+      const filmProvider = data ? data[1] : null
+      setData(filmDetail)
+      const cast = filmDetail?.credits.cast;
+      const crew = filmDetail?.credits.crew;
+      const catId = filmDetail?.genres[0].id;
+      setCastList((prev)=>{
+        return cast?.map((c:any,index:number)=>{
+          return <Cast key={c.name+'_'+index} castData={c}/>
+        })
+      })
+      //setCast(cast)
+      setCatId(catId)
+      setCrew(crew)
+      console.log('directed',getDirector(crew))
+      const info = {
+        name : filmDetail?.original_title,
+        year : filmDetail?.release_date.split('-')[0]+' - '+getTime(filmDetail?.runtime),
+        director : "Directed by "+getDirector(crew).join(', '),
+        genre : formatGenre(filmDetail?.genres).join(', '),
+        rate : filmDetail?.vote_average,
+        country : filmDetail?.origin_country.join(','),
+        shortDes : filmDetail?.overview.split(' ',52).join(' '),
+        description : filmDetail?.overview,
+        unlike : (100 - percentFomTen(filmDetail?.vote_average)).toFixed(2)+"%",
+        like : percentFomTen(filmDetail?.vote_average)+"%",
+        classUnlike : (100 - percentFomTen(filmDetail?.vote_average)).toFixed(2),
+        classLike : percentFomTen(filmDetail?.vote_average),
+        vote_count : filmDetail?.vote_count
+      }
+      setInfo(info)
+      filmDetail?.videos.results.forEach((v:any)=>{
+        if (v.site === "YouTube") {
+          traillerLink = "https://www.youtube.com/embed/"+v.key;
+          traillerName = v.name;
+        }
+      })
+      
+      const provider:any = mapToTable(filmProvider.results ?? []);
+      setProvider((prev)=>{
+        return provider.map((p:any,index:number)=>{
+          return <CardProvider key={index} cardData={p} />
+        })
+      })
+    }
+    const loadMovieGenre = async()=>{
+      const {data,error,loading} = await UseGetTmDbPersonAndMovieGenre(urlFilmGenre,authorUrl,headers);
+      setLoading1(loading)
+      setError1(error)
+      console.log("genre",data)
+      const filmGenre = data ? data[0] : null
+      const otherFilm = data ? data[1] : null
+      setListMovie((prev)=>{
+        return filmGenre?.results.map((m:any,index:number)=>{
+          return <MovieCard key={index} cardData={m} link={`../film/${m.id}`}/>
+        })
+      })
+      setListAuthorMovie((prev)=>{
+        return mapOtherMovieInOnTable(otherFilm).map((movie:any,index:number)=> {
+          return <MovieCard key={index} cardData={movie} link={`../film/${movie.id}`}/>
+        })
+      })
+    }
+    loadMovieDetail()
+    loadMovieGenre()
+  },[urlFilmProvider,url,urlFilmGenre,authorUrl])
   
   const responsive = [
     {
@@ -149,29 +206,32 @@ export default function FilmDetail(){
     return (
         <div className="bg-black">
           {
-            !loading ? !error ? <Poster mask={process.env.PUBLIC_URL+'/assets/images/cover.svg'} poster={image_base_url+data?.filmDetail?.poster_path} info={info}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+            !loading ? !error ? <Poster mask={process.env.PUBLIC_URL+'/assets/images/cover.svg'} poster={image_base_url+data?.poster_path} info={info}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
           }
           
             <div className="cast mx-auto my-5 w-[90vw] z-10 relative">
-              <h3 className="mb-10 text-white text-[1.6em] bold text-center max-730:mx-5">Casting de {data?.filmDetail?.original_title}</h3>
+              <h3 className="mb-10 text-white text-[1.6em] bold text-center max-730:mx-5">Casting de {data?.original_title}</h3>
               {
                 !loading ? !error ? <CastComponent castList={castList} responsive={responsive}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
               }
               
             </div>
             {
-                !loading ? !error ? traillerLink ? <div className="z-10 relative w-full flex items-center justify-center flex-col"><div><h3 className="mb-5 mt-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de ce film</h3><iframe className="w-[50vw] h-[350px]" src={traillerLink} title={traillerName} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe><h5 className=" text-yellow text-[1.2em] bold my-2">{data?.filmDetail?.original_title}</h5>
-                <p className="text-second-white mb-5">Trailler</p></div></div> : <div className="trailler mx-auto my-5 w-[90vw] z-10 relative flex flex-col items-center justify-center">
-                <h3 className="mb-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de ce film</h3>
-                <div className="poster cursor-pointer">
-                  <img className="w-auto max-700:w-[75vw]" src={image_base_url+data?.filmDetail?.backdrop_path} alt="poster" />
-                  <h5 className=" text-yellow text-[1.2em] bold my-2">{data?.filmDetail?.original_title}</h5>
-                  <p className="text-second-white">Trailler</p>
+                !loading ? !error ? traillerLink ? <div className="my-10 z-10 relative w-full flex items-center justify-center flex-col"><div><h3 className="mb-5 mt-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de {data?.original_title}</h3><iframe className="w-[50vw] h-[350px]" src={traillerLink} title={traillerName} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe><h5 className=" text-yellow text-[1.2em] bold my-2">{data?.original_title}</h5>
+                <p className="text-second-white mb-5">Trailler</p></div></div> : <div className="my-10 trailler mx-auto w-[90vw] z-10 relative flex flex-col items-center justify-center">
+                <h3 className="mb-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de {data?.original_title}</h3>
+                <div className="w-full flex justify-center items-center">
+                  <div className="poster w-full min-w-[280px] max-w-[720px] h-[350px] cursor-pointer bg-black flex justify-center items-center flex-col relative">
+                    <img className="w-auto h-auto" src={image_base_url+data?.backdrop_path} alt="poster" />
+                    <h5 className=" text-yellow text-[1.2em] bold my-2">{data?.original_title}</h5>
+                    <p className="text-yellow-white">Trailler</p>
+                    <Link target="_blanc" className="absolute top-3 right-3 py-1 px-3 bg-yellow text-black rounded-lg text-[11px]" to={`https://www.themoviedb.org/movie/${id}-${data?.original_title?.toLowerCase().replaceAll(" ","-")}/watch`}>Preview</Link>
+                  </div>
                 </div>
               </div> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader z-10 after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
             }
             <div className="my-5 mx-auto w-[90vw] z-10 relative mb-5">
-                <h3 className="text-white text-[1.75em] medium mb-9 text-center">Service de streaming pour ce film</h3>
+                <h3 className="text-white text-[1.75em] medium mb-9 text-center">Service de streaming pour {data?.original_title}</h3>
                 {
                   !loading ? !error ? <ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=" left-0 " right=" right-0 " movieType="film"/> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                 }
@@ -182,14 +242,14 @@ export default function FilmDetail(){
                 <p className="text-white medium ml-[5vw] max-730:text-center max-730:mx-5">Parcourez les filmes qui pouraient correspondre à vos critères.</p>
               </div>
               <div className="w-[70%] max-730:w-full">{
-                !movieGenreLoading ? !movieGenreError ? <MovieComponent listMovie={listMovie}/> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                !loading1 ? !error1 ? <MovieComponent listMovie={listMovie}/> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
               }</div>
             </div>
             <div className="relative my-5 z-10">
               <h3 className="text-white text-[1.75em] ml-[5vw] mb-8 max-730:text-center max-730:ml-0">Autre filmes avec {authorName?authorName:actName}</h3>
               <div className="ml-[5vw] max-730:mx-5">
                 {
-                  !movieGenreLoading ? !movieGenreError ? <OtherMovie listMovie={listAuthorMovie}/> : <div className="w-full"><p className="text-left">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                  !loading1 ? !error1 ? <OtherMovie listMovie={listAuthorMovie}/> : <div className="w-full"><p className="text-left">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                 }
               </div>
             </div>

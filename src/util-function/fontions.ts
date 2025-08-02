@@ -1,15 +1,6 @@
 import axios from "axios";
 type DataType = Record<string, any>;
-export async function getTMDBMovie(url:string,headers:DataType){
-    try {
-        const response = await axios.get(url,{headers});
-        console.log('url from',response.data)
-        return response.data
-    } catch (error) {
-        console.log('error',error);
-        return null;
-    }
-}
+
 export async function SearchMovie(url:string[],headers:DataType){
     const request = url.map(u=>axios.get(u,{headers:headers}));
     try {
@@ -104,5 +95,21 @@ export function formatGenre(genre:any[]=[]){
 export function getDirector(crew:any[]=[]){
     const data = crew ? crew.filter((c:any)=>c.job === 'Director'): [];
     return data.map((d)=>d.name);
+}
+
+export const fetchData = async (url:string[],headers:DataType)=> {
+    const request = url.map(u=>axios.get(u,{headers:headers}));
+    try {
+        const response = await Promise.all(request);
+        const tmpData = response.map(r=>r.data);
+        return {data:tmpData,error:null,loading:false}
+    } catch (error) {
+        return {data:null,error:error,loading:false}
+    }
+};
+
+export async function UseGetMovie(url:string[],headers:DataType){
+    const data = await fetchData(url,headers);
+    return data
 }
   

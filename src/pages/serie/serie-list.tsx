@@ -1,11 +1,12 @@
 import { Link, useParams } from "react-router-dom"
 import Teaser from "../utils/teaser";
 import { options,image_base_url } from "src/constante/data";
-import { UseGetTmDbData } from "src/hooks/pages-hook";
+
 import { useEffect, useState } from "react";
-import { getTMDBMovie } from "src/util-function/fontions";
+
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SerieDetailCard from "../utils/serie-detail-card";
+import { getTMDBMovie, UseGetTmDbData } from "src/api/film";
 
 export default function SerieList(){
     const {name,id} = useParams();
@@ -13,11 +14,13 @@ export default function SerieList(){
     const catUrl = cat;
     const headers = options;
     const [currentPage,setCurrentPage] = useState<number | null>(null)
+    const [loading,setLoading] = useState(true);
+    const [error,setError] = useState<unknown>(null);
     const [totalPage,setTotalPage] = useState<number | null>(null)
     const [movieListData,setMovieListData] = useState<any[]>([])
     cat = id === 'airing_today'? 'Series diffuséés aujourd\'hui' : id === 'top_rated' ? 'Series mieux notés' : id === 'popular' ? 'Series populaires' : 'Toutes nos Séries '+cat+' en Streaming ';
     const url = id === 'airing_today' || id === 'top_rated' || id === 'popular' ? `https://api.themoviedb.org/3/tv/${id}?language=fr-FR`:`https://api.themoviedb.org/3/discover/tv?with_genres=${id}&language=fr`;
-    const {data,error,loading} = UseGetTmDbData(url,headers);
+   
     const movieList:any[] = movieListData.length > 0 ? movieListData.map((d:any,index:number)=>{
         return <SerieDetailCard key={index+'_'+d.original_title} data={d} type="serie"/>
     }) : [];
@@ -34,13 +37,19 @@ export default function SerieList(){
         }
     }
     useEffect(()=>{
-        if (data) {
-            setMovieListData(data.results)
-            setTotalPage(data?.total_pages)
-            setCurrentPage(data?.page);
-            console.log('new data data',data)
+        const loadSerieData = async()=>{
+            const {data,error,loading} = await UseGetTmDbData(url,headers)
+            setError(error);
+            setLoading(loading)
+            if (data) {
+                setMovieListData(data.results)
+                setTotalPage(data?.total_pages)
+                setCurrentPage(data?.page);
+                console.log('new data data',data)
+            }
         }
-    },[data])
+        loadSerieData()
+    },[url])
     if (error) {
         return (
             <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)]"><h4 className="text-black bold text-[2em]">Problème avec le serveur TMDB</h4><p className="text-black">Veuillez nous excuser, car nous rencontrons un problème avec TMDB. Nous vous prions de patienter quelques minutes et de réessayer.</p></div>

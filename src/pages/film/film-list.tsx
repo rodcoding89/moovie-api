@@ -3,10 +3,10 @@ import Teaser from "../utils/teaser";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { options,image_base_url } from "src/constante/data";
-import { UseGetTmDbData } from "src/hooks/pages-hook";
 import MovieDetailCard from "../utils/movie-detail-card";
 import { useEffect, useState } from "react";
-import { getTMDBMovie } from "src/util-function/fontions";
+
+import { getTMDBMovie, UseGetTmDbData } from "src/api/film";
 
 export default function FilmList(){
     const {name,id} = useParams();
@@ -14,12 +14,14 @@ export default function FilmList(){
     const [currentPage,setCurrentPage] = useState<number | null>(null)
     const [totalPage,setTotalPage] = useState<number | null>(null)
     const [movieListData,setMovieListData] = useState<any[]>([])
+    const [loading,setLoading] = useState(true);
+    const [error,setError] = useState<unknown>(null);
     const headers = options;
     const catUrl = cat;
     cat = id === 'upcoming'? 'Les films à venir' : id === 'top_rated' ? 'Les films mieux notés' : id === 'now_playing' ? 'Les film actuellement en salle' : id === 'popular' ? 'Les films populaires' : 'Catégorie '+cat;
     const url = id === 'upcoming' || id === 'top_rated' || id === 'now_playing' || id === 'popular' ? `https://api.themoviedb.org/3/movie/${id}?language=fr-FR`:`https://api.themoviedb.org/3/discover/movie?with_genres=${id}&language=fr`;
-    let { data, loading, error } = UseGetTmDbData(url,headers);
-    console.log('filmdata',data)
+    
+    
     const movieList:any[] = movieListData.length > 0 ? movieListData.map((d:any,index:number)=>{
         return <MovieDetailCard key={index+'_'+d.original_title} data={d} type="film"/>
     }) : [];
@@ -36,13 +38,19 @@ export default function FilmList(){
         }
     }
     useEffect(()=>{
-        if (data) {
-            setMovieListData(data.results)
-            setTotalPage(data?.total_pages)
-            setCurrentPage(data?.page);
-            console.log('new data data',data)
+        const loadFilmData = async()=>{
+            const {data,error,loading} = await UseGetTmDbData(url,headers)
+            setError(error);
+            setLoading(loading)
+            if (data) {
+                setMovieListData(data.results)
+                setTotalPage(data?.total_pages)
+                setCurrentPage(data?.page);
+                console.log('new data data',data)
+            }
         }
-    },[data])
+        loadFilmData();
+    },[url])
     if (error) {
         return (
             <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)]"><h4 className="text-black bold text-[2em]">Problème avec le serveur TMDB</h4><p className="text-black">Veuillez nous excuser, car nous rencontrons un problème avec TMDB. Nous vous prions de patienter quelques minutes et de réessayer.</p></div>
