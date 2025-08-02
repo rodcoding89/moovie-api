@@ -48,9 +48,9 @@ export default function Season(){
         description : data?.overview,
         time : getTime(data?.episode_run_time[0]),
         unlike : (100 - percentFomTen(data?.vote_average)).toFixed(2)+"%",
-        like : percentFomTen(data?.vote_average)+"%",
+        like : percentFomTen(data?.vote_average).toFixed(2)+"%",
         classUnlike : (100 - percentFomTen(data?.vote_average)).toFixed(2),
-        classLike : percentFomTen(data?.vote_average),
+        classLike : percentFomTen(data?.vote_average).toFixed(2),
         vote_count : data?.vote_count
     }
     const castList = cast?.map((c:any,index:number)=>{

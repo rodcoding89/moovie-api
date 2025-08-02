@@ -99,9 +99,9 @@ export default function FilmDetail(){
         shortDes : filmDetail?.overview.split(' ',52).join(' '),
         description : filmDetail?.overview,
         unlike : (100 - percentFomTen(filmDetail?.vote_average)).toFixed(2)+"%",
-        like : percentFomTen(filmDetail?.vote_average)+"%",
+        like : percentFomTen(filmDetail?.vote_average).toFixed(2)+"%",
         classUnlike : (100 - percentFomTen(filmDetail?.vote_average)).toFixed(2),
-        classLike : percentFomTen(filmDetail?.vote_average),
+        classLike : percentFomTen(filmDetail?.vote_average).toFixed(2),
         vote_count : filmDetail?.vote_count
       }
       setInfo(info)
@@ -112,7 +112,7 @@ export default function FilmDetail(){
         }
       })
       
-      const provider:any = mapToTable(filmProvider.results ?? []);
+      const provider:any[] = mapToTable(filmProvider.results ?? []);
       setProvider((prev)=>{
         return provider.map((p:any,index:number)=>{
           return <CardProvider key={index} cardData={p} />
@@ -124,18 +124,22 @@ export default function FilmDetail(){
       setLoading1(loading)
       setError1(error)
       console.log("genre",data)
-      const filmGenre = data ? data[0] : []
+      const filmGenre = data ? data[0] : null
       const otherFilm = data ? data[1] : []
-      setListMovie((prev)=>{
-        return filmGenre?.results.map((m:any,index:number)=>{
-          return <MovieCard key={index} cardData={m} link={`../film/${m.id}`}/>
+      if (filmGenre && filmGenre.results) {
+        setListMovie((prev)=>{
+        return filmGenre?.results?.map((m:any,index:number)=>{
+            return <MovieCard key={index} cardData={m} link={`../film/${m.id}`}/>
+          })
         })
-      })
-      setListAuthorMovie((prev)=>{
+      }
+      if (otherFilm.length > 0) {
+        setListAuthorMovie((prev)=>{
         return mapOtherMovieInOnTable(otherFilm).map((movie:any,index:number)=> {
-          return <MovieCard key={index} cardData={movie} link={`../film/${movie.id}`}/>
-        })
-      })
+            return <MovieCard key={index} cardData={movie} link={`../film/${movie.id}`}/>
+          })
+        }) 
+      }
     }
     loadMovieDetail()
     loadMovieGenre()
@@ -242,14 +246,14 @@ export default function FilmDetail(){
                 <p className="text-white medium ml-[5vw] max-730:text-center max-730:mx-5">Parcourez les filmes qui pouraient correspondre à vos critères.</p>
               </div>
               <div className="w-[70%] max-730:w-full">{
-                !loading1 ? !error1 ? <MovieComponent listMovie={listMovie}/> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                !loading1 ? !error1 && listMovie.length > 0 ? <MovieComponent listMovie={listMovie}/> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
               }</div>
             </div>
             <div className="relative my-5 z-10">
               <h3 className="text-white text-[1.75em] ml-[5vw] mb-8 max-730:text-center max-730:ml-0">Autre filmes avec {authorName?authorName:actName}</h3>
               <div className="ml-[5vw] max-730:mx-5">
                 {
-                  !loading1 ? !error1 ? <OtherMovie listMovie={listAuthorMovie}/> : <div className="w-full"><p className="text-left">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                  !loading1 ? !error1 && listAuthorMovie.length > 0 ? <OtherMovie listMovie={listAuthorMovie}/> : <div className="w-full"><p className="text-left">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                 }
               </div>
             </div>
