@@ -118,14 +118,14 @@ export default function Season(){
     //console.log('seasData',seasonList,seasData)
     
     return (
-        <div className="w-[100%] mx-auto flex max-885:flex-col">
-            <div className="w-[20%] fixed bg-black max-885:w-full max-885:relative h-[calc(100vh-140px)] bottom-0">
+        <div className="w-[100%] mx-auto flex max-885:flex-col mt-[140px]">
+            <div className="w-[20%] relative bg-black max-885:w-full max-885:bottom-[unset] bottom-0">
                 <h4 className="text-yellow text-center text-ellipsis whitespace-nowrap overflow-hidden bg-[#1a1a1a] py-4 px-2 h-[64px]">DERNIERS ÉPISODES AJOUTÉS</h4>
-                <div className="flex gap-y-5 flex-col px-5 max-885:flex-row max-885:flex-wrap max-885:gap-x-5 max-885:px-5 py-5 max-885:justify-center max-885:mb-10 h-[calc(100vh-204px)] overflow-y-auto">
+                <div className="flex gap-y-5 flex-col px-5 max-885:items-start max-885:gap-x-5 max-885:px-5 py-5 max-885:justify-center max-885:mb-10 overflow-y-auto h-[calc(100vh-204px)] max-885:h-[400px]">
                     {
                         !loading1 ? !error1 ? lastAddedSerie?.map((l:any,i:number)=>{
                             return(
-                                <Link key={i+"_"+l.details.original_title ? l.details.original_title : l.details.name+"_"+i} to={'../serie/'+l.details.id}>
+                                <Link className="w-fit" key={i+"_"+l.details.original_title ? l.details.original_title : l.details.name+"_"+i} to={'../serie/'+l.details.id}>
                                   <div className="flex justify-start items-start gap-5 max-885:flex-col">
                                     <img className="w-[80px] h-[80px] object-cover" src={image_base_url+l.details.poster_path} alt={l.details.original_title ? l.details.original_title : l.details.name} />
                                     <div className="flex-1">
@@ -140,7 +140,7 @@ export default function Season(){
                     }
                 </div>
             </div>
-            <div className="w-[80%] bg-[#1a1a1a] max-885:w-full ml-[20%] max-885:ml-0">
+            <div className="w-[80%] bg-[#1a1a1a] max-885:w-full">
                 <div className="relative mt-[-38px]">
                   {
                     !loading ? !error ? <PostSerie backImg={image_base_url+data?.poster_path} seriePostUrl={image_base_url+data?.poster_path} serieInfo={serieInfo}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
@@ -150,7 +150,7 @@ export default function Season(){
                     <h3 className=" text-yellow text-[1.6em] bold mb-10 max-480:text-center">Casting de {data?.original_title ? data?.original_title : data?.name}</h3>
                     <div className="w-[100%] max-885:w-full">
                       {
-                        !loading ? !error ? <CastComponent castList={castList} responsive={[]}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                        !loading ? !error ? <div className="max-885: px-5"><CastComponent castList={castList} responsive={[]}/></div> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                       }
                       </div>
                 </div>

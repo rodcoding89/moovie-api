@@ -33,7 +33,7 @@ export default function Search(){
                 <i className="fa fa-search text-lg" aria-hidden="true"></i>
             </span>
             {
-                (searchData !== null && showSearch) && <div className="h-[400px] w-full max-w-[700px] max-730:w-[50vw] max-430:!w-[75vw] bg-[#ccc] overflow-y-auto absolute top-[40px] max-700:top-[180px] right-0 max-700:right-[unset] max-700:left-1/2 max-700:-translate-x-1/2">
+                (searchData !== null && showSearch) && <div className="h-[400px] w-full max-w-[700px] max-730:w-[50vw] max-430:!w-[75vw] bg-[#ccc] overflow-y-auto absolute top-[100px] max-700:top-[180px] right-5 max-700:right-[unset] max-700:left-1/2 max-700:-translate-x-1/2">
                     {
                         searchData[0] && 
                             <div className="p-3"><span className="block text-center mt-2 mb-5 text-black">Films</span>

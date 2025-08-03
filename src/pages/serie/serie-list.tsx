@@ -56,11 +56,11 @@ export default function SerieList(){
         )
     }
     return (
-        <div className="content">
+        <div className="content relative">
             <section className="bg-black absolute top-0 left-0 h-[100vh] w-full">
                 <Teaser teaserImg={process.env.PUBLIC_URL+'/assets/images/'+catUrl+'.jpg'} description="Bienvenue au bord de votre siège, car il est temps de plonger dans l'action. Des westerns classiques et films de guerre aux aventures de héros d'action modernes." cat={cat}/>
             </section>
-            <section className="mt-[calc(100vh-100px)]">
+            <section className="pt-[110vh]">
                 {
                     !loading ? <div className="flex justify-center items-center gap-7 flex-wrap mx-[5vw] my-10">
                     <InfiniteScroll

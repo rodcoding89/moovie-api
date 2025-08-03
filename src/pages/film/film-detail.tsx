@@ -79,7 +79,7 @@ export default function FilmDetail(){
       setData(filmDetail)
       const cast = filmDetail?.credits.cast;
       const crew = filmDetail?.credits.crew;
-      const catId = filmDetail?.genres[0].id;
+      const catId = filmDetail?.genres[0]?.id ?? 0;
       setCastList((prev)=>{
         return cast?.map((c:any,index:number)=>{
           return <Cast key={c.name+'_'+index} castData={c}/>
@@ -90,7 +90,7 @@ export default function FilmDetail(){
       setCrew(crew)
       console.log('directed',getDirector(crew))
       const info = {
-        name : filmDetail?.original_title,
+        name : filmDetail?.original_title || filmDetail?.name || "",
         year : filmDetail?.release_date.split('-')[0]+' - '+getTime(filmDetail?.runtime),
         director : "Directed by "+getDirector(crew).join(', '),
         genre : formatGenre(filmDetail?.genres).join(', '),
@@ -145,68 +145,6 @@ export default function FilmDetail(){
     loadMovieGenre()
   },[urlFilmProvider,url,urlFilmGenre,authorUrl])
   
-  const responsive = [
-    {
-      breakpoint: 2500,
-      settings: {
-        slidesToShow: 10,
-      }
-    },
-    {
-        breakpoint: 1820,
-        settings: {
-          slidesToShow: 9,
-        }
-      },
-    {
-        breakpoint: 1638,
-        settings: {
-          slidesToShow: 8,
-        }
-      },
-    {
-      breakpoint: 1456,
-      settings: {
-        slidesToShow: 7,
-      }
-    },
-    {
-      breakpoint: 1274,
-      settings: {
-        slidesToShow: 6,
-      }
-    },
-    {
-        breakpoint: 1092,
-        settings: {
-          slidesToShow: 5,
-        }
-    },
-    {
-        breakpoint: 910,
-        settings: {
-          slidesToShow: 4,
-        }
-    },
-    {
-        breakpoint: 728,
-        settings: {
-          slidesToShow: 3,
-        }
-    },
-    {
-        breakpoint: 546,
-        settings: {
-          slidesToShow: 2,
-        }
-    },
-    {
-        breakpoint: 364,
-        settings: {
-          slidesToShow: 1,
-        }
-    }
-]
     return (
         <div className="bg-black">
           {
@@ -216,7 +154,7 @@ export default function FilmDetail(){
             <div className="cast mx-auto my-5 w-[90vw] z-10 relative">
               <h3 className="mb-10 text-white text-[1.6em] bold text-center max-730:mx-5">Casting de {data?.original_title}</h3>
               {
-                !loading ? !error ? <CastComponent castList={castList} responsive={responsive}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                !loading ? !error ? <div className="max-885: px-5"><CastComponent castList={castList} responsive={[]}/></div> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
               }
               
             </div>
@@ -225,7 +163,7 @@ export default function FilmDetail(){
                 <p className="text-second-white mb-5">Trailler</p></div></div> : <div className="my-10 trailler mx-auto w-[90vw] z-10 relative flex flex-col items-center justify-center">
                 <h3 className="mb-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de {data?.original_title}</h3>
                 <div className="w-full flex justify-center items-center">
-                  <div className="poster w-full min-w-[280px] max-w-[720px] h-fit py-10 bg-black flex justify-center items-center flex-col relative">
+                  <div className="poster w-full min-w-[280px] max-w-[720px] h-fit py-[50px] bg-black flex justify-center items-center flex-col relative">
                     <img className="w-auto h-auto" src={image_base_url+data?.poster_path} alt="poster" />
                     <h5 className=" text-yellow text-[1.2em] bold my-2">{data?.original_title}</h5>
                     <p className="text-yellow-white">Trailler</p>
@@ -237,7 +175,7 @@ export default function FilmDetail(){
             <div className="my-5 mx-auto w-[90vw] z-10 relative mb-5">
                 <h3 className="text-white text-[1.75em] medium mb-9 text-center">Service de streaming pour {data?.original_title}</h3>
                 {
-                  !loading ? !error ? <ProviderComponent listProvider={listProvider} buttonStyle="w-10 h-10 rounded-full hover:bg-yellow" iconStyle="text-yellow group-hover/inner:text-black" movieType="film"/> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                  !loading ? !error ? <div className="max-885:px-5"><ProviderComponent listProvider={listProvider} buttonStyle="w-10 h-10 rounded-full hover:bg-yellow" iconStyle="text-yellow group-hover/inner:text-black" movieType="film"/></div> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                 }
             </div>
             <div className="relative mx-auto z-10 w-[100%] mt-[50px] mb-10 flex gap-x-5 items-start max-730:flex-col">
@@ -251,7 +189,7 @@ export default function FilmDetail(){
             </div>
             <div className="relative my-5 z-10">
               <h3 className="text-white text-[1.75em] ml-[5vw] mb-8 max-730:text-center max-730:ml-0">Autre filmes avec {authorName?authorName:actName}</h3>
-              <div className="ml-[5vw] max-730:mx-5">
+              <div className="ml-[5vw] max-730:ml-0">
                 {
                   !loading1 ? !error1 && listAuthorMovie.length > 0 ? <MovieComponent listMovie={listAuthorMovie} carouselType="list" gap={30}/> : <div className="w-full"><p className="text-left">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                 }

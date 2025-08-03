@@ -38,7 +38,7 @@ export default function Header() {
         return <div>Probleme lors de la recuperation des données.</div>
     }
     return (
-        <header className={`flex items-center justify-between sticky top-0 px-5 py-5 w-full z-20 gap-x-10 ${fullBlack ? 'bg-black' : 'bg-[rgba(0,0,0,.7)]'}`}>
+        <header className={`flex items-center justify-between fixed top-0 left-0 px-5 py-5 w-full z-20 gap-x-10 ${fullBlack ? 'bg-black' : 'bg-[rgba(0,0,0,.7)]'}`}>
             <span><Link to='/'><img src={`${process.env.PUBLIC_URL}/assets/images/logo.png`} className="w-[100px] aspect-square rounded-full max-600:w-[80px]" alt="logo"/></Link></span>
             <div className="navi flex justify-end gap-7 flex-1">
                 <div onClick={()=> setShowNav(!showNav)} className="hamburger-lines h-[26px] w-[32px] absolute top-[50%] translate-y-[-50%] right-[80px] flex-col justify-between hidden max-430:flex">

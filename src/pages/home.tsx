@@ -72,7 +72,7 @@ export default function Home(){
   
   
     return (
-        <div className="">
+        <div className="relative">
             <div className="absolute top-0 left-0 w-full h-[100vh]">
                 <div className="bg-cover bg-no-repeat bg-center brightness-50 h-[100vh]" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/assets/images/home.jpg)`}}></div>
                 <div className="mt-[140px] absolute top-1/2 -translate-y-1/2 left-8 w-2/3 centerAbsoluteTop max-550:w-full max-550:left-5 max-550:right-5">
@@ -80,9 +80,9 @@ export default function Home(){
                     <p className="text-white regular text-2xl max-370:text-[1em]">Découvrez le cinéma sur toutes ses formes, visionnez des series TVs diffusées en ligne gratuitement.</p>
                 </div>
             </div>
-            <div className="mt-[calc(100vh-100px)] flex flex-col items-center justify-center">
+            <div className="pt-[110vh] flex flex-col items-center justify-center">
                 <h3 className="text-yellow text-[1.75em] medium mb-5 mx-5">Service de streaming sur Movie API</h3>
-                <div className='mb-10 w-[80vw]'>{!loading ? <ProviderComponent listProvider={listProvider} iconStyle='text-black' buttonStyle="w-10 h-10 rounded-full hover:bg-yellow" movieType='filme'/> : <div className="w-full flex items-center justify-center"><div className='loader'></div></div>}</div>
+                <div className='mb-10 w-[80vw]'>{!loading ? <div className="max-885:px-5"><ProviderComponent listProvider={listProvider} buttonStyle="w-10 h-10 rounded-full hover:bg-yellow" iconStyle="text-black group-hover/inner:text-black" movieType="film"/></div> : <div className="w-full flex items-center justify-center"><div className='loader'></div></div>}</div>
             </div>
             <div className='bg-black'>
                 <div className='pl-[5vw] py-[5vh] film-popular'>

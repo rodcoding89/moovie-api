@@ -4,10 +4,16 @@ export default function Poster({mask,poster,info}:{mask:string,poster:string,inf
     const [display,setDisplay] = useState(true);
     const [displayMore,setDisplayMore] = useState(false);
     const [textMore,setTextMore] = useState(true);
+    if (!info) {
+        return (
+            <div className="h-[350px] w-full bg-[#aaa] flex justify-center items-center">Aucune donnée pour ce film.</div>
+        )
+    }
+    console.log("info",info)
     return (
         <div>
             <div className="blur fixed z-[0] duration-0 delay-0 ease-in-out inset-0 h-full w-full bg-black"></div>
-            <div className="flex justify-center items-center gap-x-9 relative px-[5vw] max-756:flex-col">
+            <div className="flex justify-center items-center gap-x-9 mt-[140px] relative px-[5vw] max-756:flex-col">
                 <div style={{maskImage:`url(${process.env.PUBLIC_URL}/assets/images/cover.svg)`,WebkitMaskImage:`url(${process.env.PUBLIC_URL}/assets/images/cover.svg)`,maskPosition:'left bottom',WebkitMaskPosition: 'left bottom',maskSize:'100%'}} className="div1 absolute left-0 right-0 top-0 bottom-0 opacity-[.075] w-full h-[400px]"><img className="img1 absolute top-0 left-0 object-cover h-full" src={poster} alt={info.name}/></div>
                 <div className="w-auto py-[5vw] z-10">
                     <img className="img2" src={poster} alt={info.name} />
