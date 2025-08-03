@@ -21,7 +21,7 @@ export default function Poster({mask,poster,info}:{mask:string,poster:string,inf
                     <span className="spanyear text-primaire-white text-[.85em]">{info.country}</span>
                     <p className={display?'shortDes block text-white regular':'hidden text-white'}>{info.shortDes}</p><p className={displayMore?'longDes block text-white regular':'hidden text-white'}>{info.description}</p><span className={displayMore?'imore idown text-yellow cursor-pointer':'imore text-yellow cursor-pointer'} onClick={()=>{setDisplayMore(!displayMore);setDisplay(!display);setTextMore(!textMore)}}>{textMore?'Lire plus':'Réduire'}<i className="fa fa-angle-up ml-2 text-yellow" aria-hidden="true"></i></span>
                 </div>
-                <div className="spectateur z-10 flex-1 max-756:w-full">
+                <div className="spectateur z-10 flex-1 max-756:w-full mt-10">
                     <div className="bloc flex items-center justify-center my-1">
                         <div className='left h-1 bg-green-500 relative' style={{width:info.classLike+'%'}}><span className="absolute left-0 -top-7 text-[12px]">Like</span></div>
                         <div className='right h-1 bg-red-500 relative' style={{width:info.classUnlike+'%'}}><span className="absolute left-0 -top-7 text-[12px]">Unlike</span></div>

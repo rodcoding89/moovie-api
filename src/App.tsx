@@ -9,9 +9,9 @@ import Season from './pages/serie/season';
 import Episode from './pages/serie/episode';
 function App() {
   return (
-    <div className='content'>
+    <div className='content relative'>
       <Header/>
-      <main className='relative'>
+      <main>
         <Routes>
           <Route path='/' element={<Home/>}></Route>
           <Route path='/serie/:id' element={<SerieDetail/>}></Route>

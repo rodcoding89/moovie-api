@@ -225,11 +225,11 @@ export default function FilmDetail(){
                 <p className="text-second-white mb-5">Trailler</p></div></div> : <div className="my-10 trailler mx-auto w-[90vw] z-10 relative flex flex-col items-center justify-center">
                 <h3 className="mb-5 text-white text-[1.6em] bold max-730:text-center max-730:mx-5">Regarder un extrait de {data?.original_title}</h3>
                 <div className="w-full flex justify-center items-center">
-                  <div className="poster w-full min-w-[280px] max-w-[720px] h-[350px] cursor-pointer bg-black flex justify-center items-center flex-col relative">
-                    <img className="w-auto h-auto" src={image_base_url+data?.backdrop_path} alt="poster" />
+                  <div className="poster w-full min-w-[280px] max-w-[720px] h-fit py-10 bg-black flex justify-center items-center flex-col relative">
+                    <img className="w-auto h-auto" src={image_base_url+data?.poster_path} alt="poster" />
                     <h5 className=" text-yellow text-[1.2em] bold my-2">{data?.original_title}</h5>
                     <p className="text-yellow-white">Trailler</p>
-                    <Link target="_blanc" className="absolute top-3 right-3 py-1 px-3 bg-yellow text-black rounded-lg text-[11px]" to={`https://www.themoviedb.org/movie/${id}-${data?.original_title?.toLowerCase().replaceAll(" ","-")}/watch`}>Preview</Link>
+                    <Link target="_blanc" className="absolute top-3 right-3 py-1 px-3 bg-yellow text-black rounded-lg text-[11px]" to={`https://www.themoviedb.org/movie/${id}/watch`}>Preview</Link>
                   </div>
                 </div>
               </div> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader z-10 after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
@@ -237,7 +237,7 @@ export default function FilmDetail(){
             <div className="my-5 mx-auto w-[90vw] z-10 relative mb-5">
                 <h3 className="text-white text-[1.75em] medium mb-9 text-center">Service de streaming pour {data?.original_title}</h3>
                 {
-                  !loading ? !error ? <ProviderComponent listProvider={listProvider} providerStyle={providerStyle} left=" left-0 " right=" right-0 " movieType="film"/> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                  !loading ? !error ? <ProviderComponent listProvider={listProvider} buttonStyle="w-10 h-10 rounded-full hover:bg-yellow" iconStyle="text-yellow group-hover/inner:text-black" movieType="film"/> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                 }
             </div>
             <div className="relative mx-auto z-10 w-[100%] mt-[50px] mb-10 flex gap-x-5 items-start max-730:flex-col">
@@ -246,14 +246,14 @@ export default function FilmDetail(){
                 <p className="text-white medium ml-[5vw] max-730:text-center max-730:mx-5">Parcourez les filmes qui pouraient correspondre à vos critères.</p>
               </div>
               <div className="w-[70%] max-730:w-full">{
-                !loading1 ? !error1 && listMovie.length > 0 ? <MovieComponent listMovie={listMovie}/> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                !loading1 ? !error1 && listMovie.length > 0 ? <MovieComponent listMovie={listMovie} carouselType="list" gap={30}/> : <div className="w-full"><p className="text-center">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
               }</div>
             </div>
             <div className="relative my-5 z-10">
               <h3 className="text-white text-[1.75em] ml-[5vw] mb-8 max-730:text-center max-730:ml-0">Autre filmes avec {authorName?authorName:actName}</h3>
               <div className="ml-[5vw] max-730:mx-5">
                 {
-                  !loading1 ? !error1 && listAuthorMovie.length > 0 ? <OtherMovie listMovie={listAuthorMovie}/> : <div className="w-full"><p className="text-left">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                  !loading1 ? !error1 && listAuthorMovie.length > 0 ? <MovieComponent listMovie={listAuthorMovie} carouselType="list" gap={30}/> : <div className="w-full"><p className="text-left">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                 }
               </div>
             </div>

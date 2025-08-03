@@ -115,86 +115,13 @@ export default function Season(){
       loadSeason()
       loadLastSerieData()
     },[urlLastestSerieAdded,urlSerie])
-    console.log('seasData',seasonList,seasData)
-    const responsive = [
-        {
-          breakpoint: 2500,
-          settings: {
-            slidesToShow: 9,
-          }
-        },
-        {
-            breakpoint: 1820,
-            settings: {
-              slidesToShow: 8,
-            }
-          },
-        {
-            breakpoint: 1638,
-            settings: {
-              slidesToShow: 7,
-            }
-          },
-        {
-          breakpoint: 1456,
-          settings: {
-            slidesToShow: 6,
-          }
-        },
-        {
-          breakpoint: 1274,
-          settings: {
-            slidesToShow: 5,
-          }
-        },
-        {
-            breakpoint: 1092,
-            settings: {
-              slidesToShow: 4,
-            }
-        },
-        {
-            breakpoint: 910,
-            settings: {
-              slidesToShow: 3,
-            }
-        },
-        {
-            breakpoint: 885,
-            settings: {
-              slidesToShow: 5,
-            }
-        },
-        {
-            breakpoint: 750,
-            settings: {
-              slidesToShow: 4,
-            }
-        },
-        {
-            breakpoint: 610,
-            settings: {
-              slidesToShow: 3,
-            }
-        },
-        {
-            breakpoint: 450,
-            settings: {
-              slidesToShow: 2,
-            }
-        },
-        {
-          breakpoint: 350,
-          settings: {
-            slidesToShow: 1,
-          }
-      }
-    ]
+    //console.log('seasData',seasonList,seasData)
+    
     return (
         <div className="w-[100%] mx-auto flex max-885:flex-col">
-            <div className="w-[20%] bg-black max-885:w-full">
-                <h4 className="text-yellow text-center mb-10 bg-[#0c0c0c] py-4 px-2">DERNIERS ÉPISODES AJOUTÉS</h4>
-                <div className="flex gap-y-5 flex-col mx-5 max-885:flex-row max-885:flex-wrap max-885:gap-x-5 max-885:mx-5 max-885:justify-center max-885:mb-10">
+            <div className="w-[20%] fixed bg-black max-885:w-full max-885:relative h-[calc(100vh-140px)] bottom-0">
+                <h4 className="text-yellow text-center text-ellipsis whitespace-nowrap overflow-hidden bg-[#1a1a1a] py-4 px-2 h-[64px]">DERNIERS ÉPISODES AJOUTÉS</h4>
+                <div className="flex gap-y-5 flex-col px-5 max-885:flex-row max-885:flex-wrap max-885:gap-x-5 max-885:px-5 py-5 max-885:justify-center max-885:mb-10 h-[calc(100vh-204px)] overflow-y-auto">
                     {
                         !loading1 ? !error1 ? lastAddedSerie?.map((l:any,i:number)=>{
                             return(
@@ -213,8 +140,8 @@ export default function Season(){
                     }
                 </div>
             </div>
-            <div className="w-[80%] bg-[#1a1a1a] max-885:w-full">
-                <div className="relative">
+            <div className="w-[80%] bg-[#1a1a1a] max-885:w-full ml-[20%] max-885:ml-0">
+                <div className="relative mt-[-38px]">
                   {
                     !loading ? !error ? <PostSerie backImg={image_base_url+data?.poster_path} seriePostUrl={image_base_url+data?.poster_path} serieInfo={serieInfo}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                   }
@@ -223,7 +150,7 @@ export default function Season(){
                     <h3 className=" text-yellow text-[1.6em] bold mb-10 max-480:text-center">Casting de {data?.original_title ? data?.original_title : data?.name}</h3>
                     <div className="w-[100%] max-885:w-full">
                       {
-                        !loading ? !error ? <CastComponent castList={castList} responsive={responsive}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
+                        !loading ? !error ? <CastComponent castList={castList} responsive={[]}/> : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                       }
                       </div>
                 </div>
@@ -234,7 +161,7 @@ export default function Season(){
                 <div className="mx-10 mb-20">
                     <h3 className="text-yellow text-[1.6em] mb-5 bold max-480:text-center">Autres Saisons en Streaming Gratuit</h3>
                     <hr className="border-b-white mb-3"/>
-                    <div className="flex gap-10 items-center justify-center mt-5 flex-wrap">
+                    <div className="flex gap-10 items-center justify-center mt-5 flex-wrap max-h-[700px] overflow-y-auto">
                         {
                           seasonList.length > 0 ? !error ? seasonList : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                         }

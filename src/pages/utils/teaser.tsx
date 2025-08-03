@@ -1,7 +1,7 @@
 document.documentElement.style.setProperty('--bg-mask-url', `url(${process.env.PUBLIC_URL}/assets/images/left-cover.svg)`);
 export default function Teaser({teaserImg,description,cat}:{teaserImg:string,description:string,cat:string}){
     return (
-        <div className="min-h-[300px] flex justify-start items-center max-730:flex-col">
+        <div className="h-full flex justify-start items-center max-730:flex-col">
             <div className="min-730:left-[unset] min-730:right-0 absolute h-full min-730:w-[64%] max-mask min-mask max-730:w-full max-730:relative max-730:h-[350px]">
                 <img className="absolute w-full h-full left-0 top-0" src={teaserImg} alt={cat} />
             </div>

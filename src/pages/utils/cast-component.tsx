@@ -1,19 +1,8 @@
-import { useState } from "react";
-import MovieSlider from "./slick";
-const castStyle = ' text-white w-10 h-10 rounded-full hover:bg-yellow hover:text-black ';
+
+import Carousel from "src/util/carousel/carousel";
+
 export default function CastComponent({castList=[],responsive}:{castList:any[],responsive:any[]}){
-    const [castActuelItem,setCastActuelItem] = useState(0);
-    const castSettings = {
-        dots: false,
-        infinite: true,
-        arrows: false,
-        speed: 500,
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        beforeChange: (current:any, next:number) => setCastActuelItem(next),
-        responsive: responsive
-    };
     return (
-        <MovieSlider settings={castSettings} data={castList} width={'w-[100%]'} providerStyle={castStyle} left=' left-[-25px] max-730:left-[-5px] ' right=' right-[-25px] max-730:right-[-5px] ' currentItem={castActuelItem}/>
+        <Carousel items={castList} itemsLength={castList.length} childWidth={165} iconStyle="text-yellow" navButtonStyle="w-10 h-10 rounded-full hover:bg-[#000]" spaceBetweenItem={30} carouselType="list"/>
     )
 }
