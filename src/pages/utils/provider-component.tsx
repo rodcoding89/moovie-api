@@ -1,5 +1,4 @@
-import { useState } from "react";
-import MovieSlider from "./slick";
+
 import Carousel from "src/util/carousel/carousel";
 
 export default function ProviderComponent({listProvider,buttonStyle,iconStyle,movieType}:{listProvider:any[],buttonStyle:string,iconStyle:string,movieType:string}){

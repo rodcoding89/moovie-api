@@ -3,7 +3,7 @@ import Cast from "../utils/cast";
 import CardProvider from "../utils/card-provider";
 import MovieCard from "../utils/movie-card";
 import { Link, useParams } from "react-router-dom";
-import OtherMovie from "../utils/other-movie";
+
 
 
 import CastComponent from "../utils/cast-component";

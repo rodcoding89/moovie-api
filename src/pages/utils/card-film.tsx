@@ -1,17 +1,6 @@
 import { Link } from "react-router-dom";
 import { image_base_url } from "src/constante/data";
 
-export const filmStting = {
-    dots: false,
-    infinite: true,
-    arrows: false,
-    speed: 2500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2500,
-    pauseOnHover: true
-}
 export default function CardFilm({cardData,link}:{cardData:any,link:string}){
     const description = cardData.overview.split(' ',52).join(' ');
     return (

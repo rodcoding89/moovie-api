@@ -80,7 +80,7 @@ const Carousel: React.FC<CarouselProp> = ({ items,itemsLength,childWidth,navButt
             className="overflow-hidden w-full relative"
         >
             <div
-            className={`flex justify-start items-start transition-all duration-700 ease-linear`}
+            className={`flex justify-center items-start transition-all duration-700 ease-linear`}
             style={{
                 width:innerCarouselWidth + unity,transform:`translateX(-${scrollIndex * translateX + unity})`,gap:spaceBetweenItem+'px'
             }}

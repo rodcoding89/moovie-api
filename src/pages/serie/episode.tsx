@@ -104,16 +104,16 @@ export default function Episode(){
     UseNavigateTo(url,isActiveNav);
     
     return (
-        <div className="w-[100%] mx-auto flex max-885:flex-col mt-[140px]">
-            <div className="w-[25%] fixed bottom-0 bg-black max-885:w-full max-885:pb-10 max-885:relative">
+        <div className="w-[100%] mx-auto flex max-885:flex-col mt-[120px]">
+            <div className="w-[25%] bottom-0 bg-black max-885:w-full max-885:pb-10 max-885:relative">
                 <h4 className="text-white text-center py-5 h-[64px] bg-[#1a1a1a]">{data?.original_title ? data?.original_title : data?.name} {currentSeasonNumber}</h4>
-                <div className="flex flex-col max-885:flex-row max-885:justify-center max-885:mx-5 max-h-[calc(100vh-204px)] overflow-y-auto">
+                <div className="flex max-h-[1600px] gap-y-5 flex-col px-5 max-885:items-start max-885:gap-x-5 max-885:px-5 py-5 max-885:justify-center max-885:mb-10 overflow-y-auto max-885:h-[400px]">
                     {
                         epList.length > 0 ? !error ? epList : <div className="w-full"><p className="text-center z-10 relative">Données indisponible pour le moment</p></div> : <div className="w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>
                     }
                 </div>
             </div>
-            <div className="flex-1 bg-[#1a1a1a] ml-[25%] max-885:ml-0">
+            <div className="flex-1 bg-[#1a1a1a] ">
                 <div className="relative">
                     {
                         !loading ? !error ? <PostSerie backImg={image_base_url+data?.poster_path} seriePostUrl={image_base_url+data?.poster_path} serieInfo={serieInfo}/> : <div className="w-full"><p className="text-center z-10 relative my-5">Données indisponible pour le moment</p></div> : <div className="my-5 w-full flex items-center justify-center"><div className='loader after:!border-t-transparent after:!border-b-white after:!border-l-white after:!border-r-white'></div></div>

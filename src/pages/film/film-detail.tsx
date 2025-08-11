@@ -3,7 +3,7 @@ import CardProvider from "../utils/card-provider";
 import MovieCard from "../utils/movie-card";
 import Poster from "../utils/poster";
 import CastComponent from "../utils/cast-component";
-import OtherMovie from "../utils/other-movie";
+
 import ProviderComponent from "../utils/provider-component";
 import MovieComponent from "../utils/movie-component";
 import { options,image_base_url } from "src/constante/data";
@@ -15,7 +15,7 @@ import { UseGetTmDbDataCombined, UseGetTmDbPersonAndMovieGenre } from "src/api/f
 
 
 export const cast:any[] = [{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"},{name:"Ariane Rinehart",actorName:"Eve",link:"assets/images/actor.avif"}];
-const providerStyle = 'text-white w-10 h-10 rounded-full hover:bg-yellow hover:text-black';
+
 
 export default function FilmDetail(){
   const {id} = useParams();

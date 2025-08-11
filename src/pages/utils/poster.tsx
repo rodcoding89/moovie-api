@@ -23,8 +23,7 @@ export default function Poster({mask,poster,info}:{mask:string,poster:string,inf
                     <span className="director text-second-white text-[.75em] block mt-[-8px]">{info.director}</span>
                     <p className="pyear mt-3 mb-1 text-primaire-white text-[.85em]">{info.year}</p>
                     <span className="genre text-primaire-white text-[.85em]">{info.genre}</span><br/>
-                    <span className="rate text-primaire-white text-[.85em]">{info.rate}</span><br/>
-                    <span className="spanyear text-primaire-white text-[.85em]">{info.country}</span>
+                    <span className="spanyear text-primaire-white text-[.85em]">Pays - {info.country}</span>
                     <p className={display?'shortDes block text-white regular':'hidden text-white'}>{info.shortDes}</p><p className={displayMore?'longDes block text-white regular':'hidden text-white'}>{info.description}</p><span className={displayMore?'imore idown text-yellow cursor-pointer':'imore text-yellow cursor-pointer'} onClick={()=>{setDisplayMore(!displayMore);setDisplay(!display);setTextMore(!textMore)}}>{textMore?'Lire plus':'Réduire'}<i className="fa fa-angle-up ml-2 text-yellow" aria-hidden="true"></i></span>
                 </div>
                 <div className="spectateur z-10 flex-1 max-756:w-full mt-10">

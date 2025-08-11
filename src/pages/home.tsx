@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import CardProvider from './utils/card-provider';
 import MovieCard from './utils/movie-card';
-import  MovieSlider  from './utils/slick';
+
 import CardFilm from './utils/card-film';
-import { filmStting } from './utils/card-film';
+
 import ProviderComponent from './utils/provider-component';
 import MovieComponent from './utils/movie-component';
 
@@ -75,7 +75,7 @@ export default function Home(){
         <div className="relative">
             <div className="absolute top-0 left-0 w-full h-[100vh]">
                 <div className="bg-cover bg-no-repeat bg-center brightness-50 h-[100vh]" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/assets/images/home.jpg)`}}></div>
-                <div className="mt-[140px] absolute top-1/2 -translate-y-1/2 left-8 w-2/3 centerAbsoluteTop max-550:w-full max-550:left-5 max-550:right-5">
+                <div className="mt-[140px] absolute top-1/2 -translate-y-1/2 left-5 w-2/3 centerAbsoluteTop max-550:w-[calc(100%-40px)] max-550:left-5 max-550:right-5">
                     <h1 className="text-yellow bold text-[3em] max-370:text-[2em]">Filmes & Series</h1>
                     <p className="text-white regular text-2xl max-370:text-[1em]">Découvrez le cinéma sur toutes ses formes, visionnez des series TVs diffusées en ligne gratuitement.</p>
                 </div>
